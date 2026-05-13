@@ -76,8 +76,18 @@ If not relevant at all, reply with exactly '무관' and nothing else.
 > [!info] 왜 `context`를 ChromaDB에서 가져오나
 > "이 기사가 관련 있다"는 판단을 키워드가 아니라 **내 투자 관점**으로 하기 위해서다. ChromaDB에는 볼트의 메모·분석 문서가 임베딩되어 있고, 기사 텍스트와 가장 가까운 청크를 `context`로 넘긴다. 즉, LLM은 내가 어떤 포인트를 중요하게 보는지를 참고해서 관련성을 판단한다.
 
-> [!tip] '무관' 탈출 게이트
-> 출력이 `'무관'`이거나 빈 문자열이면 해당 기사를 최종 목록에서 제외한다. 이중 필터(벡터 거리 + LLM 판단)로 노이즈를 줄인다.
+> [!tip] 거절 표현 게이트 (확장)
+> `gemma4:e2b`는 "관련 없다"는 뜻을 다양한 표현으로 반환한다. `"무관"` 하나만 걸러서는 부족하다.
+> 아래 `_REJECT_PHRASES` 목록 중 하나라도 포함되면 제외한다.
+>
+> ```python
+> _REJECT_PHRASES = (
+>     "무관", "관련 없음", "관련성 없음", "해당 없음",
+>     "관련 정보 없음", "관련된 정보 없음", "직접적인 관련 없음", "직접 관련 없음", "정보 없음",
+>     "연관성은 없", "관련성은 없", "관련성이 없", "영향을 주지 않", "영향은 없", "영향이 없",
+>     "not relevant", "irrelevant", "no relevance", "no direct relevance",
+> )
+> ```
 
 ### 파라미터
 
@@ -86,6 +96,32 @@ If not relevant at all, reply with exactly '무관' and nothing else.
 | `num_predict` | 120 | 한 문장이면 충분, 짧을수록 빠름 |
 | `think` | False | thinking 모드 비활성화 (빈 응답 방지) |
 | `stream` | True | non-stream은 이 모델에서 빈 응답 반환 |
+
+### 사전 필터 — LLM 호출 전
+
+벡터 유사도 게이트 외에 두 가지 사전 필터가 LLM 호출 전에 적용된다.
+
+**1) 자회사명 필터 (`_is_subsidiary_article`)**
+
+```python
+_SUBSIDIARY_SUFFIXES = ("증권", "금융", "보험", "캐피탈", "자산운용", "저축은행")
+
+def _is_subsidiary_article(title: str, company: str) -> bool:
+    for suffix in _SUBSIDIARY_SUFFIXES:
+        if (company + suffix) in title and not company.endswith(suffix):
+            return True
+    return False
+```
+
+`"현대차"` 검색 결과에 `"현대차증권"` 기사가 포함되는 현상을 방지한다. 회사명이 더 긴 다른 법인명의 접두사인 경우 제외.
+
+**2) 잡음 기사 필터**
+
+영문 제목 중 통화 변환기·계산기 등 명백한 비금융 패턴을 포함한 기사를 제외한다.
+
+```python
+junk_patterns = ["convert ", "calculator", "to armenian", "to japanese yen"]
+```
 
 ---
 
@@ -103,21 +139,37 @@ You are a senior investment analyst covering {company}.
 Investment thesis and key monitoring points:
 {context}            ← ChromaDB에서 뽑은 볼트 문서 2개 청크 (최대 800자)
 
-Today's relevant news ({company}):
-- {뉴스 제목1} ({출처})
-- {뉴스 제목2} ({출처})
-...                  ← 선별된 기사 최대 30건 제목 목록
+Today's relevant news ({company}) — format: title → relevance reason:
+- {뉴스 제목1} → {관련 근거1}
+- {뉴스 제목2} → {관련 근거2}
+...                  ← 선별된 기사 최대 30건 (제목 + Analyzer 이유)
 
-Write a concise daily research brief in Korean with this exact structure:
+Write a concise daily research brief in Korean with this EXACT structure
+(output all six sections in order, no extras):
 
 ## 오늘의 핵심 테마
-(List 2-4 thematic groups. For each: theme name, 1-2 sentence summary)
+(2-4 thematic groups. Each: bold theme name + 1-2 sentence summary)
 
 ## 투자 시사점
-(3-5 bullet points connecting today's news to the investment thesis above.
-Be specific: what changed, what it means for the position, any risks or catalysts)
+(3-5 bullet points. Each: what changed today and what it means for the position)
 
-Write in Korean. Be concise and analytical, not just descriptive.
+## 논거 검증
+(ONE sentence only: did today's news strengthen / maintain / weaken the investment thesis?
+State which thesis point was affected and why)
+
+## 리스크 업데이트
+(Bullet points for risks newly highlighted or escalated TODAY.
+Skip if nothing new. Do NOT repeat known standing risks.)
+
+## 모니터링 포인트
+(Bullet points: upcoming events, dates, or indicators to watch next —
+earnings, policy decisions, competitor announcements, key metrics)
+
+## 경쟁사/섹터 동향
+(Bullet points for competitor or sector news that affects this company.
+State the implication for this company explicitly. Skip if none.)
+
+Write in Korean. Be analytical and specific, not just descriptive.
 ```
 
 ### 입력 설명
@@ -126,12 +178,23 @@ Write in Korean. Be concise and analytical, not just descriptive.
 |------|------|------|
 | `{company}` | 회사명 | `companies.csv` |
 | `{context}` | 볼트 투자 메모 핵심 청크 2개 | ChromaDB (회사명으로 쿼리) |
-| 뉴스 목록 | 1단계 통과 기사 제목 + 소스 | analyzer 출력 |
+| 뉴스 목록 | 1단계 통과 기사 제목 + **Analyzer 이유** | analyzer 출력 |
 
 ### 설계 판단
 
-> [!info] 왜 기사 본문이 아닌 제목만 넘기나
-> 기사 30건의 전체 본문을 넘기면 컨텍스트 윈도우를 초과한다. 제목만으로도 LLM이 테마를 파악하기에 충분하며, 세부 내용이 필요한 경우 뉴스 파일(`News/`)을 직접 참조하면 된다.
+> [!info] 왜 제목만 넘기지 않고 이유도 함께 넘기나
+> 기존에는 제목만 전달했다. 이유(reason)를 함께 넘기면 LLM이 각 기사를 왜 선별했는지 맥락을 알 수 있다.
+> 특히 `## 경쟁사/섹터 동향` 섹션에서 "왜 이 경쟁사 기사가 이 회사에 관련됐는지"를 LLM이 더 정확하게 판단할 수 있다.
+>
+> 형식: `- 뉴스 제목 → Analyzer가 생성한 관련 근거 한 문장`
+
+> [!info] 왜 6개 섹션인가
+> 기존 2개(테마, 시사점)는 "오늘 무슨 일이 있었나 + 내 포지션에 어떤 의미인가"까지만 답한다.
+> 추가된 4개 섹션이 커버하는 질문:
+> - **논거 검증**: 내 판단이 지금도 맞는가? (확신 강도 트래킹)
+> - **리스크 업데이트**: 오늘 새로 생긴 위험은 무엇인가?
+> - **모니터링 포인트**: 다음에 무엇을 확인해야 하나?
+> - **경쟁사/섹터 동향**: 주변 환경 변화가 이 회사에 미치는 함의는?
 
 > [!info] 왜 출력 구조를 명시적으로 지정하나
 > LLM에게 자유 형식을 주면 매번 다른 구조로 응답한다. `## 오늘의 핵심 테마` / `## 투자 시사점` 헤더를 고정하면 Obsidian에서 항상 같은 레이아웃으로 렌더링되고, 나중에 파싱도 쉬워진다.
@@ -143,7 +206,7 @@ Write in Korean. Be concise and analytical, not just descriptive.
 
 | 파라미터 | 값 | 이유 |
 |----------|----|------|
-| `num_predict` | 1200 | 테마 그룹 + 시사점 5개 = 충분한 길이 |
+| `num_predict` | 2000 | 6개 섹션 = 기존 대비 분량 증가 |
 | `think` | False | 1단계와 동일한 이유 |
 | `stream` | True | 동일 |
 

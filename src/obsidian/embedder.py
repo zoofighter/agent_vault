@@ -5,6 +5,7 @@ ChromaDB 증분 임베딩
 변경된 파일만 재임베딩한다.
 """
 
+import unicodedata
 from pathlib import Path
 
 import chromadb
@@ -64,11 +65,13 @@ def index_files(
         chunks = _chunk(text)
         embeddings = _embed(chunks)
 
-        ids = [f"{md_file}::{i}" for i in range(len(chunks))]
-        metas = [{"source": str(md_file), "chunk": i} for i in range(len(chunks))]
+        # macOS NFD → NFC 정규화: 한글 경로 비교 오류 방지
+        source_str = unicodedata.normalize("NFC", str(md_file))
+        ids = [f"{source_str}::{i}" for i in range(len(chunks))]
+        metas = [{"source": source_str, "chunk": i} for i in range(len(chunks))]
 
         # 기존 청크 삭제 후 재삽입 (파일 수정 시 청크 수가 달라질 수 있음)
-        existing = col.get(where={"source": str(md_file)}, include=[])
+        existing = col.get(where={"source": source_str}, include=[])
         if existing["ids"]:
             col.delete(ids=existing["ids"])
 
@@ -104,13 +107,15 @@ def query_similar(
     # 회사 필터: 해당 폴더 문서만 대상
     if company_filter:
         # ChromaDB where 필터는 exact match만 지원 — 직접 가져와 Python에서 필터
+        # macOS NFD 경로 → NFC로 정규화하여 한글 경로 매칭 보장
+        nfc_filter = unicodedata.normalize("NFC", company_filter)
         all_docs = col.get(include=["documents", "metadatas", "embeddings"])
         filtered = [
             (doc, meta, emb)
             for doc, meta, emb in zip(
                 all_docs["documents"], all_docs["metadatas"], all_docs["embeddings"]
             )
-            if company_filter in meta["source"]
+            if nfc_filter in unicodedata.normalize("NFC", meta["source"])
         ]
         if not filtered:
             return []

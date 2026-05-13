@@ -22,6 +22,21 @@ def _source_label(source: str) -> str:
     }.get(source, source)
 
 
+def _stars(distance: float, reason: str) -> str:
+    """코사인 거리(0~0.75)를 별점 5단계로 변환한다. 낮을수록 관련성 높음."""
+    if "인덱스 없음" in reason:
+        return "☆☆☆☆☆"  # 인덱스 없이 통과된 항목은 별점 없음
+    if distance <= 0.45:
+        return "★★★★★"
+    if distance <= 0.55:
+        return "★★★★☆"
+    if distance <= 0.63:
+        return "★★★☆☆"
+    if distance <= 0.70:
+        return "★★☆☆☆"
+    return "★☆☆☆☆"
+
+
 def _build_daily_note(
     company: str,
     date_str: str,
@@ -53,10 +68,12 @@ tags:
         src = _source_label(item.source)
         snippet = (item.snippet or "").strip()
         reason = a.reason.strip()
+        stars = _stars(a.distance, reason)
 
         block = f"""
 ## {i}. {item.title}
 
+- **관련도**: {stars} `{a.distance:.2f}`
 - **출처**: [{src}]({item.url})
 - **관련 근거**: {reason}
 

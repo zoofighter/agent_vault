@@ -29,14 +29,29 @@ def _build_curation_prompt(company: str, context: str, news_lines: str) -> str:
     return (
         f"You are a senior investment analyst covering {company}.\n\n"
         f"Investment thesis and key monitoring points:\n{context}\n\n"
-        f"Today's relevant news ({company}):\n{news_lines}\n\n"
-        "Write a concise daily research brief in Korean with this exact structure:\n\n"
+        f"Today's relevant news ({company}) — format: title → relevance reason:\n{news_lines}\n\n"
+        "Write a concise daily research brief in Korean with this EXACT structure "
+        "(output all seven sections in order, no extras):\n\n"
+        "## 오늘의 핵심 뉴스 TOP 3\n"
+        "(Pick the 3 most impactful articles from the list above. "
+        "For each: article title in bold, then one sentence explaining why it matters most for investors)\n\n"
         "## 오늘의 핵심 테마\n"
-        "(List 2-4 thematic groups. For each: theme name, 1-2 sentence summary of what happened)\n\n"
+        "(2-4 thematic groups. Each: bold theme name + 1-2 sentence summary)\n\n"
         "## 투자 시사점\n"
-        "(3-5 bullet points connecting today's news to the investment thesis above. "
-        "Be specific: what changed, what it means for the position, any risks or catalysts)\n\n"
-        "Write in Korean. Be concise and analytical, not just descriptive."
+        "(3-5 bullet points. Each: what changed today and what it means for the position)\n\n"
+        "## 논거 검증\n"
+        "(ONE sentence only: did today's news strengthen / maintain / weaken the investment thesis? "
+        "State which thesis point was affected and why)\n\n"
+        "## 리스크 업데이트\n"
+        "(Bullet points for risks newly highlighted or escalated TODAY. "
+        "Skip if nothing new. Do NOT repeat known standing risks.)\n\n"
+        "## 모니터링 포인트\n"
+        "(Bullet points: upcoming events, dates, or indicators to watch next — "
+        "earnings, policy decisions, competitor announcements, key metrics)\n\n"
+        "## 경쟁사/섹터 동향\n"
+        "(Bullet points for competitor or sector news that affects this company. "
+        "State the implication for this company explicitly. Skip if none.)\n\n"
+        "Write in Korean. Be analytical and specific, not just descriptive."
     )
 
 
@@ -64,9 +79,9 @@ def curate(
         print(f"  [skip] '{company}' 폴더 없음")
         return None
 
-    # 뉴스 목록을 간결하게 직렬화
+    # 뉴스 목록 직렬화 — 제목 + 관련 근거 포함 (섹터 동향·리스크 판단 품질 향상)
     news_lines = "\n".join(
-        f"- {a.item.title} ({a.item.source})"
+        f"- {a.item.title} → {a.reason}"
         for a in analyzed[:30]  # 너무 길면 컨텍스트 초과
     )
 
@@ -80,7 +95,7 @@ def curate(
         for chunk in ollama.generate(
             model=_LLM_MODEL,
             prompt=prompt,
-            options={"num_predict": 1200},
+            options={"num_predict": 2000},
             think=False,
             stream=True,
         ):

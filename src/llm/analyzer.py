@@ -16,12 +16,32 @@ _LLM_MODEL = "gemma4:e2b"
 _SIM_THRESHOLD = 0.75  # ChromaDB cosine distance (낮을수록 유사, ≤0.75 통과)
 _TOP_K = 3              # 유사 청크 조회 수
 
+# LLM이 "무관" 대신 쓸 수 있는 거절 표현 — 모두 필터
+_REJECT_PHRASES = (
+    "무관", "관련 없음", "관련성 없음", "해당 없음",
+    "관련 정보 없음", "관련된 정보 없음", "직접적인 관련 없음", "직접 관련 없음", "정보 없음",
+    "연관성은 없", "관련성은 없", "관련성이 없", "영향을 주지 않", "영향은 없", "영향이 없",
+    "not relevant", "irrelevant", "no relevance", "no direct relevance",
+)
+
+# 회사명 prefix를 공유하는 자회사/관계사 기사를 걸러낼 접미사 목록
+# 예: "현대차증권" 기사가 "현대차" 검색에 혼입되는 것을 방지
+_SUBSIDIARY_SUFFIXES = ("증권", "금융", "보험", "캐피탈", "자산운용", "저축은행")
+
 
 @dataclass
 class AnalyzedItem:
     item: NewsItem
     reason: str          # LLM이 생성한 관련 근거
     distance: float      # 가장 가까운 청크의 거리
+
+
+def _is_subsidiary_article(title: str, company: str) -> bool:
+    """회사명 prefix를 공유하는 자회사 기사 여부 (예: 현대차 검색 시 현대차증권 기사)"""
+    for suffix in _SUBSIDIARY_SUFFIXES:
+        if (company + suffix) in title and not company.endswith(suffix):
+            return True
+    return False
 
 
 def _build_prompt(company: str, context: str, title: str, snippet: str) -> str:
@@ -62,6 +82,10 @@ def analyze(
             continue
         seen_urls.add(item.url)
 
+        # 자회사/관계사 기사 필터 (예: "현대차증권" 기사가 "현대차" 분석에 혼입 방지)
+        if _is_subsidiary_article(item.title, company):
+            continue
+
         # 명백한 잡음 제거: 한국어 없는 순수 영어 제목이면서 금융/투자와 무관한 패턴
         korean_chars = sum(1 for c in item.title if '가' <= c <= '힣')
         if korean_chars == 0 and len(item.title) > 10:
@@ -98,7 +122,7 @@ def analyze(
             reason = f"(LLM 오류: {e})"
 
         reason = reason.strip()
-        if not reason or "무관" in reason:
+        if not reason or any(p in reason for p in _REJECT_PHRASES):
             continue
 
         results.append(AnalyzedItem(item=item, reason=reason, distance=best["distance"]))
