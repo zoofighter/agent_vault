@@ -41,7 +41,10 @@ def load_companies(csv_path: Path = COMPANIES_CSV) -> list[dict]:
         for row in reader:
             name = row.get("name", "").strip()
             ticker = row.get("ticker", "").strip()
-            if not name or not ticker:
+            if not name:
+                continue
+            # PRIVATE 기업은 ticker 없어도 허용 (뉴스 수집은 가능)
+            if not ticker and row.get("exchange", "").strip().upper() != "PRIVATE":
                 continue
 
             company = {"name": name, "ticker": ticker}

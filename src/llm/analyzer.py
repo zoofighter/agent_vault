@@ -10,6 +10,7 @@ from dataclasses import dataclass
 import ollama
 
 from src.obsidian.embedder import query_similar
+from src.scraper.fetcher import fetch_body
 from src.sources.base import NewsItem
 
 _LLM_MODEL = "gemma4:e2b"
@@ -49,7 +50,7 @@ def _build_prompt(company: str, context: str, title: str, snippet: str) -> str:
         f"You are an investment analyst for {company}.\n\n"
         f"Reference document (investment memo excerpt):\n{context}\n\n"
         f"News title: {title}\n"
-        f"News summary: {snippet or 'N/A'}\n\n"
+        f"News content: {snippet or 'N/A'}\n\n"
         "In ONE Korean sentence (under 50 characters), explain why this news is relevant "
         f"for {company} investors. "
         "If not relevant at all, reply with exactly '무관' and nothing else."
@@ -108,9 +109,15 @@ def analyze(
         if best["distance"] > sim_threshold:
             continue  # 유사도 기준 미달 → 제외
 
+        # ★★★★★ 기사(distance ≤ 0.45)는 본문 스크래핑 시도
+        body = None
+        if best["distance"] <= 0.45:
+            body = fetch_body(item.url)
+
         # LLM 근거 생성 (스트리밍 필수 — non-stream이 빈 응답을 반환하는 모델)
         context = best["document"][:600]
-        prompt = _build_prompt(company, context, item.title, item.snippet or "")
+        content = body or item.snippet or ""
+        prompt = _build_prompt(company, context, item.title, content)
         try:
             parts = []
             for chunk in ollama.generate(model=_LLM_MODEL, prompt=prompt,
