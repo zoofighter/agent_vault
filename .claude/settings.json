@@ -12,7 +12,8 @@
       "Bash(mv Research/삼성전자_HBM_경쟁력_분석.md Companies/삼성전자/Research/)",
       "Bash(mv Memos/삼성전자_매수근거_20260501.md Companies/삼성전자/Memos/)",
       "Skill(update-config)",
-      "Skill(update-config:*)"
+      "Skill(update-config:*)",
+      "Bash(ollama run *)"
     ],
     "additionalDirectories": [
       "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src",

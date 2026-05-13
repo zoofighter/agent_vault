@@ -1,0 +1,90 @@
+{
+  "sample_vault/Companies/Apple/Apple.md": {
+    "mtime": "1778633663.2992365",
+    "md5": "001d2debb4de0d45ccf79cafb53582bc"
+  },
+  "sample_vault/Companies/Intel/Intel.md": {
+    "mtime": "1778633822.9820337",
+    "md5": "3c70fb56b0e1891a44ca6cd12c107efb"
+  },
+  "sample_vault/Companies/삼성전자/삼성전자.md": {
+    "mtime": "1778589667.5270145",
+    "md5": "3860762dace7a012cc4764647b378f03"
+  },
+  "sample_vault/Companies/Amazon/Amazon.md": {
+    "mtime": "1778633717.1713312",
+    "md5": "1f5681c5624bc459795d10ea36f3f978"
+  },
+  "sample_vault/Companies/현대차/현대차.md": {
+    "mtime": "1778633650.4784803",
+    "md5": "f188a09e92edf920bba0cf6c1b1c333b"
+  },
+  "sample_vault/Companies/Google/Google.md": {
+    "mtime": "1778633705.163583",
+    "md5": "1353a9acf1d9527fdfb5cb7a63dbaab5"
+  },
+  "sample_vault/Companies/Microsoft/Microsoft.md": {
+    "mtime": "1778633674.1075892",
+    "md5": "5ee9442c9ca88dd0d951b55842399226"
+  },
+  "sample_vault/Companies/Micron/Micron.md": {
+    "mtime": "1778633797.9813619",
+    "md5": "df40922678da37d3679f2c7c8440cf8f"
+  },
+  "sample_vault/Companies/Broadcom/Broadcom.md": {
+    "mtime": "1778633786.1180649",
+    "md5": "8174082669aad4347aef3acde2b2ee48"
+  },
+  "sample_vault/Companies/Tesla/Tesla.md": {
+    "mtime": "1778633743.5697377",
+    "md5": "ba1965197981b5d8e2d4f77d3ebc17d7"
+  },
+  "sample_vault/Companies/Meta/Meta.md": {
+    "mtime": "1778633728.5913782",
+    "md5": "11b5090e56db74ac36a1889c6c32cf74"
+  },
+  "sample_vault/Companies/Alphabet/Alphabet.md": {
+    "mtime": "1778633700.0971882",
+    "md5": "733db6deab58abdfd8f2e6b0fe766286"
+  },
+  "sample_vault/Companies/Alphabet/Aphabet.md": {
+    "mtime": "1778633469.7725697",
+    "md5": "c9155dea320b60c0fea8bf4c2f167391"
+  },
+  "sample_vault/Companies/Berkshire Hathaway/Berkshire Hathaway.md": {
+    "mtime": "1778633757.1559796",
+    "md5": "9be9668497d6db9b67cd9af020cbf8e7"
+  },
+  "sample_vault/Companies/AMD/AMD.md": {
+    "mtime": "1778633812.0440297",
+    "md5": "3361a6b8607bab52ff5280449962e322"
+  },
+  "sample_vault/Companies/NVIDIA/NVIDIA.md": {
+    "mtime": "1778633688.0771735",
+    "md5": "51ca75fa85a9e88c796033180f8dcb90"
+  },
+  "sample_vault/Companies/SK하이닉스/SK하이닉스.md": {
+    "mtime": "1778633638.3346114",
+    "md5": "c3eff5b8dba7376c58250385d7c74c4f"
+  },
+  "sample_vault/Companies/ARM/ARM.md": {
+    "mtime": "1778633838.2861807",
+    "md5": "0b2dcc6f7e2d44b3775f4d65e43faf25"
+  },
+  "sample_vault/Companies/Eli Lilly/Eli Lilly.md": {
+    "mtime": "1778633773.1877491",
+    "md5": "8c2d7593c1f887bd47ad4d8f79f57867"
+  },
+  "sample_vault/Companies/삼성전자/Research/삼성전자_반도체_2026Q1_실적분석.md": {
+    "mtime": "1778589684.9628677",
+    "md5": "91eff21730cbff9d3cca2bba02e9f951"
+  },
+  "sample_vault/Companies/삼성전자/Research/삼성전자_HBM_경쟁력_분석.md": {
+    "mtime": "1778589707.7140307",
+    "md5": "e7b589987291f0be240cc2f4e5961ed5"
+  },
+  "sample_vault/Companies/삼성전자/Memos/삼성전자_매수근거_20260501.md": {
+    "mtime": "1778589727.3760474",
+    "md5": "e669dcf752788054103eac230e32f6d4"
+  }
+}
