@@ -16,9 +16,14 @@ NEWS_SUBFOLDER = "News"
 
 def _source_label(source: str) -> str:
     return {
-        "naver": "Naver 뉴스",
+        "naver":         "Naver 뉴스",
         "naver_finance": "Naver 금융",
-        "duckduckgo": "DuckDuckGo",
+        "duckduckgo":    "DuckDuckGo",
+        "yahoo_finance": "Yahoo Finance",
+        "google_news":   "Google News",
+        "hkex":          "HKEX 공시",
+        "twse":          "TWSE/MOPS 공시",
+        "tse":           "TSE TDnet 공시",
     }.get(source, source)
 
 

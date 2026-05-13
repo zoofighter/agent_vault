@@ -266,6 +266,7 @@ def save_research_note(vault_path: Path, company: str, report: dict, analysis: s
     path       = _resolve_note_path(research_dir, date_str, safe_title)
 
     broker_line = f"> - **증권사**: {report['broker']}\n" if report.get("broker") else ""
+    source = report.get("source", "네이버금융 리서치")
     content = (
         f"---\n"
         f"title: \"{report['title']}\"\n"
@@ -273,7 +274,7 @@ def save_research_note(vault_path: Path, company: str, report: dict, analysis: s
         f"date: {report['date']}\n"
         f"nid: \"{report['nid']}\"\n"
         f"broker: {report.get('broker', '')}\n"
-        f"source: 네이버금융 리서치\n"
+        f"source: {source}\n"
         f"pdf: {report['pdf_url']}\n"
         f"tags:\n"
         f"  - research\n"

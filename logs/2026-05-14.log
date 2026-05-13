@@ -1,0 +1,239 @@
+=== 2026-05-14 07:00:04 시작 ===
+gzip response with content-length of 0
+gzip response with content-length of 0
+=== Phase A: 볼트 인덱싱 ===
+변경 파일 40개 임베딩 중...
+  [embed] 포스코홀딩스.md → 1청크
+  [embed] LG에너지솔루션.md → 1청크
+  [embed] TSMC.md → 1청크
+  [embed] Qualcomm.md → 1청크
+  [embed] ASML.md → 1청크
+  [embed] Anthropic.md → 1청크
+  [embed] Super Micro.md → 1청크
+  [embed] OpenAI.md → 1청크
+  [embed] SpaceX.md → 1청크
+  [embed] 20260506_우주는 우리 안에.md → 2청크
+  [embed] 2026-05-13.md → 3청크
+  [embed] 20260504_높이 성장한 만큼 흔들림도 있다.md → 2청크
+  [embed] 20260511_AI 데이터센터 수주 급증 수혜.md → 1청크
+  [embed] 20260511_2Q26 영업이익 70조원 예상.md → 2청크
+  [embed] 20260507_아직 가보지 못한 제자리를 향해.md → 2청크
+  [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
+  [embed] 20260309_Nvidia에 대한 위협 요소와 대응.md → 2청크
+  [embed] 20260327_[IBKS NVIDIA GTC 참관기] 전쟁과 유가의 무...md → 2청크
+  [embed] 20260320_NVIDIA, 우주 데이터센터 모듈 발표.md → 2청크
+  [embed] 20260414_AI로 돈을 번다는 것.md → 3청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20260206_알파벳 (매수).md → 2청크
+  [embed] 20260511_Next Energy(Power &amp; Battery Weekly) - CATL...md → 2청크
+  [embed] 20260420_Next Energy(Power &amp; Battery Weekly) - 한화...md → 2청크
+  [embed] 20260417_양극재 3월 수출액 코멘트.md → 2청크
+  [embed] 20260506_EV Tracker 80.md → 2청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20250910_구글_분석.md → 14청크
+  [embed] 20260424_1Q26 Review_ 너무나 잘 견딘 후, 기대될 하...md → 2청크
+  [embed] 2026-05-13.md → 2청크
+  [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
+  [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 20260511_ESS 수주가 다 찼다.md → 2청크
+  [embed] 20260417_블루 오리진의 뉴 글렌, 재사용 준비 완료.md → 2청크
+  [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 20260511_중장기 사업 가시성 확보.md → 1청크
+  [embed] 20260511_2Q26 영업이익 100조원 예상.md → 2청크
+  [embed] 20260507_리튬사업에 동이 튼다!.md → 2청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20260414_AI로 돈을 번다는 것.md → 2청크
+임베딩 완료: 83청크
+
+=== Phase B: 뉴스 수집 (대상: ['삼성전자', 'SK하이닉스', '현대차', 'Apple', 'Microsoft', 'NVIDIA', 'Alphabet', 'Google', 'Amazon', 'Meta', 'Tesla', 'Berkshire Hathaway', 'Eli Lilly', 'Broadcom', 'Micron', 'AMD', 'Intel', 'ARM', 'TSMC', 'ASML', 'Qualcomm', 'Super Micro', 'LG에너지솔루션', '포스코홀딩스', 'OpenAI', 'Anthropic', 'SpaceX', 'Tencent', 'Alibaba', 'CATL', 'BYD', 'Xiaomi', 'Delta Electronics', 'MediaTek', 'Nanya', 'SoftBank', 'Kioxia', 'Tokyo Electron']) ===
+
+[NaverFinance] 메인 뉴스 수집 중...
+  수집: 33건 (KRX 기업에만 배분)
+
+[삼성전자] 거래소=KRX 쿼리=['삼성전자', '삼성전자 HBM DRAM']
+  [DDG] '삼성전자 HBM DRAM' 오류: No results found.
+
+[SK하이닉스] 거래소=KRX 쿼리=['SK하이닉스', 'SK하이닉스 HBM3E HBM4']
+  [DDG] 'SK하이닉스 HBM3E HBM4' 오류: No results found.
+
+[현대차] 거래소=KRX 쿼리=['현대차', '현대차 전기차 EV']
+
+[Apple] 거래소=NASDAQ 쿼리=['AAPL', 'Apple', 'Apple iPhone M4']
+  [YahooFinance] 'AAPL' 오류: HTTP Error 429: Too Many Requests
+
+[Microsoft] 거래소=NASDAQ 쿼리=['MSFT', 'Microsoft', 'Microsoft Azure Copilot']
+  [YahooFinance] 'MSFT' 오류: HTTP Error 429: Too Many Requests
+
+[NVIDIA] 거래소=NASDAQ 쿼리=['NVDA', 'NVIDIA', 'NVIDIA Blackwell GB300']
+  [YahooFinance] 'NVDA' 오류: HTTP Error 429: Too Many Requests
+
+[Alphabet] 거래소=NASDAQ 쿼리=['GOOGL', 'Alphabet', 'Alphabet Google Gemini']
+  [YahooFinance] 'GOOGL' 오류: HTTP Error 429: Too Many Requests
+
+[Google] 거래소=NASDAQ 쿼리=['GOOGL', 'Google', 'Google Gemini GCP']
+  [YahooFinance] 'GOOGL' 오류: HTTP Error 429: Too Many Requests
+
+[Amazon] 거래소=NASDAQ 쿼리=['AMZN', 'Amazon', 'Amazon AWS']
+  [YahooFinance] 'AMZN' 오류: HTTP Error 429: Too Many Requests
+
+[Meta] 거래소=NASDAQ 쿼리=['META', 'Meta', 'Meta AI']
+  [YahooFinance] 'META' 오류: HTTP Error 429: Too Many Requests
+
+[Tesla] 거래소=NASDAQ 쿼리=['TSLA', 'Tesla', 'Tesla EV FSD']
+  [YahooFinance] 'TSLA' 오류: HTTP Error 429: Too Many Requests
+
+[Berkshire Hathaway] 거래소=NYSE 쿼리=['Berkshire Hathaway', 'Berkshire Hathaway BNSF']
+  [YahooFinance] 'BRK.B' 오류: HTTP Error 429: Too Many Requests
+
+[Eli Lilly] 거래소=NYSE 쿼리=['LLY', 'Eli Lilly', 'Eli Lilly GLP-1']
+  [YahooFinance] 'LLY' 오류: HTTP Error 429: Too Many Requests
+
+[Broadcom] 거래소=NASDAQ 쿼리=['AVGO', 'Broadcom', 'Broadcom ASIC VMware']
+  [YahooFinance] 'AVGO' 오류: HTTP Error 429: Too Many Requests
+
+[Micron] 거래소=NASDAQ 쿼리=['MU', 'Micron', 'Micron HBM DRAM']
+  [YahooFinance] 'MU' 오류: HTTP Error 429: Too Many Requests
+
+[AMD] 거래소=NASDAQ 쿼리=['AMD', 'AMD', 'AMD MI300 GPU']
+  [YahooFinance] 'AMD' 오류: HTTP Error 429: Too Many Requests
+  [DDG] 'AMD MI300 GPU' 오류: No results found.
+
+[Intel] 거래소=NASDAQ 쿼리=['INTC', 'Intel', 'Intel 18A Gaudi']
+  [YahooFinance] 'INTC' 오류: HTTP Error 429: Too Many Requests
+  [DDG] 'Intel 18A Gaudi' 오류: No results found.
+
+[ARM] 거래소=NASDAQ 쿼리=['ARM', 'ARM', 'ARM RISC-V']
+  [YahooFinance] 'ARM' 오류: HTTP Error 429: Too Many Requests
+
+[TSMC] 거래소=NYSE 쿼리=['TSM', 'TSMC', 'TSMC 2nm CoWoS']
+  [YahooFinance] 'TSM' 오류: HTTP Error 429: Too Many Requests
+
+[ASML] 거래소=NASDAQ 쿼리=['ASML', 'ASML', 'ASML EUV High-NA']
+  [YahooFinance] 'ASML' 오류: HTTP Error 429: Too Many Requests
+
+[Qualcomm] 거래소=NASDAQ 쿼리=['QCOM', 'Qualcomm', 'Qualcomm PC']
+  [YahooFinance] 'QCOM' 오류: HTTP Error 429: Too Many Requests
+
+[Super Micro] 거래소=NASDAQ 쿼리=['SMCI', 'Super Micro']
+  [YahooFinance] 'SMCI' 오류: HTTP Error 429: Too Many Requests
+
+[LG에너지솔루션] 거래소=KRX 쿼리=['LG에너지솔루션', 'LG에너지솔루션 배터리 전기차']
+
+[포스코홀딩스] 거래소=KRX 쿼리=['포스코홀딩스', '포스코홀딩스 양극재 리튬']
+
+[OpenAI] 거래소=PRIVATE 쿼리=['OpenAI', 'OpenAI ChatGPT GPT-5']
+
+[Anthropic] 거래소=PRIVATE 쿼리=['Anthropic', 'Anthropic Claude Sonnet']
+
+[SpaceX] 거래소=PRIVATE 쿼리=['SpaceX', 'SpaceX Starlink Falcon9']
+
+[Tencent] 거래소=HKEX 쿼리=['Tencent', 'Tencent WeChat QQ']
+  [YahooFinance] '0700.HK' 오류: HTTP Error 429: Too Many Requests
+  [HKEX→GoogleNews] 'Tencent' → 10건
+
+[Alibaba] 거래소=NYSE 쿼리=['BABA', 'Alibaba']
+  [YahooFinance] 'BABA' 오류: HTTP Error 429: Too Many Requests
+
+[CATL] 거래소=SZSE 쿼리=['CATL', 'CATL LFP ESS']
+  [YahooFinance] '300750.SZ' 오류: HTTP Error 429: Too Many Requests
+
+[BYD] 거래소=SZSE 쿼리=['BYD', 'BYD LFP DM-i']
+  [YahooFinance] '002594.SZ' 오류: HTTP Error 429: Too Many Requests
+
+[Xiaomi] 거래소=HKEX 쿼리=['Xiaomi', 'Xiaomi MIUI IoT']
+  [YahooFinance] '1810.HK' 오류: HTTP Error 429: Too Many Requests
+  [HKEX→GoogleNews] 'Xiaomi' → 10건
+  [DDG] 'Xiaomi MIUI IoT' 오류: No results found.
+
+[Delta Electronics] 거래소=TWSE 쿼리=['Delta Electronics', 'Delta Electronics Delta UPS']
+  [YahooFinance] '2308.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'Delta Electronics' → 1건
+
+[MediaTek] 거래소=TWSE 쿼리=['MediaTek', 'MediaTek Dimensity']
+  [YahooFinance] '2454.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'MediaTek' → 10건
+
+[Nanya] 거래소=TWSE 쿼리=['Nanya', 'Nanya DRAM DDR4']
+  [YahooFinance] '2408.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'Nanya' → 0건
+
+[SoftBank] 거래소=TSE 쿼리=['SoftBank', 'SoftBank ARM']
+  [YahooFinance] '9984.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'SoftBank' → 10건
+
+[Kioxia] 거래소=TSE 쿼리=['Kioxia', 'Kioxia NAND BiCS']
+  [YahooFinance] '285A.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'Kioxia' → 10건
+
+[Tokyo Electron] 거래소=TSE 쿼리=['Tokyo Electron', 'Tokyo Electron TEL CVD']
+  [YahooFinance] '8035.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'Tokyo Electron' → 5건
+  [DDG] 'Tokyo Electron TEL CVD' 오류: No results found.
+  삼성전자: 80건
+  SK하이닉스: 38건
+  현대차: 59건
+  Apple: 65건
+  Microsoft: 71건
+  NVIDIA: 57건
+  Alphabet: 64건
+  Google: 29건
+  Amazon: 69건
+  Meta: 45건
+  Tesla: 68건
+  Berkshire Hathaway: 34건
+  Eli Lilly: 64건
+  Broadcom: 47건
+  Micron: 69건
+  AMD: 25건
+  Intel: 42건
+  ARM: 32건
+  TSMC: 49건
+  ASML: 39건
+  Qualcomm: 52건
+  Super Micro: 38건
+  LG에너지솔루션: 58건
+  포스코홀딩스: 49건
+  OpenAI: 36건
+  Anthropic: 37건
+  SpaceX: 33건
+  Tencent: 43건
+  Alibaba: 46건
+  CATL: 27건
+  BYD: 26건
+  Xiaomi: 35건
+  Delta Electronics: 25건
+  MediaTek: 54건
+  Nanya: 19건
+  SoftBank: 48건
+  Kioxia: 35건
+  Tokyo Electron: 28건
+
+=== Phase C: 관련성 분석 ===
+
+[삼성전자] 80건 분석 중...
+Traceback (most recent call last):
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 142, in <module>
+    main()
+    ~~~~^^
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 106, in main
+    analyzed = analyze(items_for, company=name,
+                       sim_threshold=threshold, chroma_path=CHROMA_PATH)
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/llm/analyzer.py", line 100, in analyze
+    similar = query_similar(query_text, n_results=_TOP_K,
+                            chroma_path=chroma_path, company_filter=company)
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/obsidian/embedder.py", line 112, in query_similar
+    all_docs = col.get(include=["documents", "metadatas", "embeddings"])
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/models/Collection.py", line 159, in get
+    get_results = self._client._get(
+        collection_id=self.id,
+    ...<7 lines>...
+        database=self.database,
+    )
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/rust.py", line 410, in _get
+    rust_response = self.bindings.get(
+        str(collection_id),
+    ...<7 lines>...
+        database,
+    )
+chromadb.errors.InternalError: Error executing plan: Internal error: Error finding id
+=== 2026-05-14 07:12:44 종료 (exit: 1) ===
