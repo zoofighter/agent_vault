@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__filesystem__directory_tree",
+      "Bash(python -m src.obsidian.company_manager --vault ./sample_vault --status)",
+      "Bash(python -m src.obsidian.company_manager --vault ./sample_vault --dry-run)",
+      "Bash(python -c ' *)",
+      "Bash(python -m src.obsidian.company_manager --vault ./sample_vault)",
+      "Bash(mkdir -p Companies/삼성전자/Research Companies/삼성전자/Memos Companies/삼성전자/News)",
+      "Bash(mv Companies/삼성전자.md Companies/삼성전자/)",
+      "Bash(mv Research/삼성전자_반도체_2026Q1_실적분석.md Companies/삼성전자/Research/)",
+      "Bash(mv Research/삼성전자_HBM_경쟁력_분석.md Companies/삼성전자/Research/)",
+      "Bash(mv Memos/삼성전자_매수근거_20260501.md Companies/삼성전자/Memos/)",
+      "Skill(update-config)",
+      "Skill(update-config:*)"
+    ],
+    "additionalDirectories": [
+      "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src",
+      "/Users/boon/.claude"
+    ]
+  }
+}
