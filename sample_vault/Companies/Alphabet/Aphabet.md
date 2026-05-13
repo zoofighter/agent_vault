@@ -22,39 +22,26 @@ updated: 2026-05-13
 
 ## 사업 구조
 
-| 부문 | 주요 제품 | 매출 비중 |
-|------|---------|---------|
-|  |  |  |
-
-investment_themes:
+## 핵심 관심 사항 investment_themes:
   - "AI 검색 통합 (Gemini, SGE)"
   - "클라우드(GCP) 시장 점유율 확대"
   - "유튜브 광고 매출 회복"
   - "Waymo 자율주행 상용화"
   - "반독점 소송 리스크"
   - "AI 인프라 투자 (TPU, 데이터센터)"
-
-competitors:
-  - {ticker: "MSFT", name: "Microsoft", overlap: "AI·클라우드"}
-  - {ticker: "META", name: "Meta", overlap: "광고·AI"}
-  - {ticker: "AMZN", name: "Amazon", overlap: "클라우드(AWS)"}
-  - {ticker: "AAPL", name: "Apple", overlap: "모바일OS·검색계약"}
-
-key_metrics:
   - "Search 매출 비중 (전체의 ~57%)"
   - "GCP 매출 성장률 (QoQ, YoY)"
   - "유튜브 광고 매출 (분기별)"
   - "AI 관련 CapEx (데이터센터 투자)"
   - "Traffic Acquisition Cost (TAC)"
 
-risk_factors:
-  - "미 법무부 반독점 소송 (검색 독점)"
-  - "AI 검색이 기존 광고 모델을 잠식할 가능성"
-  - "Apple 검색 기본계약 갱신 리스크"
-  - "EU 디지털시장법(DMA) 규제"
-  - "중국 AI 경쟁 (DeepSeek, Baidu)"
+## 주요 경쟁사:
+  - {ticker: "MSFT", name: "Microsoft", overlap: "AI·클라우드"}
+  - {ticker: "META", name: "Meta", overlap: "광고·AI"}
+  - {ticker: "AMZN", name: "Amazon", overlap: "클라우드(AWS)"}
+  - {ticker: "AAPL", name: "Apple", overlap: "모바일OS·검색계약"}
 
-monitoring_keywords:
+## keywords:
   - "Gemini"
   - "Google Cloud"
   - "GCP"
@@ -65,7 +52,6 @@ monitoring_keywords:
   - "DOJ antitrust Google"
   - "Apple search deal"
 
-# GOOGL 투자 논리 (2026-05 기준)
 
 ## 핵심 투자 포인트
 
@@ -83,6 +69,14 @@ monitoring_keywords:
    유료 서비스 중. 2026년 LA·달라스 확장 예정.
    현재 GOOGL 시총에 거의 반영되지 않은 히든 밸류.
 
+## 리스크 팩터:
+  - "미 법무부 반독점 소송 (검색 독점)"
+  - "AI 검색이 기존 광고 모델을 잠식할 가능성"
+  - "Apple 검색 기본계약 갱신 리스크"
+  - "EU 디지털시장법(DMA) 규제"
+  - "중국 AI 경쟁 (DeepSeek, Baidu)"
+
+
 ## 리스크 시나리오
 
 - DOJ 반독점 패소 시 Chrome 분리 또는 검색 기본계약 금지.
@@ -95,5 +89,3 @@ monitoring_keywords:
 - Forward PER 22x (5년 평균 25x 대비 할인 거래)
 - Free Cash Flow Yield 4.5% (안정적)
 - 자사주 매입 연 $70B 규모 (주당가치 지속 상승)
-
-<!-- 리서치/메모 파일을 링크하세요 -->

@@ -1,47 +1,42 @@
 ---
 type: company
-company: "Google"
+company: Google
 ticker: GOOGL
 exchange: NASDAQ
 sector: IT/광고
 industry: 플랫폼
+market_cap: ~$2.1T
 tags:
   - Google
-  - IT/광고
   - 구글
   - Gemini
   - 유튜브
   - GCP
-  - Waymo
   - AI검색
-  - 광고
+  - Waymo
 updated: 2026-05-13
 ---
 
 # Google
 
-## 사업 구조
+> Alphabet의 핵심 사업 법인. 상세 분석은 [[Alphabet]] 참조.
 
-| 부문 | 주요 제품 | 매출 비중 |
-|------|---------|---------|
-|  |  |  |
+## 주요 제품/서비스
 
-## 핵심 관심 사항
+- **검색**: Google Search, AI Overviews
+- **광고**: Google Ads, YouTube Ads
+- **클라우드**: GCP, BigQuery, Vertex AI
+- **AI**: Gemini 2.0, NotebookLM, TPU v5
+- **모빌리티**: Waymo 로보택시
+- **기타**: Gmail, Maps, Chrome, Android
 
-<!-- 주요 모니터링 포인트를 작성하세요 -->
+## 핵심 모니터링 지표
 
-## 주요 경쟁사
-
--
-
-## 투자 포인트
-
-1.
-
-## 리스크
-
--
+- 검색 광고 매출 성장률 (AI 검색 전환 영향)
+- GCP 성장률 (목표: Azure 추격)
+- Gemini 유료 구독자 수
+- Waymo 운행 건수 및 도시 확장
 
 ## 관련 노트
 
-<!-- 리서치/메모 파일을 링크하세요 -->
+- [[Alphabet]]

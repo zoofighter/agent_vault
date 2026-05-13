@@ -26,7 +26,7 @@ Phase B — 일일 뉴스 검색
 
 | 파일 | 역할 | 상태 |
 |------|------|------|
-| `companies.yaml` | 기업 레지스트리 (직접 편집) | ✅ 완료 |
+| `companies.csv` | 기업 레지스트리 (직접 편집) | ✅ 완료 |
 | `src/obsidian/company_manager.py` | YAML → 볼트 파일 동기화 | ✅ 완료 |
 | `src/obsidian/templates.py` | 회사 노트 마크다운 템플릿 | ✅ 완료 |
 | `sample_vault/` | 삼성전자 기반 예시 볼트 | ✅ 완료 |
@@ -39,7 +39,7 @@ Phase B — 일일 뉴스 검색
 
 ## 기업 관리
 
-기업 추가/수정은 `companies.yaml`을 직접 편집 후 동기화 명령 실행.
+기업 추가/수정은 `companies.csv`를 직접 편집 후 동기화 명령 실행.
 
 ```bash
 # 현황 확인
@@ -63,8 +63,8 @@ sample_vault/
 ├── Companies/
 │   ├── 삼성전자/
 │   │   ├── 삼성전자.md      ← 회사 프로필 (company_manager 자동 생성)
-│   │   ├── Research/        ← 실적·기술 분석 (수동 작성)
-│   │   ├── Memos/           ← 투자 메모 (수동 작성)
+│   │   ├── Research/        ← 실적·기술 분석 (AI 자동 생성)
+│   │   ├── Memos/           ← 투자 메모 (사용자 직접 작성, 시스템 수정 불가)
 │   │   └── News/            ← 뉴스 노트 (시스템 자동 저장)
 │   └── SK하이닉스/
 │       └── ...
