@@ -11,7 +11,7 @@ from pathlib import Path
 from src.llm.analyzer import AnalyzedItem
 
 COMPANIES_FOLDER = "Companies"
-NEWS_SUBFOLDER = "Research"
+NEWS_SUBFOLDER = "News"
 
 
 def _source_label(source: str) -> str:

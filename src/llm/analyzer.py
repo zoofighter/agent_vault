@@ -62,13 +62,18 @@ def analyze(
             continue
         seen_urls.add(item.url)
 
-        # 한국어/영어 혼재 제목에서 순수 영어 키워드만 있는 잡음 제외
+        # 명백한 잡음 제거: 한국어 없는 순수 영어 제목이면서 금융/투자와 무관한 패턴
         korean_chars = sum(1 for c in item.title if '가' <= c <= '힣')
         if korean_chars == 0 and len(item.title) > 10:
-            continue
+            lower = item.title.lower()
+            # 통화 변환기 등 명백한 비금융 잡음만 제거
+            junk_patterns = ["convert ", "calculator", "to armenian", "to japanese yen"]
+            if any(p in lower for p in junk_patterns):
+                continue
 
         query_text = f"{item.title} {item.snippet or ''}"
-        similar = query_similar(query_text, n_results=_TOP_K, chroma_path=chroma_path)
+        similar = query_similar(query_text, n_results=_TOP_K,
+                                chroma_path=chroma_path, company_filter=company)
 
         if not similar:
             # ChromaDB 비어있으면 모두 통과 (fallback)

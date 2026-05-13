@@ -9,6 +9,8 @@
 """
 
 import argparse
+import copy
+import csv
 import os
 from pathlib import Path
 
@@ -26,16 +28,31 @@ from src.sources.collector import collect
 from src.sources.naver_finance import NaverFinanceSource
 from src.sources.base import NewsItem
 from src.llm.analyzer import analyze
+import csv as _csv
+from src.llm.curator import curate
 from src.obsidian.writer import write_daily
 
 DEFAULT_COMPANIES = "삼성전자,Google,현대차,SK하이닉스"
 DEFAULT_VAULT = Path(__file__).parent / "sample_vault"
 CHROMA_PATH = "data/chroma"
+COMPANIES_CSV = Path(__file__).parent / "companies.csv"
+
+
+def _all_active_companies() -> list[str]:
+    with open(COMPANIES_CSV, encoding="utf-8") as f:
+        return [r["name"] for r in csv.DictReader(f) if r.get("active", "true").lower() == "true"]
+
+
+def _exchange_map() -> dict[str, str]:
+    with open(COMPANIES_CSV, encoding="utf-8") as f:
+        return {r["name"]: r.get("exchange", "") for r in csv.DictReader(f)}
 
 
 def main():
     parser = argparse.ArgumentParser(description="Obsidian 뉴스 수집기")
     parser.add_argument('--companies', default=DEFAULT_COMPANIES)
+    parser.add_argument('--all', action='store_true',
+                        help='companies.csv의 모든 활성 기업 대상')
     parser.add_argument('--days', type=int, default=7)
     parser.add_argument('--vault', default=str(DEFAULT_VAULT))
     parser.add_argument('--dry-run', action='store_true')
@@ -43,7 +60,7 @@ def main():
                         help='볼트 재인덱싱 건너뜀 (빠른 재실행용)')
     args = parser.parse_args()
 
-    names = [n.strip() for n in args.companies.split(',') if n.strip()]
+    names = _all_active_companies() if args.all else [n.strip() for n in args.companies.split(',') if n.strip()]
     vault = Path(args.vault)
 
     # ── Phase A: 볼트 증분 인덱싱 ──────────────────────────────────────
@@ -62,21 +79,13 @@ def main():
     # ── Phase B: 뉴스 수집 ────────────────────────────────────────────
     print(f"\n=== Phase B: 뉴스 수집 (대상: {names}) ===")
 
-    # Naver API + DuckDuckGo
-    all_items: list[NewsItem] = collect(names, days=args.days)
-
-    # 네이버 금융 메인 뉴스 (전사 공유, 회사별로 복사)
+    # 네이버 금융 메인 뉴스 (KRX 기업 전용 — 한 번만 수집)
     print("\n[NaverFinance] 메인 뉴스 수집 중...")
     nf_items_raw = NaverFinanceSource().fetch_all()
-    print(f"  수집: {len(nf_items_raw)}건")
-    nf_items: list[NewsItem] = []
-    for name in names:
-        for item in nf_items_raw:
-            import copy
-            cloned = copy.copy(item)
-            cloned.company = name
-            nf_items.append(cloned)
-    all_items.extend(nf_items)
+    print(f"  수집: {len(nf_items_raw)}건 (KRX 기업에만 배분)")
+
+    # collector에 전달 → KRX 기업에만 붙음
+    all_items: list[NewsItem] = collect(names, days=args.days, naver_finance_items=nf_items_raw)
 
     # 회사별 집계
     for name in names:
@@ -86,22 +95,38 @@ def main():
     # ── Phase C: 벡터 유사도 필터 + LLM 근거 생성 ──────────────────────
     print(f"\n=== Phase C: 관련성 분석 ===")
     written_paths = []
+    ex_map = _exchange_map()
 
     for name in names:
         items_for = [i for i in all_items if i.company == name]
         print(f"\n[{name}] {len(items_for)}건 분석 중...")
 
-        analyzed = analyze(items_for, company=name, chroma_path=CHROMA_PATH)
+        # 해외 기업: 회사 폴더 문서만 참조하므로 임계값을 넉넉하게
+        threshold = 0.75 if ex_map.get(name) == "KRX" else 0.95
+        analyzed = analyze(items_for, company=name,
+                           sim_threshold=threshold, chroma_path=CHROMA_PATH)
         print(f"  → 관련 뉴스 {len(analyzed)}건 선별")
 
-        path = write_daily(
+        # News/ — 필터링된 기사 목록
+        news_path = write_daily(
             company=name,
             analyzed=analyzed,
             vault_path=vault,
             dry_run=args.dry_run,
         )
-        if path:
-            written_paths.append(path)
+        if news_path:
+            written_paths.append(news_path)
+
+        # Curated/ — 테마별 종합 분석
+        curated_path = curate(
+            company=name,
+            analyzed=analyzed,
+            vault_path=vault,
+            chroma_path=CHROMA_PATH,
+            dry_run=args.dry_run,
+        )
+        if curated_path:
+            written_paths.append(curated_path)
 
     # ── 결과 요약 ─────────────────────────────────────────────────────
     print(f"\n{'='*50}")

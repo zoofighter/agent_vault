@@ -83,9 +83,14 @@ def query_similar(
     text: str,
     n_results: int = 5,
     chroma_path: str = _CHROMA_PATH,
+    company_filter: str | None = None,
 ) -> list[dict]:
     """
     쿼리 텍스트와 가장 유사한 볼트 문서 청크를 반환한다.
+
+    Args:
+        company_filter: 이 문자열을 source 경로에 포함하는 청크만 검색.
+                        비KRX 영어 기업에서 한국어 문서에 잘못 매칭되는 것을 방지한다.
 
     Returns:
         [{"document": str, "source": str, "distance": float}, ...]
@@ -95,8 +100,32 @@ def query_similar(
         return []
 
     embedding = _embed([text])[0]
-    results = col.query(query_embeddings=[embedding], n_results=min(n_results, col.count()))
 
+    # 회사 필터: 해당 폴더 문서만 대상
+    if company_filter:
+        # ChromaDB where 필터는 exact match만 지원 — 직접 가져와 Python에서 필터
+        all_docs = col.get(include=["documents", "metadatas", "embeddings"])
+        filtered = [
+            (doc, meta, emb)
+            for doc, meta, emb in zip(
+                all_docs["documents"], all_docs["metadatas"], all_docs["embeddings"]
+            )
+            if company_filter in meta["source"]
+        ]
+        if not filtered:
+            return []
+
+        import numpy as np
+        q = np.array(embedding)
+        scored = []
+        for doc, meta, emb in filtered:
+            v = np.array(emb)
+            dist = float(1 - (q @ v) / (np.linalg.norm(q) * np.linalg.norm(v) + 1e-10))
+            scored.append({"document": doc, "source": meta["source"], "distance": dist})
+        scored.sort(key=lambda x: x["distance"])
+        return scored[:n_results]
+
+    results = col.query(query_embeddings=[embedding], n_results=min(n_results, col.count()))
     out = []
     for doc, meta, dist in zip(
         results["documents"][0],
