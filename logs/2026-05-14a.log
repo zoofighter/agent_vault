@@ -146,3 +146,157 @@ gzip response with content-length of 0
   [YahooFinance] 'ASML' 오류: HTTP Error 429: Too Many Requests
 
 [Qualcomm] 거래소=NASDAQ 쿼리=['QCOM', 'Qualcomm', 'Qualcomm PC']
+  [YahooFinance] 'QCOM' 오류: HTTP Error 429: Too Many Requests
+
+[Super Micro] 거래소=NASDAQ 쿼리=['SMCI', 'Super Micro']
+  [YahooFinance] 'SMCI' 오류: HTTP Error 429: Too Many Requests
+
+[OpenAI] 거래소=PRIVATE 쿼리=['OpenAI', 'OpenAI ChatGPT GPT-5']
+
+[Anthropic] 거래소=PRIVATE 쿼리=['Anthropic', 'Anthropic Claude Sonnet']
+
+[SpaceX] 거래소=PRIVATE 쿼리=['SpaceX', 'SpaceX Starlink Falcon9']
+
+[Tencent] 거래소=HKEX 쿼리=['Tencent', 'Tencent WeChat QQ']
+  [YahooFinance] '0700.HK' 오류: HTTP Error 429: Too Many Requests
+  [HKEX→GoogleNews] 'Tencent' → 10건
+
+[Alibaba] 거래소=NYSE 쿼리=['BABA', 'Alibaba']
+  [YahooFinance] 'BABA' 오류: HTTP Error 429: Too Many Requests
+
+[CATL] 거래소=SZSE 쿼리=['CATL', 'CATL LFP ESS']
+  [YahooFinance] '300750.SZ' 오류: HTTP Error 429: Too Many Requests
+
+[BYD] 거래소=SZSE 쿼리=['BYD', 'BYD LFP DM-i']
+  [YahooFinance] '002594.SZ' 오류: HTTP Error 429: Too Many Requests
+
+[Xiaomi] 거래소=HKEX 쿼리=['Xiaomi', 'Xiaomi MIUI IoT']
+  [YahooFinance] '1810.HK' 오류: HTTP Error 429: Too Many Requests
+  [HKEX→GoogleNews] 'Xiaomi' → 10건
+  [DDG] 'Xiaomi MIUI IoT' 오류: No results found.
+
+[TSMC] 거래소=NYSE 쿼리=['TSM', 'TSMC', 'TSMC 2nm CoWoS']
+  [YahooFinance] 'TSM' 오류: HTTP Error 429: Too Many Requests
+
+[Delta Electronics] 거래소=TWSE 쿼리=['Delta Electronics', 'Delta Electronics Delta UPS']
+  [YahooFinance] '2308.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'Delta Electronics' → 0건
+
+[MediaTek] 거래소=TWSE 쿼리=['MediaTek', 'MediaTek Dimensity']
+  [YahooFinance] '2454.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'MediaTek' → 10건
+
+[Nanya] 거래소=TWSE 쿼리=['Nanya', 'Nanya DRAM DDR4']
+  [YahooFinance] '2408.TW' 오류: HTTP Error 429: Too Many Requests
+  [TWSE→GoogleNews] 'Nanya' → 1건
+
+[SoftBank] 거래소=TSE 쿼리=['SoftBank', 'SoftBank ARM']
+  [YahooFinance] '9984.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'SoftBank' → 10건
+
+[Kioxia] 거래소=TSE 쿼리=['Kioxia', 'Kioxia NAND BiCS']
+  [YahooFinance] '285A.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'Kioxia' → 10건
+
+[Tokyo Electron] 거래소=TSE 쿼리=['Tokyo Electron', 'Tokyo Electron TEL CVD']
+  [YahooFinance] '8035.T' 오류: HTTP Error 429: Too Many Requests
+  [TSE→GoogleNews] 'Tokyo Electron' → 5건
+  [DDG] 'Tokyo Electron TEL CVD' 오류: No results found.
+  삼성전자: 87건
+  SK하이닉스: 40건
+  현대차: 58건
+  LG에너지솔루션: 60건
+  포스코홀딩스: 50건
+  Apple: 67건
+  Microsoft: 64건
+  NVIDIA: 58건
+  Alphabet: 67건
+  Google: 28건
+  Amazon: 68건
+  Meta: 46건
+  Tesla: 66건
+  Berkshire Hathaway: 33건
+  Eli Lilly: 63건
+  Broadcom: 55건
+  Micron: 64건
+  AMD: 28건
+  Intel: 45건
+  ARM: 31건
+  ASML: 36건
+  Qualcomm: 55건
+  Super Micro: 41건
+  OpenAI: 31건
+  Anthropic: 35건
+  SpaceX: 31건
+  Tencent: 37건
+  Alibaba: 45건
+  CATL: 29건
+  BYD: 26건
+  Xiaomi: 34건
+  TSMC: 54건
+  Delta Electronics: 15건
+  MediaTek: 52건
+  Nanya: 14건
+  SoftBank: 47건
+  Kioxia: 36건
+  Tokyo Electron: 18건
+
+=== Phase C: 관련성 분석 ===
+
+[삼성전자] 87건 분석 중...
+  → 관련 뉴스 82건 선별
+  [curator] 삼성전자 — LLM 합성 중...
+
+[SK하이닉스] 40건 분석 중...
+  → 관련 뉴스 40건 선별
+  [curator] SK하이닉스 — LLM 합성 중...
+
+[현대차] 58건 분석 중...
+  → 관련 뉴스 54건 선별
+  [curator] 현대차 — LLM 합성 중...
+
+[LG에너지솔루션] 60건 분석 중...
+  → 관련 뉴스 60건 선별
+  [curator] LG에너지솔루션 — LLM 합성 중...
+
+[포스코홀딩스] 50건 분석 중...
+  → 관련 뉴스 50건 선별
+  [curator] 포스코홀딩스 — LLM 합성 중...
+
+[Apple] 67건 분석 중...
+  → 관련 뉴스 67건 선별
+  [curator] Apple — LLM 합성 중...
+
+[Microsoft] 64건 분석 중...
+  → 관련 뉴스 64건 선별
+  [curator] Microsoft — LLM 합성 중...
+
+[NVIDIA] 58건 분석 중...
+  → 관련 뉴스 58건 선별
+  [curator] NVIDIA — LLM 합성 중...
+
+[Alphabet] 67건 분석 중...
+  → 관련 뉴스 65건 선별
+  [curator] Alphabet — LLM 합성 중...
+
+[Google] 28건 분석 중...
+  → 관련 뉴스 28건 선별
+  [curator] Google — LLM 합성 중...
+
+[Amazon] 68건 분석 중...
+  → 관련 뉴스 68건 선별
+  [curator] Amazon — LLM 합성 중...
+
+[Meta] 46건 분석 중...
+  → 관련 뉴스 46건 선별
+  [curator] Meta — LLM 합성 중...
+
+[Tesla] 66건 분석 중...
+  → 관련 뉴스 65건 선별
+  [curator] Tesla — LLM 합성 중...
+
+[Berkshire Hathaway] 33건 분석 중...
+  → 관련 뉴스 33건 선별
+  [curator] Berkshire Hathaway — LLM 합성 중...
+
+[Eli Lilly] 63건 분석 중...
