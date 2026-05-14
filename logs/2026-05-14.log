@@ -1,57 +1,142 @@
-=== 2026-05-14 07:00:04 시작 ===
-gzip response with content-length of 0
-gzip response with content-length of 0
 === Phase A: 볼트 인덱싱 ===
-변경 파일 40개 임베딩 중...
+변경 파일 129개 임베딩 중...
+  [embed] Apple.md → 1청크
+  [embed] Intel.md → 1청크
+  [embed] Kioxia.md → 1청크
   [embed] 포스코홀딩스.md → 1청크
+  [embed] 삼성전자.md → 2청크
+  [embed] Nanya.md → 1청크
+  [embed] Amazon.md → 1청크
   [embed] LG에너지솔루션.md → 1청크
   [embed] TSMC.md → 1청크
   [embed] Qualcomm.md → 1청크
+  [embed] 현대차.md → 1청크
+  [embed] Google.md → 1청크
+  [embed] Microsoft.md → 1청크
+  [embed] Micron.md → 1청크
+  [embed] Broadcom.md → 1청크
+  [embed] BYD.md → 1청크
+  [embed] Tokyo Electron.md → 1청크
+  [embed] Tesla.md → 1청크
+  [embed] Meta.md → 1청크
+  [embed] Alphabet.md → 1청크
+  [embed] Aphabet.md → 2청크
+  [embed] MediaTek.md → 1청크
+  [embed] Alibaba.md → 1청크
+  [embed] Berkshire Hathaway.md → 1청크
+  [embed] SoftBank.md → 1청크
+  [embed] AMD.md → 1청크
+  [embed] Xiaomi.md → 1청크
+  [embed] NVIDIA.md → 1청크
   [embed] ASML.md → 1청크
+  [embed] CATL.md → 1청크
+  [embed] Delta Electronics.md → 1청크
+  [embed] Tencent.md → 1청크
   [embed] Anthropic.md → 1청크
+  [embed] SK하이닉스.md → 1청크
+  [embed] ARM.md → 1청크
   [embed] Super Micro.md → 1청크
+  [embed] Eli Lilly.md → 1청크
   [embed] OpenAI.md → 1청크
   [embed] SpaceX.md → 1청크
   [embed] 20260506_우주는 우리 안에.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 2026-05-13.md → 3청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260504_높이 성장한 만큼 흔들림도 있다.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260511_AI 데이터센터 수주 급증 수혜.md → 1청크
   [embed] 20260511_2Q26 영업이익 70조원 예상.md → 2청크
   [embed] 20260507_아직 가보지 못한 제자리를 향해.md → 2청크
+  [embed] SK하이닉스_투자메모_20260513.md → 1청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260309_Nvidia에 대한 위협 요소와 대응.md → 2청크
   [embed] 20260327_[IBKS NVIDIA GTC 참관기] 전쟁과 유가의 무...md → 2청크
   [embed] 20260320_NVIDIA, 우주 데이터센터 모듈 발표.md → 2청크
   [embed] 20260414_AI로 돈을 번다는 것.md → 3청크
+  [embed] 2026-05-13.md → 3청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20260206_알파벳 (매수).md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20260511_Next Energy(Power &amp; Battery Weekly) - CATL...md → 2청크
   [embed] 20260420_Next Energy(Power &amp; Battery Weekly) - 한화...md → 2청크
   [embed] 20260417_양극재 3월 수출액 코멘트.md → 2청크
   [embed] 20260506_EV Tracker 80.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-14.md → 3청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20250910_구글_분석.md → 14청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260424_1Q26 Review_ 너무나 잘 견딘 후, 기대될 하...md → 2청크
+  [embed] 현대차_투자메모_20260513.md → 1청크
   [embed] 2026-05-13.md → 2청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
   [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260511_ESS 수주가 다 찼다.md → 2청크
+  [embed] 2026-05-14.md → 2청크
   [embed] 20260417_블루 오리진의 뉴 글렌, 재사용 준비 완료.md → 2청크
   [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 삼성전자_반도체_2026Q1_실적분석.md → 1청크
   [embed] 20260511_중장기 사업 가시성 확보.md → 1청크
+  [embed] 삼성전자_HBM_경쟁력_분석.md → 2청크
   [embed] 20260511_2Q26 영업이익 100조원 예상.md → 2청크
+  [embed] 삼성전자_매수근거_20260501.md → 2청크
+  [embed] 2026-05-13.md → 2청크
   [embed] 20260507_리튬사업에 동이 튼다!.md → 2청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-14.md → 3청크
   [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
   [embed] 20260414_AI로 돈을 번다는 것.md → 2청크
-임베딩 완료: 83청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 2청크
+  [embed] 2026-05-13.md → 1청크
+  [embed] 2026-05-14.md → 3청크
+임베딩 완료: 229청크
 
 === Phase B: 뉴스 수집 (대상: ['삼성전자', 'SK하이닉스', '현대차', 'Apple', 'Microsoft', 'NVIDIA', 'Alphabet', 'Google', 'Amazon', 'Meta', 'Tesla', 'Berkshire Hathaway', 'Eli Lilly', 'Broadcom', 'Micron', 'AMD', 'Intel', 'ARM', 'TSMC', 'ASML', 'Qualcomm', 'Super Micro', 'LG에너지솔루션', '포스코홀딩스', 'OpenAI', 'Anthropic', 'SpaceX', 'Tencent', 'Alibaba', 'CATL', 'BYD', 'Xiaomi', 'Delta Electronics', 'MediaTek', 'Nanya', 'SoftBank', 'Kioxia', 'Tokyo Electron']) ===
 
 [NaverFinance] 메인 뉴스 수집 중...
-  수집: 33건 (KRX 기업에만 배분)
+  수집: 36건 (KRX 기업에만 배분)
 
 [삼성전자] 거래소=KRX 쿼리=['삼성전자', '삼성전자 HBM DRAM']
-  [DDG] '삼성전자 HBM DRAM' 오류: No results found.
 
 [SK하이닉스] 거래소=KRX 쿼리=['SK하이닉스', 'SK하이닉스 HBM3E HBM4']
   [DDG] 'SK하이닉스 HBM3E HBM4' 오류: No results found.
@@ -96,11 +181,11 @@ gzip response with content-length of 0
 
 [AMD] 거래소=NASDAQ 쿼리=['AMD', 'AMD', 'AMD MI300 GPU']
   [YahooFinance] 'AMD' 오류: HTTP Error 429: Too Many Requests
+gzip response with content-length of 0
   [DDG] 'AMD MI300 GPU' 오류: No results found.
 
 [Intel] 거래소=NASDAQ 쿼리=['INTC', 'Intel', 'Intel 18A Gaudi']
   [YahooFinance] 'INTC' 오류: HTTP Error 429: Too Many Requests
-  [DDG] 'Intel 18A Gaudi' 오류: No results found.
 
 [ARM] 거래소=NASDAQ 쿼리=['ARM', 'ARM', 'ARM RISC-V']
   [YahooFinance] 'ARM' 오류: HTTP Error 429: Too Many Requests
@@ -118,6 +203,7 @@ gzip response with content-length of 0
   [YahooFinance] 'SMCI' 오류: HTTP Error 429: Too Many Requests
 
 [LG에너지솔루션] 거래소=KRX 쿼리=['LG에너지솔루션', 'LG에너지솔루션 배터리 전기차']
+  [DDG] 'LG에너지솔루션 배터리 전기차' 오류: No results found.
 
 [포스코홀딩스] 거래소=KRX 쿼리=['포스코홀딩스', '포스코홀딩스 양극재 리튬']
 
@@ -147,7 +233,7 @@ gzip response with content-length of 0
 
 [Delta Electronics] 거래소=TWSE 쿼리=['Delta Electronics', 'Delta Electronics Delta UPS']
   [YahooFinance] '2308.TW' 오류: HTTP Error 429: Too Many Requests
-  [TWSE→GoogleNews] 'Delta Electronics' → 1건
+  [TWSE→GoogleNews] 'Delta Electronics' → 0건
 
 [MediaTek] 거래소=TWSE 쿼리=['MediaTek', 'MediaTek Dimensity']
   [YahooFinance] '2454.TW' 오류: HTTP Error 429: Too Many Requests
@@ -155,7 +241,7 @@ gzip response with content-length of 0
 
 [Nanya] 거래소=TWSE 쿼리=['Nanya', 'Nanya DRAM DDR4']
   [YahooFinance] '2408.TW' 오류: HTTP Error 429: Too Many Requests
-  [TWSE→GoogleNews] 'Nanya' → 0건
+  [TWSE→GoogleNews] 'Nanya' → 1건
 
 [SoftBank] 거래소=TSE 쿼리=['SoftBank', 'SoftBank ARM']
   [YahooFinance] '9984.T' 오류: HTTP Error 429: Too Many Requests
@@ -167,62 +253,139 @@ gzip response with content-length of 0
 
 [Tokyo Electron] 거래소=TSE 쿼리=['Tokyo Electron', 'Tokyo Electron TEL CVD']
   [YahooFinance] '8035.T' 오류: HTTP Error 429: Too Many Requests
-  [TSE→GoogleNews] 'Tokyo Electron' → 5건
+  [TSE→GoogleNews] 'Tokyo Electron' → 6건
   [DDG] 'Tokyo Electron TEL CVD' 오류: No results found.
-  삼성전자: 80건
+  삼성전자: 86건
   SK하이닉스: 38건
-  현대차: 59건
-  Apple: 65건
+  현대차: 58건
+  Apple: 67건
   Microsoft: 71건
-  NVIDIA: 57건
-  Alphabet: 64건
-  Google: 29건
-  Amazon: 69건
-  Meta: 45건
-  Tesla: 68건
-  Berkshire Hathaway: 34건
-  Eli Lilly: 64건
-  Broadcom: 47건
-  Micron: 69건
-  AMD: 25건
-  Intel: 42건
-  ARM: 32건
-  TSMC: 49건
-  ASML: 39건
-  Qualcomm: 52건
-  Super Micro: 38건
-  LG에너지솔루션: 58건
-  포스코홀딩스: 49건
-  OpenAI: 36건
-  Anthropic: 37건
-  SpaceX: 33건
-  Tencent: 43건
+  NVIDIA: 60건
+  Alphabet: 66건
+  Google: 22건
+  Amazon: 66건
+  Meta: 53건
+  Tesla: 71건
+  Berkshire Hathaway: 36건
+  Eli Lilly: 71건
+  Broadcom: 48건
+  Micron: 67건
+  AMD: 30건
+  Intel: 43건
+  ARM: 28건
+  TSMC: 56건
+  ASML: 35건
+  Qualcomm: 50건
+  Super Micro: 41건
+  LG에너지솔루션: 55건
+  포스코홀딩스: 43건
+  OpenAI: 34건
+  Anthropic: 36건
+  SpaceX: 31건
+  Tencent: 42건
   Alibaba: 46건
-  CATL: 27건
-  BYD: 26건
+  CATL: 30건
+  BYD: 25건
   Xiaomi: 35건
-  Delta Electronics: 25건
+  Delta Electronics: 17건
   MediaTek: 54건
-  Nanya: 19건
-  SoftBank: 48건
+  Nanya: 18건
+  SoftBank: 49건
   Kioxia: 35건
   Tokyo Electron: 28건
 
 === Phase C: 관련성 분석 ===
 
-[삼성전자] 80건 분석 중...
+[삼성전자] 86건 분석 중...
+  → 관련 뉴스 83건 선별
+  [curator] 삼성전자 — LLM 합성 중...
+  → Companies/삼성전자/Curated/2026-05-14.md
+
+[SK하이닉스] 38건 분석 중...
+  → 관련 뉴스 38건 선별
+  [curator] SK하이닉스 — LLM 합성 중...
+  → Companies/SK하이닉스/Curated/2026-05-14.md
+
+[현대차] 58건 분석 중...
+  → 관련 뉴스 57건 선별
+  [curator] 현대차 — LLM 합성 중...
+  → Companies/현대차/Curated/2026-05-14.md
+
+[Apple] 67건 분석 중...
+  → 관련 뉴스 67건 선별
+  [curator] Apple — LLM 합성 중...
+  → Companies/Apple/Curated/2026-05-14.md
+
+[Microsoft] 71건 분석 중...
+  → 관련 뉴스 71건 선별
+  [curator] Microsoft — LLM 합성 중...
+  → Companies/Microsoft/Curated/2026-05-14.md
+
+[NVIDIA] 60건 분석 중...
+  → 관련 뉴스 60건 선별
+  [curator] NVIDIA — LLM 합성 중...
+  → Companies/NVIDIA/Curated/2026-05-14.md
+
+[Alphabet] 66건 분석 중...
+  → 관련 뉴스 64건 선별
+  [curator] Alphabet — LLM 합성 중...
+  → Companies/Alphabet/Curated/2026-05-14.md
+
+[Google] 22건 분석 중...
+  → 관련 뉴스 22건 선별
+  [curator] Google — LLM 합성 중...
+  → Companies/Google/Curated/2026-05-14.md
+
+[Amazon] 66건 분석 중...
+  → 관련 뉴스 64건 선별
+  [curator] Amazon — LLM 합성 중...
+  → Companies/Amazon/Curated/2026-05-14.md
+
+[Meta] 53건 분석 중...
+  → 관련 뉴스 53건 선별
+  [curator] Meta — LLM 합성 중...
+  → Companies/Meta/Curated/2026-05-14.md
+
+[Tesla] 71건 분석 중...
 Traceback (most recent call last):
-  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 142, in <module>
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 155, in <module>
     main()
     ~~~~^^
-  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 106, in main
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 119, in main
     analyzed = analyze(items_for, company=name,
                        sim_threshold=threshold, chroma_path=CHROMA_PATH)
   File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/llm/analyzer.py", line 100, in analyze
     similar = query_similar(query_text, n_results=_TOP_K,
                             chroma_path=chroma_path, company_filter=company)
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/obsidian/embedder.py", line 109, in query_similar
+    Returns:
+          ^^
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/obsidian/embedder.py", line 40, in _get_collection
+    client = chromadb.PersistentClient(path=chroma_path)
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/__init__.py", line 226, in PersistentClient
+    return ClientCreator(tenant=tenant, database=database, settings=settings)
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/client.py", line 105, in __init__
+    self._validate_tenant_database(tenant=self.tenant, database=self.database)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/client.py", line 615, in _validate_tenant_database
+    self._admin_client.get_database(name=database, tenant=tenant)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/client.py", line 654, in get_database
+    return self._server.get_database(name=name, tenant=tenant)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/rust.py", line 141, in get_database
+    database = self.bindings.get_database(name, tenant)
+chromadb.errors.InternalError: Database error: error returned from database: (code: 14) unable to open database file
+    
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/collect_news.py", line 106, in main
+    print(f"  {name}: {cnt}건")
+               ^^^^^^^^^^^^^^^^
+    
+    
+  File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/llm/analyzer.py", line 100, in analyze
+    similar = query_similar(query_text, n_results=_TOP_K,
+                            chroma_path=chroma_path, company_filter=company)
   File "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/src/obsidian/embedder.py", line 112, in query_similar
-    all_docs = col.get(include=["documents", "metadatas", "embeddings"])
   File "/opt/anaconda3/lib/python3.13/site-packages/chromadb/api/models/Collection.py", line 159, in get
     get_results = self._client._get(
         collection_id=self.id,
@@ -236,4 +399,4 @@ Traceback (most recent call last):
         database,
     )
 chromadb.errors.InternalError: Error executing plan: Internal error: Error finding id
-=== 2026-05-14 07:12:44 종료 (exit: 1) ===
+=== 2026-05-14 16:03:57 종료 (exit: 1) ===

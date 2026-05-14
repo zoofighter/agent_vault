@@ -8,3 +8,8 @@ https://finance.naver.com/research/company_list.naver   에서  research로 해�
 
 https://finance.naver.com/research/industry_list.naver
 pdf를 빨리 검색하고 companies.csv 중 미국 기업들을 찾아 해당 기업의 research 폴더에 저장 로컬 llm 이용 요약 하는 배치를 구현 
+
+폴더 구조를 변경 미국 기업들과 아시아 기업들로 분리  companies.csv 를 조사해서 미국기업 아시아 기업으로 분리  
+
+
+llm을 사용하는 부분 

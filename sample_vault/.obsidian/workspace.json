@@ -183,8 +183,10 @@
       "bases:Create new base": false
     }
   },
-  "active": "004766171a3396b0",
+  "active": "1dc8edc84e0e7cd4",
   "lastOpenFiles": [
+    "Companies/삼성전자/Curated/2026-05-14.md",
+    "Companies/삼성전자/News/2026-05-14.md",
     "Companies/Tokyo Electron/Curated/2026-05-14.md",
     "Companies/Tokyo Electron/Curated",
     "Companies/Tokyo Electron/News/2026-05-14.md",
@@ -218,8 +220,6 @@
     "Companies/Tencent/Curated/2026-05-14.md",
     "Companies/Tencent/News/2026-05-14.md",
     "Companies/Tokyo Electron/Tokyo Electron.md",
-    "Companies/Kioxia/Kioxia.md",
-    "Companies/SoftBank/SoftBank.md",
-    "Companies/Nanya/Nanya.md"
+    "Companies/Kioxia/Kioxia.md"
   ]
 }

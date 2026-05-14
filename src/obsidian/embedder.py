@@ -41,6 +41,17 @@ def _get_collection(chroma_path: str = _CHROMA_PATH):
     return client.get_or_create_collection(_COLLECTION)
 
 
+def _reset_collection(chroma_path: str = _CHROMA_PATH) -> None:
+    """손상된 컬렉션과 index_state.json을 삭제한다. 다음 실행에서 전체 재인덱싱."""
+    import shutil
+    print(f"  [ChromaDB] 손상 감지 — {chroma_path} 초기화 중...")
+    shutil.rmtree(chroma_path, ignore_errors=True)
+    state_file = Path(chroma_path).parent / "index_state.json"
+    if state_file.exists():
+        state_file.unlink()
+    print("  [ChromaDB] 초기화 완료. 다음 실행 시 전체 재인덱싱됩니다.")
+
+
 def index_files(
     changed_files: list[Path],
     chroma_path: str = _CHROMA_PATH,
@@ -98,8 +109,16 @@ def query_similar(
     Returns:
         [{"document": str, "source": str, "distance": float}, ...]
     """
-    col = _get_collection(chroma_path)
-    if col.count() == 0:
+    try:
+        col = _get_collection(chroma_path)
+    except Exception as e:
+        print(f"  [ChromaDB] DB 열기 실패: {e}")
+        return []
+    try:
+        count = col.count()
+    except Exception:
+        return []
+    if count == 0:
         return []
 
     embedding = _embed([text])[0]
@@ -109,7 +128,12 @@ def query_similar(
         # ChromaDB where 필터는 exact match만 지원 — 직접 가져와 Python에서 필터
         # macOS NFD 경로 → NFC로 정규화하여 한글 경로 매칭 보장
         nfc_filter = unicodedata.normalize("NFC", company_filter)
-        all_docs = col.get(include=["documents", "metadatas", "embeddings"])
+        try:
+            all_docs = col.get(include=["documents", "metadatas", "embeddings"])
+        except Exception as e:
+            print(f"  [ChromaDB] 쿼리 오류: {e}")
+            _reset_collection(chroma_path)
+            return []
         filtered = [
             (doc, meta, emb)
             for doc, meta, emb in zip(

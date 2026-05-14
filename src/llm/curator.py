@@ -60,6 +60,7 @@ def curate(
     analyzed: list[AnalyzedItem],
     vault_path: str | Path,
     date_str: str | None = None,
+    date_suffix: str = "",
     chroma_path: str = "data/chroma",
     dry_run: bool = False,
 ) -> Path | None:
@@ -72,6 +73,7 @@ def curate(
     vault = Path(vault_path)
     if date_str is None:
         date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    date_str = date_str + date_suffix
     collected_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     company_dir = vault / "Companies" / company

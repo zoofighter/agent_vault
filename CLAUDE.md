@@ -26,16 +26,22 @@ Phase B — 일일 뉴스 검색
 
 | 파일 | 역할 | 상태 |
 |------|------|------|
-| `companies.csv` | 기업 레지스트리 (직접 편집) | ✅ 완료 |
-| `src/obsidian/company_manager.py` | YAML → 볼트 파일 동기화 | ✅ 완료 |
+| `companies.csv` | 기업 레지스트리 38개사 | ✅ 완료 |
+| `src/obsidian/company_manager.py` | 볼트 폴더/파일 동기화 | ✅ 완료 |
 | `src/obsidian/templates.py` | 회사 노트 마크다운 템플릿 | ✅ 완료 |
-| `sample_vault/` | 삼성전자 기반 예시 볼트 | ✅ 완료 |
-| `src/obsidian/indexer.py` | 파일 변경 감지 + index_state.json | ⬜ Phase 1-A |
-| `src/obsidian/embedder.py` | ChromaDB 증분 임베딩 | ⬜ Phase 1-B |
-| `src/sources/` | 뉴스 소스 (Naver, DDG, Yahoo 등) | ⬜ Phase 2 |
-| `src/scraper/` | BeautifulSoup / Playwright 본문 추출 | ⬜ Phase 3 |
-| `src/llm/analyzer.py` | 유사도 검색 + LLM 근거 생성 | ⬜ Phase 4 |
-| `src/obsidian/writer.py` | Obsidian 뉴스 노트 저장 | ⬜ Phase 5 |
+| `src/obsidian/indexer.py` | 파일 변경 감지 + index_state.json | ✅ 완료 |
+| `src/obsidian/embedder.py` | ChromaDB 증분 임베딩 + 손상 자동 복구 | ✅ 완료 |
+| `src/sources/` | 뉴스 소스 8종 (Naver/DDG/Yahoo캐시/GoogleNews/HKEX/TWSE/TSE) | ✅ 완료 |
+| `src/scraper/fetcher.py` | BeautifulSoup 본문 추출 (고관련 기사 한정) | ✅ 완료 |
+| `src/llm/analyzer.py` | 벡터 유사도 필터 + LLM 근거 생성 | ✅ 완료 |
+| `src/llm/curator.py` | 테마별 종합 분석 (Curated 노트) | ✅ 완료 |
+| `src/obsidian/writer.py` | Obsidian 뉴스 노트 저장 | ✅ 완료 |
+| `src/research/naver_research.py` | KRX 기업 리서치 PDF 수집 + LLM 요약 | ✅ 완료 |
+| `src/research/naver_industry.py` | 해외 기업 산업분석 리포트 수집 | ✅ 완료 |
+| `src/research/register_pdf.py` | 로컬 PDF 수동 등록 | ✅ 완료 |
+| `collect_news.py` | 전체 파이프라인 오케스트레이터 | ✅ 완료 |
+| `run_daily.sh` | 일일 배치 (뉴스 + KRX리서치 + 해외리서치) | ✅ 완료 |
+| `sample_vault/` | 38개사 볼트 구조 | ✅ 완료 |
 
 ## 기업 관리
 
@@ -78,7 +84,7 @@ sample_vault/
 | 임베딩 모델 | `nomic-embed-text` via Ollama (로컬 무료) |
 | 벡터 DB | ChromaDB (`data/chroma/` 영구 저장) |
 | 로컬 LLM | Ollama `llama3.2` (또는 LM Studio) |
-| 뉴스 소스 | Naver API, DuckDuckGo, Yahoo Finance, SearXNG, OrioSearch |
+| 뉴스 소스 | Naver API, DuckDuckGo, Yahoo Finance(24h캐시), Google News RSS, HKEX/TWSE/TSE 공시 |
 | 본문 추출 | BeautifulSoup → Playwright 폴백 |
 | 설정 | `config.yaml` + `.env` (API 키) |
 

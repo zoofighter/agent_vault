@@ -58,10 +58,37 @@ def main():
     parser.add_argument('--dry-run', action='store_true')
     parser.add_argument('--skip-index', action='store_true',
                         help='볼트 재인덱싱 건너뜀 (빠른 재실행용)')
+    parser.add_argument('--date-suffix', default='',
+                        help='파일명 날짜 suffix (a, b, c). 미지정 시 시간 기반 자동 설정')
     args = parser.parse_args()
+
+    if not args.date_suffix:
+        from datetime import datetime as _dt, timezone as _tz
+        _today = _dt.now(_tz.utc).strftime("%Y-%m-%d")
+        _sample = names[0] if names else None
+        args.date_suffix = "a"  # 기본값
+        if _sample:
+            for _s in ["a", "b", "c", "d"]:
+                _p = vault / "Companies" / _sample / "News" / f"{_today}{_s}.md"
+                if not _p.exists():
+                    args.date_suffix = _s
+                    break
 
     names = _all_active_companies() if args.all else [n.strip() for n in args.companies.split(',') if n.strip()]
     vault = Path(args.vault)
+
+    # ── ChromaDB 상태 검증 ────────────────────────────────────────────
+    if not args.skip_index:
+        try:
+            import chromadb as _cdb
+            _client = _cdb.PersistentClient(path=CHROMA_PATH)
+            _col = _client.get_or_create_collection("vault_docs")
+            if _col.count() > 0:
+                _col.get(limit=1)   # 읽기 테스트
+        except Exception as _e:
+            print(f"[warn] ChromaDB 손상 감지 ({_e}) — 재초기화")
+            import shutil
+            shutil.rmtree(CHROMA_PATH, ignore_errors=True)
 
     # ── Phase A: 볼트 증분 인덱싱 ──────────────────────────────────────
     if not args.skip_index:
@@ -112,6 +139,7 @@ def main():
             company=name,
             analyzed=analyzed,
             vault_path=vault,
+            date_suffix=args.date_suffix,
             dry_run=args.dry_run,
         )
         if news_path:
@@ -122,6 +150,7 @@ def main():
             company=name,
             analyzed=analyzed,
             vault_path=vault,
+            date_suffix=args.date_suffix,
             chroma_path=CHROMA_PATH,
             dry_run=args.dry_run,
         )
