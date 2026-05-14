@@ -1,7 +1,9 @@
 """
-Commander 명령 → Inbox.md 기록
+Commander 명령 → Digest + Telegram 기록
 
-테마 급등 감지(여러 기업에서 동일 키워드 클러스터)도 처리한다.
+- push_commands      : 액션 명령
+- push_theme_surges  : 테마 급등 감지
+- push_watchlist_recs: 신규 편입 후보 추천
 """
 
 from collections import Counter
@@ -9,8 +11,9 @@ from pathlib import Path
 
 from src.commander.dispatcher import Command
 from src.commander.scanner import ScanResult
+from src.commander.watchlist_recommender import WatchlistCandidate
 from src.obsidian.digest import append_record
-from src.telegram.sender import send_commander, send_alert
+from src.telegram.sender import send_commander, send_alert, send
 
 
 def _format_command_body(cmd: Command) -> str:
@@ -70,3 +73,44 @@ def push_theme_surges(
         append_record(vault_path, title, body, level="warning")
         send_alert(title, f"감지 기업: {', '.join(companies)}", level="warning")
         print(f"  [digest+tg] 테마 급등: {theme}")
+
+
+def push_watchlist_recs(
+    candidates: list[WatchlistCandidate],
+    vault_path: Path,
+    date_str: str,
+) -> None:
+    """신규 편입 후보를 Digest + Telegram에 기록."""
+    if not candidates:
+        print("  [watchlist] 추천 후보 없음")
+        return
+
+    # Digest 기록
+    lines = [f"오늘 활동 기반으로 추적 목록에 추가할 만한 기업 {len(candidates)}개:\n"]
+    for i, c in enumerate(candidates, 1):
+        ticker_str = f" ({c.ticker})" if c.ticker and c.ticker != "없음" else ""
+        source_str = f" · 출처: {', '.join(c.source_companies[:2])}" if c.source_companies else ""
+        signals_str = " / ".join(c.signals[:2])
+        lines.append(
+            f"**{i}. {c.name}{ticker_str}** [{c.region}] {c.score:.1f}점{source_str}\n"
+            f"→ {c.reason}\n"
+            f"→ 신호: {signals_str}"
+        )
+
+    body = "\n\n".join(lines)
+    append_record(
+        vault_path,
+        title=f"신규 편입 후보 — {date_str}",
+        body=body,
+        level="info",
+        date=date_str,
+    )
+
+    # Telegram 전송
+    tg_lines = [f"*📋 신규 편입 후보 — {date_str}*\n"]
+    for i, c in enumerate(candidates, 1):
+        ticker_str = f" ({c.ticker})" if c.ticker and c.ticker != "없음" else ""
+        tg_lines.append(f"{i}. *{c.name}{ticker_str}* [{c.region}] {c.score:.1f}점\n   {c.reason}")
+    send("\n".join(tg_lines))
+
+    print(f"  [watchlist] {len(candidates)}개 후보 Digest + Telegram 기록 완료")

@@ -24,7 +24,8 @@ if _env_file.exists():
 
 from src.commander.scanner import scan_daily_notes
 from src.commander.dispatcher import generate_commands
-from src.commander.notifier import push_commands, push_theme_surges
+from src.commander.notifier import push_commands, push_theme_surges, push_watchlist_recs
+from src.commander.watchlist_recommender import recommend as recommend_watchlist
 
 
 def main() -> None:
@@ -68,7 +69,13 @@ def main() -> None:
     push_theme_surges(results, vault, args.theme_min)
 
     total = len(commands)
-    print(f"\n완료: 명령 {total}개 Inbox.md에 기록")
+
+    # Phase 4: 신규 편입 후보 추천
+    print("\n[Phase 4] 신규 편입 후보 탐색...")
+    candidates = recommend_watchlist(vault, date_str)
+    push_watchlist_recs(candidates, vault, date_str)
+
+    print(f"\n완료: 명령 {total}개 / 편입 후보 {len(candidates)}개")
 
 
 if __name__ == "__main__":

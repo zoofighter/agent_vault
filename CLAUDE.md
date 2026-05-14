@@ -44,7 +44,8 @@ Research Agent → 증권사 PDF 수집·요약
 | `src/research/register_pdf.py` | 로컬 PDF 수동 등록 | ✅ |
 | `agent_vault/` | 38개사 볼트 (KR/US/CN/TW/JP/Private) | ✅ |
 | `src/obsidian/inbox.py` | Inbox.md 알림 공유 헬퍼 | ✅ |
-| `src/commander/` | Commander Agent — Daily 분석 → Inbox 액션 명령 | ✅ |
+| `src/commander/` | Commander Agent — Daily 분석 → Inbox 액션 명령 + 신규 편입 후보 추천 | ✅ |
+| `src/commander/watchlist_recommender.py` | 신규 편입 후보 추천 (5가지 신호 분석) | ✅ |
 | `src/content/` | Content Writer Agent — Daily → 블로그/유튜브 초안 | ✅ |
 | `run_commander.py` | Commander Agent CLI | ✅ |
 | `run_content.py` | Content Writer Agent CLI | ✅ |
