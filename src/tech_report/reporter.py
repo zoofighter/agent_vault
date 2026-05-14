@@ -1,15 +1,25 @@
 """
-TechReport Reporter — Groq LLM으로 메르 스타일 리포트 생성·저장·알림
+TechReport Reporter — Gemini CLI로 메르 스타일 리포트 생성·저장·알림
+
+LLM 우선순위:
+  1. Gemini CLI (gemini-2.5-pro / flash) — API 키 불필요, Google 계정 인증
+  2. Groq API (llama-3.3-70b-versatile)  — GROQ_API_KEY 환경변수 필요 (fallback)
 """
 
 from __future__ import annotations
 
 import os
 import re
+import shutil
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
-_MODEL = "llama-3.3-70b-versatile"
+_GEMINI_CMD    = "gemini"
+_GEMINI_PRO    = "gemini-2.5-pro"    # issue / onboarding — 품질 우선
+_GEMINI_FLASH  = "gemini-2.5-flash"  # weekly — 속도 우선
+
+_GROQ_MODEL    = "llama-3.3-70b-versatile"
 _GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 _REPORT_TYPE_POINTS = {
@@ -92,43 +102,81 @@ def _sanitize(text: str) -> str:
     return text
 
 
+def _call_gemini(prompt: str, report_type: str) -> str:
+    """Gemini CLI subprocess 호출. 실패 시 빈 문자열 반환."""
+    if not shutil.which(_GEMINI_CMD):
+        return ""
+
+    model = _GEMINI_FLASH if report_type == "weekly" else _GEMINI_PRO
+    timeout = {"issue": 120, "onboarding": 180, "weekly": 60}.get(report_type, 120)
+
+    try:
+        result = subprocess.run(
+            [_GEMINI_CMD, "--model", model, prompt],
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+        return result.stdout.strip()
+    except subprocess.TimeoutExpired:
+        print(f"  [reporter] Gemini CLI 타임아웃 ({timeout}초)")
+        return ""
+    except Exception as e:
+        print(f"  [reporter] Gemini CLI 오류: {e}")
+        return ""
+
+
+def _call_groq(prompt: str, report_type: str) -> str:
+    """Groq API fallback. GROQ_API_KEY 없으면 빈 문자열 반환."""
+    api_key = os.environ.get("GROQ_API_KEY", "")
+    if not api_key:
+        return ""
+    try:
+        from openai import OpenAI
+        target_tokens = {"issue": 2000, "onboarding": 3500, "weekly": 800}.get(report_type, 2000)
+        client = OpenAI(api_key=api_key, base_url=_GROQ_BASE_URL)
+        resp = client.chat.completions.create(
+            model=_GROQ_MODEL,
+            max_tokens=target_tokens,
+            temperature=0.4,
+            messages=[
+                {"role": "system", "content": _SYSTEM_PROMPT},
+                {"role": "user",   "content": prompt},
+            ],
+        )
+        return (resp.choices[0].message.content or "").strip()
+    except Exception as e:
+        print(f"  [reporter] Groq 호출 실패: {e}")
+        return ""
+
+
 def generate_report(
     sector: str,
     topic: str,
     articles: list[dict],
     report_type: str = "issue",
 ) -> str:
-    """Groq LLM으로 메르 스타일 리포트 생성. 실패 시 빈 문자열 반환."""
-    try:
-        from openai import OpenAI
-    except ImportError:
-        print("  [reporter] openai 패키지 필요: pip install openai")
-        return ""
-
-    api_key = os.environ.get("GROQ_API_KEY", "")
-    if not api_key:
-        print("  [reporter] GROQ_API_KEY 미설정")
-        return ""
-
+    """메르 스타일 리포트 생성. Gemini CLI → Groq API 순서로 시도."""
     user_prompt = _build_user_prompt(sector, topic, articles, report_type)
-    target_tokens = {"issue": 2000, "onboarding": 3500, "weekly": 800}.get(report_type, 2000)
+    full_prompt  = _SYSTEM_PROMPT + "\n\n" + user_prompt
 
-    try:
-        client = OpenAI(api_key=api_key, base_url=_GROQ_BASE_URL)
-        resp = client.chat.completions.create(
-            model=_MODEL,
-            max_tokens=target_tokens,
-            temperature=0.4,
-            messages=[
-                {"role": "system", "content": _SYSTEM_PROMPT},
-                {"role": "user",   "content": user_prompt},
-            ],
-        )
-        content = (resp.choices[0].message.content or "").strip()
+    # 1순위: Gemini CLI
+    if shutil.which(_GEMINI_CMD):
+        model = _GEMINI_FLASH if report_type == "weekly" else _GEMINI_PRO
+        print(f"  [reporter] Gemini CLI ({model})")
+        content = _call_gemini(full_prompt, report_type)
+        if content:
+            return _sanitize(content)
+        print("  [reporter] Gemini CLI 실패 — Groq fallback")
+
+    # 2순위: Groq API
+    print(f"  [reporter] Groq API ({_GROQ_MODEL})")
+    content = _call_groq(user_prompt, report_type)
+    if content:
         return _sanitize(content)
-    except Exception as e:
-        print(f"  [reporter] Groq 호출 실패: {e}")
-        return ""
+
+    print("  [reporter] 모든 LLM 호출 실패")
+    return ""
 
 
 def save_report(
