@@ -6,7 +6,11 @@
 파일 쓰기는 하지 않는다 — writer.py가 뉴스 목록과 합쳐서 Daily/에 저장한다.
 """
 
+import threading
+
 import ollama
+
+_CURATOR_TIMEOUT = 120  # 합성 LLM 최대 대기 시간(초)
 
 from src.llm.analyzer import AnalyzedItem
 from src.obsidian.embedder import query_similar
@@ -73,21 +77,35 @@ def synthesize(
     prompt = _build_curation_prompt(company, context, news_lines)
 
     print(f"  [curator] {company} — LLM 합성 중...")
-    parts = []
-    try:
-        for chunk in ollama.generate(
-            model=_LLM_MODEL,
-            prompt=prompt,
-            options={"num_predict": 2000},
-            think=False,
-            stream=True,
-        ):
-            parts.append(chunk.response or "")
-    except Exception as e:
-        print(f"  [curator] LLM 오류: {e}")
-        return None
+    out: list[str] = []
+    err: list[str] = []
 
-    result = "".join(parts).strip()
+    def _run():
+        try:
+            parts = []
+            for chunk in ollama.generate(
+                model=_LLM_MODEL,
+                prompt=prompt,
+                options={"num_predict": 2000},
+                think=False,
+                stream=True,
+            ):
+                parts.append(chunk.response or "")
+            out.append("".join(parts).strip())
+        except Exception as e:
+            err.append(str(e))
+
+    t = threading.Thread(target=_run, daemon=True)
+    t.start()
+    t.join(_CURATOR_TIMEOUT)
+
+    if t.is_alive():
+        print(f"  [curator] {company} — 타임아웃 ({_CURATOR_TIMEOUT}초), 건너뜀")
+        return None
+    if err:
+        print(f"  [curator] LLM 오류: {err[0]}")
+        return None
+    result = out[0] if out else ""
     if not result:
         print(f"  [curator] LLM 응답 없음")
         return None

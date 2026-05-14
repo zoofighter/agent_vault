@@ -5,6 +5,7 @@
 2. LLM 근거 생성 — 통과된 뉴스에 대해 "왜 관련 있는지" 한 문장 생성
 """
 
+import threading
 from dataclasses import dataclass
 
 import ollama
@@ -14,8 +15,10 @@ from src.scraper.fetcher import fetch_body
 from src.sources.base import NewsItem
 
 _LLM_MODEL = "gemma4:e2b"
-_SIM_THRESHOLD = 0.75  # ChromaDB cosine distance (낮을수록 유사, ≤0.75 통과)
+_SIM_THRESHOLD = 0.50  # ChromaDB cosine distance (낮을수록 유사, ≤0.50 통과)
 _TOP_K = 3              # 유사 청크 조회 수
+_LLM_TIMEOUT = 30       # 개별 기사 LLM 호출 최대 대기 시간(초)
+_MAX_LLM_ITEMS = 25     # 회사당 LLM 호출 상한 (거리 오름차순 상위 N개)
 
 # LLM이 "무관" 대신 쓸 수 있는 거절 표현 — 모두 필터
 _REJECT_PHRASES = (
@@ -43,6 +46,32 @@ def _is_subsidiary_article(title: str, company: str) -> bool:
         if (company + suffix) in title and not company.endswith(suffix):
             return True
     return False
+
+
+def _call_llm_with_timeout(prompt: str, timeout: int = _LLM_TIMEOUT) -> str:
+    """ollama.generate 스트리밍을 별도 스레드에서 실행, timeout 초 초과 시 빈 문자열 반환."""
+    result: list[str] = []
+    error: list[str] = []
+
+    def _run():
+        try:
+            parts = []
+            for chunk in ollama.generate(model=_LLM_MODEL, prompt=prompt,
+                                         options={"num_predict": 120},
+                                         think=False, stream=True):
+                parts.append(chunk.response or "")
+            result.append("".join(parts).strip())
+        except Exception as e:
+            error.append(str(e))
+
+    t = threading.Thread(target=_run, daemon=True)
+    t.start()
+    t.join(timeout)
+    if t.is_alive():
+        return "(타임아웃)"
+    if error:
+        return f"(LLM 오류: {error[0]})"
+    return result[0] if result else ""
 
 
 def _build_prompt(company: str, context: str, title: str, snippet: str) -> str:
@@ -74,24 +103,23 @@ def analyze(
     Returns:
         관련 있는 뉴스 + 근거 목록 (거리 오름차순)
     """
-    results: list[AnalyzedItem] = []
     seen_urls: set[str] = set()
 
+    # ── 1단계: 벡터 필터 (LLM 없음) ──────────────────────────────────────────
+    candidates: list[tuple[NewsItem, float, str]] = []  # (item, distance, context)
+    fallback_items: list[NewsItem] = []
+
     for item in items:
-        # URL 중복 제거
         if item.url in seen_urls:
             continue
         seen_urls.add(item.url)
 
-        # 자회사/관계사 기사 필터 (예: "현대차증권" 기사가 "현대차" 분석에 혼입 방지)
         if _is_subsidiary_article(item.title, company):
             continue
 
-        # 명백한 잡음 제거: 한국어 없는 순수 영어 제목이면서 금융/투자와 무관한 패턴
         korean_chars = sum(1 for c in item.title if '가' <= c <= '힣')
         if korean_chars == 0 and len(item.title) > 10:
             lower = item.title.lower()
-            # 통화 변환기 등 명백한 비금융 잡음만 제거
             junk_patterns = ["convert ", "calculator", "to armenian", "to japanese yen"]
             if any(p in lower for p in junk_patterns):
                 continue
@@ -101,38 +129,40 @@ def analyze(
                                 chroma_path=chroma_path, company_filter=company)
 
         if not similar:
-            # ChromaDB 비어있으면 모두 통과 (fallback)
-            results.append(AnalyzedItem(item=item, reason="(인덱스 없음 — 키워드 매칭)", distance=0.0))
+            fallback_items.append(item)
             continue
 
         best = similar[0]
         if best["distance"] > sim_threshold:
-            continue  # 유사도 기준 미달 → 제외
+            continue
 
-        # ★★★★★ 기사(distance ≤ 0.45)는 본문 스크래핑 시도
+        candidates.append((item, best["distance"], best["document"]))
+
+    # ── 2단계: 상위 N개에만 LLM 호출 ─────────────────────────────────────────
+    candidates.sort(key=lambda x: x[1])
+    candidates = candidates[:_MAX_LLM_ITEMS]
+
+    results: list[AnalyzedItem] = []
+
+    # ChromaDB 없을 때 fallback — fallback도 상한 적용
+    for item in fallback_items[:max(0, _MAX_LLM_ITEMS - len(candidates))]:
+        results.append(AnalyzedItem(item=item, reason="(인덱스 없음 — 키워드 매칭)", distance=0.0))
+
+    for item, distance, context_doc in candidates:
         body = None
-        if best["distance"] <= 0.45:
+        if distance <= 0.35:  # 매우 관련성 높은 기사만 본문 스크래핑
             body = fetch_body(item.url)
 
-        # LLM 근거 생성 (스트리밍 필수 — non-stream이 빈 응답을 반환하는 모델)
-        context = best["document"][:600]
+        context = context_doc[:600]
         content = body or item.snippet or ""
         prompt = _build_prompt(company, context, item.title, content)
-        try:
-            parts = []
-            for chunk in ollama.generate(model=_LLM_MODEL, prompt=prompt,
-                                         options={"num_predict": 120},
-                                         think=False, stream=True):
-                parts.append(chunk.response or "")
-            reason = "".join(parts).strip()
-        except Exception as e:
-            reason = f"(LLM 오류: {e})"
+        reason = _call_llm_with_timeout(prompt, timeout=_LLM_TIMEOUT)
 
         reason = reason.strip()
         if not reason or any(p in reason for p in _REJECT_PHRASES):
             continue
 
-        results.append(AnalyzedItem(item=item, reason=reason, distance=best["distance"]))
+        results.append(AnalyzedItem(item=item, reason=reason, distance=distance))
 
     results.sort(key=lambda x: x.distance)
     return results

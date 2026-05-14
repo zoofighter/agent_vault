@@ -11,8 +11,23 @@ Commander Agent — Daily 노트 분석 → Inbox.md 액션 명령 생성
 
 import argparse
 import os
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
+
+_THEME_SECTOR_MAP: dict[str, str] = {
+    "HBM": "반도체", "CoWoS": "반도체", "EUV": "반도체",
+    "GAA": "반도체", "HBM3E": "반도체", "패키징": "반도체",
+    "AI 반도체": "AI", "LLM": "AI", "MoE": "AI", "추론": "AI",
+    "GLP-1": "바이오", "임상": "바이오", "ADC": "바이오",
+    "전고체": "2차전지", "양극재": "2차전지", "리튬": "2차전지",
+    "FSD": "자동차", "자율주행": "자동차", "전기차": "자동차",
+    "OLED": "디스플레이", "MicroLED": "디스플레이",
+    "SMR": "에너지", "원전": "에너지", "ESS": "에너지",
+    "Starlink": "우주방산", "LEO": "우주방산", "드론": "우주방산",
+    "큐비트": "양자컴퓨팅", "양자": "양자컴퓨팅",
+    "휴머노이드": "로보틱스", "로봇": "로보틱스",
+}
 
 _env_file = Path(__file__).parent / ".env"
 if _env_file.exists():
@@ -40,6 +55,8 @@ def main() -> None:
                         help="Local LLM 스코어링 건너뜀 (휴리스틱만)")
     parser.add_argument("--theme-min", type=int, default=3,
                         help="테마 급등 감지 최소 기업 수 (기본: 3)")
+    parser.add_argument("--dry-run", action="store_true",
+                        help="TechReport 트리거 시뮬레이션만 (subprocess 호출 생략)")
     args = parser.parse_args()
 
     vault = Path(args.vault).resolve()
@@ -69,6 +86,27 @@ def main() -> None:
     push_theme_surges(results, vault, args.theme_min)
 
     total = len(commands)
+
+    # Phase 3.5: theme_surge → TechReport 자동 트리거
+    print("\n[Phase 3.5] theme_surge → TechReport 자동 트리거...")
+    _candidates = [r for r in results if r.score >= args.threshold][:args.max_commands]
+    triggered: set[tuple[str, str]] = set()
+    for cmd, scan in zip(commands, _candidates):
+        if cmd.command_type == "theme_surge":
+            for theme in scan.key_themes:
+                sector = _THEME_SECTOR_MAP.get(theme)
+                if sector and (sector, theme) not in triggered:
+                    triggered.add((sector, theme))
+                    print(f"  theme_surge → TechReport: {sector}/{theme}")
+                    if not args.dry_run:
+                        subprocess.run([
+                            "python", "run_tech_report.py",
+                            "--sector", sector,
+                            "--topic",  theme,
+                            "--vault",  str(vault),
+                        ], cwd=str(Path(__file__).parent))
+    if not triggered:
+        print("  theme_surge 없음")
 
     # Phase 4: 신규 편입 후보 추천
     print("\n[Phase 4] 신규 편입 후보 탐색...")
