@@ -1,0 +1,148 @@
+=== 2026-05-14 18:00:04 시작 ===
+--- [뉴스 수집] 18:00:04 ---
+=== Phase A: 볼트 인덱싱 ===
+변경 파일 74개 임베딩 중...
+  [embed] VaultPulse.md → 4청크
+  [embed] Apple.md → 1청크
+  [embed] Intel.md → 1청크
+  [embed] Kioxia.md → 1청크
+  [embed] 포스코홀딩스.md → 1청크
+  [embed] 삼성전자.md → 2청크
+  [embed] Nanya.md → 1청크
+  [embed] Amazon.md → 1청크
+  [embed] LG에너지솔루션.md → 1청크
+  [embed] TSMC.md → 1청크
+  [embed] Qualcomm.md → 1청크
+  [embed] 현대차.md → 1청크
+  [embed] Google.md → 1청크
+  [embed] Microsoft.md → 1청크
+  [embed] Micron.md → 1청크
+  [embed] Broadcom.md → 1청크
+  [embed] BYD.md → 1청크
+  [embed] Tokyo Electron.md → 1청크
+  [embed] Tesla.md → 1청크
+  [embed] Meta.md → 1청크
+  [embed] Alphabet.md → 1청크
+  [embed] Aphabet.md → 2청크
+  [embed] MediaTek.md → 1청크
+  [embed] Alibaba.md → 1청크
+  [embed] Berkshire Hathaway.md → 1청크
+  [embed] SoftBank.md → 1청크
+  [embed] AMD.md → 1청크
+  [embed] Xiaomi.md → 1청크
+  [embed] NVIDIA.md → 1청크
+  [embed] ASML.md → 1청크
+  [embed] CATL.md → 1청크
+  [embed] Delta Electronics.md → 1청크
+  [embed] Tencent.md → 1청크
+  [embed] Anthropic.md → 1청크
+  [embed] SK하이닉스.md → 1청크
+  [embed] ARM.md → 1청크
+  [embed] Super Micro.md → 1청크
+  [embed] Eli Lilly.md → 1청크
+  [embed] OpenAI.md → 1청크
+  [embed] SpaceX.md → 1청크
+  [embed] 20260506_우주는 우리 안에.md → 2청크
+  [embed] 20260504_높이 성장한 만큼 흔들림도 있다.md → 2청크
+  [embed] 20260511_AI 데이터센터 수주 급증 수혜.md → 1청크
+  [embed] 20260511_2Q26 영업이익 70조원 예상.md → 2청크
+  [embed] 20260507_아직 가보지 못한 제자리를 향해.md → 2청크
+  [embed] SK하이닉스_투자메모_20260513.md → 1청크
+  [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
+  [embed] 20260309_Nvidia에 대한 위협 요소와 대응.md → 2청크
+  [embed] 20260327_[IBKS NVIDIA GTC 참관기] 전쟁과 유가의 무...md → 2청크
+  [embed] 20260320_NVIDIA, 우주 데이터센터 모듈 발표.md → 2청크
+  [embed] 20260414_AI로 돈을 번다는 것.md → 3청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20260206_알파벳 (매수).md → 2청크
+  [embed] 20260511_Next Energy(Power &amp; Battery Weekly) - CATL...md → 2청크
+  [embed] 20260420_Next Energy(Power &amp; Battery Weekly) - 한화...md → 2청크
+  [embed] 20260417_양극재 3월 수출액 코멘트.md → 2청크
+  [embed] 20260506_EV Tracker 80.md → 2청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20250910_구글_분석.md → 14청크
+  [embed] 20260424_1Q26 Review_ 너무나 잘 견딘 후, 기대될 하...md → 2청크
+  [embed] 현대차_투자메모_20260513.md → 1청크
+  [embed] 20260420_실적 시즌 진입. 기대되는 호실적.md → 2청크
+  [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 20260511_ESS 수주가 다 찼다.md → 2청크
+  [embed] 20260417_블루 오리진의 뉴 글렌, 재사용 준비 완료.md → 2청크
+  [embed] 20260504_클라우드 매출 가속으로 이어진 AI 캐팩스.md → 2청크
+  [embed] 삼성전자_반도체_2026Q1_실적분석.md → 1청크
+  [embed] 20260511_중장기 사업 가시성 확보.md → 1청크
+  [embed] 삼성전자_HBM_경쟁력_분석.md → 2청크
+  [embed] 20260511_2Q26 영업이익 100조원 예상.md → 2청크
+  [embed] 삼성전자_매수근거_20260501.md → 2청크
+  [embed] 20260507_리튬사업에 동이 튼다!.md → 2청크
+  [embed] 20260511_CPU에서도 AI 수혜 확인. 메모리도 추가 수혜.md → 2청크
+  [embed] 20260414_AI로 돈을 번다는 것.md → 2청크
+임베딩 완료: 121청크
+
+=== Phase B: 뉴스 수집 (대상: ['삼성전자', 'SK하이닉스', '현대차', 'LG에너지솔루션', '포스코홀딩스', 'Apple', 'Microsoft', 'NVIDIA', 'Alphabet', 'Google', 'Amazon', 'Meta', 'Tesla', 'Berkshire Hathaway', 'Eli Lilly', 'Broadcom', 'Micron', 'AMD', 'Intel', 'ARM', 'ASML', 'Qualcomm', 'Super Micro', 'OpenAI', 'Anthropic', 'SpaceX', 'Tencent', 'Alibaba', 'CATL', 'BYD', 'Xiaomi', 'TSMC', 'Delta Electronics', 'MediaTek', 'Nanya', 'SoftBank', 'Kioxia', 'Tokyo Electron']) ===
+
+[NaverFinance] 메인 뉴스 수집 중...
+  수집: 36건 (KRX 기업에만 배분)
+
+[삼성전자] 거래소=KRX 쿼리=['삼성전자', '삼성전자 HBM DRAM']
+
+[SK하이닉스] 거래소=KRX 쿼리=['SK하이닉스', 'SK하이닉스 HBM3E HBM4']
+  [DDG] 'SK하이닉스 HBM3E HBM4' 오류: No results found.
+
+[현대차] 거래소=KRX 쿼리=['현대차', '현대차 전기차 EV']
+
+[LG에너지솔루션] 거래소=KRX 쿼리=['LG에너지솔루션', 'LG에너지솔루션 배터리 전기차']
+
+[포스코홀딩스] 거래소=KRX 쿼리=['포스코홀딩스', '포스코홀딩스 양극재 리튬']
+
+[Apple] 거래소=NASDAQ 쿼리=['AAPL', 'Apple', 'Apple iPhone M4']
+  [YahooFinance] 'AAPL' 오류: HTTP Error 429: Too Many Requests
+
+[Microsoft] 거래소=NASDAQ 쿼리=['MSFT', 'Microsoft', 'Microsoft Azure Copilot']
+  [YahooFinance] 'MSFT' 오류: HTTP Error 429: Too Many Requests
+
+[NVIDIA] 거래소=NASDAQ 쿼리=['NVDA', 'NVIDIA', 'NVIDIA Blackwell GB300']
+  [YahooFinance] 'NVDA' 오류: HTTP Error 429: Too Many Requests
+
+[Alphabet] 거래소=NASDAQ 쿼리=['GOOGL', 'Alphabet', 'Alphabet Google Gemini']
+  [YahooFinance] 'GOOGL' 오류: HTTP Error 429: Too Many Requests
+
+[Google] 거래소=NASDAQ 쿼리=['GOOGL', 'Google', 'Google Gemini GCP']
+  [YahooFinance] 'GOOGL' 오류: HTTP Error 429: Too Many Requests
+
+[Amazon] 거래소=NASDAQ 쿼리=['AMZN', 'Amazon', 'Amazon AWS']
+  [YahooFinance] 'AMZN' 오류: HTTP Error 429: Too Many Requests
+
+[Meta] 거래소=NASDAQ 쿼리=['META', 'Meta', 'Meta AI']
+  [YahooFinance] 'META' 오류: HTTP Error 429: Too Many Requests
+
+[Tesla] 거래소=NASDAQ 쿼리=['TSLA', 'Tesla', 'Tesla EV FSD']
+  [YahooFinance] 'TSLA' 오류: HTTP Error 429: Too Many Requests
+
+[Berkshire Hathaway] 거래소=NYSE 쿼리=['Berkshire Hathaway', 'Berkshire Hathaway BNSF']
+  [YahooFinance] 'BRK.B' 오류: HTTP Error 429: Too Many Requests
+
+[Eli Lilly] 거래소=NYSE 쿼리=['LLY', 'Eli Lilly', 'Eli Lilly GLP-1']
+  [YahooFinance] 'LLY' 오류: HTTP Error 429: Too Many Requests
+
+[Broadcom] 거래소=NASDAQ 쿼리=['AVGO', 'Broadcom', 'Broadcom ASIC VMware']
+  [YahooFinance] 'AVGO' 오류: HTTP Error 429: Too Many Requests
+
+[Micron] 거래소=NASDAQ 쿼리=['MU', 'Micron', 'Micron HBM DRAM']
+  [YahooFinance] 'MU' 오류: HTTP Error 429: Too Many Requests
+
+[AMD] 거래소=NASDAQ 쿼리=['AMD', 'AMD', 'AMD MI300 GPU']
+  [YahooFinance] 'AMD' 오류: HTTP Error 429: Too Many Requests
+gzip response with content-length of 0
+  [DDG] 'AMD MI300 GPU' 오류: No results found.
+
+[Intel] 거래소=NASDAQ 쿼리=['INTC', 'Intel', 'Intel 18A Gaudi']
+  [YahooFinance] 'INTC' 오류: HTTP Error 429: Too Many Requests
+  [DDG] 'Intel 18A Gaudi' 오류: No results found.
+
+[ARM] 거래소=NASDAQ 쿼리=['ARM', 'ARM', 'ARM RISC-V']
+  [YahooFinance] 'ARM' 오류: HTTP Error 429: Too Many Requests
+
+[ASML] 거래소=NASDAQ 쿼리=['ASML', 'ASML', 'ASML EUV High-NA']
+  [YahooFinance] 'ASML' 오류: HTTP Error 429: Too Many Requests
+
+[Qualcomm] 거래소=NASDAQ 쿼리=['QCOM', 'Qualcomm', 'Qualcomm PC']

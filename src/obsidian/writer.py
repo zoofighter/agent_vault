@@ -1,17 +1,16 @@
 """
 Obsidian 일일 뉴스 노트 저장
 
-회사별로 하루에 파일 하나(YYYY-MM-DD.md)를 생성한다.
-이미 존재하는 파일은 덮어쓴다 (당일 재실행 시 최신 상태 반영).
+종합 분석(synthesis) + 뉴스 목록을 Daily/ 폴더에 단일 파일로 저장한다.
 """
 
 from datetime import datetime, timezone
 from pathlib import Path
 
 from src.llm.analyzer import AnalyzedItem
+from src.obsidian.company_manager import company_dir as _company_dir
 
-COMPANIES_FOLDER = "Companies"
-NEWS_SUBFOLDER = "News"
+DAILY_SUBFOLDER = "Daily"
 
 
 def _source_label(source: str) -> str:
@@ -30,7 +29,7 @@ def _source_label(source: str) -> str:
 def _stars(distance: float, reason: str) -> str:
     """코사인 거리(0~0.75)를 별점 5단계로 변환한다. 낮을수록 관련성 높음."""
     if "인덱스 없음" in reason:
-        return "☆☆☆☆☆"  # 인덱스 없이 통과된 항목은 별점 없음
+        return "☆☆☆☆☆"
     if distance <= 0.45:
         return "★★★★★"
     if distance <= 0.55:
@@ -47,26 +46,38 @@ def _build_daily_note(
     date_str: str,
     analyzed: list[AnalyzedItem],
     collected_at: str,
+    synthesis: str | None = None,
 ) -> str:
     header = f"""---
-type: news-digest
+type: daily-brief
 company: "{company}"
 date: {date_str}
 collected: {collected_at}
-count: {len(analyzed)}
+news_count: {len(analyzed)}
 tags:
-  - news
+  - daily
   - {company}
 ---
 
-# {company} 뉴스 — {date_str}
+# {company} — {date_str}
 
-> 수집 {len(analyzed)}건 · {collected_at}
+> 관련 뉴스 {len(analyzed)}건 · {collected_at}
+"""
+
+    synthesis_block = ""
+    if synthesis:
+        synthesis_block = f"""
+## 종합 분석
+
+{synthesis}
+
+---
 """
 
     if not analyzed:
-        return header + "\n관련 뉴스 없음\n"
+        return header + synthesis_block + "\n관련 뉴스 없음\n"
 
+    news_header = f"\n## 뉴스 목록 ({len(analyzed)}건)\n"
     sections = []
     for i, a in enumerate(analyzed, 1):
         item = a.item
@@ -76,7 +87,7 @@ tags:
         stars = _stars(a.distance, reason)
 
         block = f"""
-## {i}. {item.title}
+### {i}. {item.title}
 
 - **관련도**: {stars} `{a.distance:.2f}`
 - **출처**: [{src}]({item.url})
@@ -86,7 +97,7 @@ tags:
 """
         sections.append(block)
 
-    return header + "\n".join(sections)
+    return header + synthesis_block + news_header + "\n".join(sections)
 
 
 def write_daily(
@@ -95,10 +106,11 @@ def write_daily(
     vault_path: str | Path,
     date_str: str | None = None,
     date_suffix: str = "",
+    synthesis: str | None = None,
     dry_run: bool = False,
 ) -> Path | None:
     """
-    회사별 일일 뉴스 노트를 저장하고 파일 경로를 반환한다.
+    기업별 일일 Daily 노트(종합분석 + 뉴스목록)를 저장하고 경로를 반환한다.
     """
     vault = Path(vault_path)
     if date_str is None:
@@ -106,21 +118,26 @@ def write_daily(
     date_str = date_str + date_suffix
     collected_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
-    company_dir = vault / COMPANIES_FOLDER / company
-    if not company_dir.exists():
-        print(f"  [skip] '{company}' 폴더 없음: {company_dir}")
+    try:
+        co_dir = _company_dir(vault, company)
+    except ValueError as e:
+        print(f"  [skip] {e}")
         return None
 
-    news_dir = company_dir / NEWS_SUBFOLDER
-    note_path = news_dir / f"{date_str}.md"
+    if not co_dir.exists():
+        print(f"  [skip] '{company}' 폴더 없음: {co_dir}")
+        return None
 
-    content = _build_daily_note(company, date_str, analyzed, collected_at)
+    daily_dir = co_dir / DAILY_SUBFOLDER
+    note_path = daily_dir / f"{date_str}.md"
+
+    content = _build_daily_note(company, date_str, analyzed, collected_at, synthesis)
 
     if dry_run:
         print(f"  [dry-run] {note_path.relative_to(vault)}")
         print(content[:400] + ("..." if len(content) > 400 else ""))
         return note_path
 
-    news_dir.mkdir(exist_ok=True)
+    daily_dir.mkdir(exist_ok=True)
     note_path.write_text(content, encoding="utf-8")
     return note_path

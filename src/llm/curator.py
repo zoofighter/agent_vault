@@ -1,12 +1,10 @@
 """
-뉴스 큐레이팅 — 테마별 종합 분석
+뉴스 큐레이팅 — LLM 합성 텍스트 생성
 
 선별된 뉴스 전체를 LLM에 한번에 넘겨
 "오늘의 핵심 테마 + 투자 시사점" 형태의 합성 리포트를 생성한다.
+파일 쓰기는 하지 않는다 — writer.py가 뉴스 목록과 합쳐서 Daily/에 저장한다.
 """
-
-from datetime import datetime, timezone
-from pathlib import Path
 
 import ollama
 
@@ -14,7 +12,6 @@ from src.llm.analyzer import AnalyzedItem
 from src.obsidian.embedder import query_similar
 
 _LLM_MODEL = "gemma4:e2b"
-_CURATED_SUBFOLDER = "Curated"
 
 
 def _get_vault_context(company: str, chroma_path: str) -> str:
@@ -55,40 +52,24 @@ def _build_curation_prompt(company: str, context: str, news_lines: str) -> str:
     )
 
 
-def curate(
+def synthesize(
     company: str,
     analyzed: list[AnalyzedItem],
-    vault_path: str | Path,
-    date_str: str | None = None,
-    date_suffix: str = "",
     chroma_path: str = "data/chroma",
-    dry_run: bool = False,
-) -> Path | None:
+) -> str | None:
     """
-    선별된 뉴스를 종합 분석하여 Curated/ 폴더에 저장한다.
+    LLM 합성 텍스트를 반환한다. 파일 쓰기 없음.
+    실패 또는 뉴스 없으면 None 반환.
     """
     if not analyzed:
         return None
 
-    vault = Path(vault_path)
-    if date_str is None:
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    date_str = date_str + date_suffix
-    collected_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-    company_dir = vault / "Companies" / company
-    if not company_dir.exists():
-        print(f"  [skip] '{company}' 폴더 없음")
-        return None
-
-    # 뉴스 목록 직렬화 — 제목 + 관련 근거 포함 (섹터 동향·리스크 판단 품질 향상)
     news_lines = "\n".join(
         f"- {a.item.title} → {a.reason}"
-        for a in analyzed[:30]  # 너무 길면 컨텍스트 초과
+        for a in analyzed[:30]
     )
 
     context = _get_vault_context(company, chroma_path)
-
     prompt = _build_curation_prompt(company, context, news_lines)
 
     print(f"  [curator] {company} — LLM 합성 중...")
@@ -106,42 +87,8 @@ def curate(
         print(f"  [curator] LLM 오류: {e}")
         return None
 
-    synthesis = "".join(parts).strip()
-    if not synthesis:
+    result = "".join(parts).strip()
+    if not result:
         print(f"  [curator] LLM 응답 없음")
         return None
-
-    content = f"""---
-type: curated
-company: "{company}"
-date: {date_str}
-collected: {collected_at}
-news_count: {len(analyzed)}
-tags:
-  - curated
-  - {company}
----
-
-# {company} 큐레이팅 — {date_str}
-
-> 관련 뉴스 {len(analyzed)}건 기반 · {collected_at}
-
-{synthesis}
-
----
-
-*참조: [[{date_str}]] (뉴스 전체 목록)*
-"""
-
-    curated_dir = company_dir / _CURATED_SUBFOLDER
-    note_path = curated_dir / f"{date_str}.md"
-
-    if dry_run:
-        print(f"  [dry-run] {note_path.relative_to(vault)}")
-        print(synthesis[:400])
-        return note_path
-
-    curated_dir.mkdir(exist_ok=True)
-    note_path.write_text(content, encoding="utf-8")
-    print(f"  → {note_path.relative_to(vault)}")
-    return note_path
+    return result

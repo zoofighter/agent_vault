@@ -27,6 +27,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 import fitz   # PyMuPDF
+
+from src.obsidian.company_manager import company_dir as _vault_company_dir
 import ollama
 
 _RESEARCH_URL = "https://finance.naver.com/research/company_list.naver"
@@ -258,7 +260,7 @@ def _resolve_note_path(research_dir: Path, date_str: str, safe_title: str) -> Pa
 
 
 def save_research_note(vault_path: Path, company: str, report: dict, analysis: str) -> Path:
-    research_dir = vault_path / "Companies" / company / "Research"
+    research_dir = _vault_company_dir(vault_path, company) / "Research"
     research_dir.mkdir(parents=True, exist_ok=True)
 
     date_str   = report["date"].replace("-", "")
@@ -337,7 +339,7 @@ def run_batch(
         print(f"[{i}/{len(all_reports)}] {company} — {report['title']}")
 
         # nid 기반 중복 체크 (같은 nid → 파일명이 달라도 건너뜀)
-        research_dir = vault_path / "Companies" / company / "Research"
+        research_dir = _vault_company_dir(vault_path, company) / "Research"
         existing = _find_existing_nid(research_dir, report["nid"])
         if existing:
             print(f"  건너뜀 (이미 존재: {existing.name})")

@@ -25,6 +25,8 @@ from pathlib import Path
 
 import fitz  # PyMuPDF
 
+from src.obsidian.company_manager import company_dir as _vault_company_dir
+
 from src.research.naver_research import (
     _find_existing_nid,
     _parse_date_arg,
@@ -296,7 +298,7 @@ def run_batch(
             print(f"  제외(제목) {company['name']:12} | {report['title'][:50]}")
             continue
 
-        research_dir = vault_path / "Companies" / company["name"] / "Research"
+        research_dir = _vault_company_dir(vault_path, company["name"]) / "Research"
         if _find_existing_nid(research_dir, report["nid"]):
             already += 1
             continue

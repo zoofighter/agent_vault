@@ -1,18 +1,16 @@
 """
 companies.csv를 읽고 Obsidian 볼트에 회사별 폴더 구조를 자동 생성/동기화한다.
 
-CSV 컬럼 (name, ticker 필수 / 나머지 선택):
-  name, ticker, exchange, sector, industry, active, keywords
-
-keywords: 마지막 컬럼, 쉼표 구분 문자열 — 예) "HBM,DRAM,파운드리"
+CSV 컬럼: name, region, ticker, exchange, sector, industry, active, keywords
 
 볼트 구조:
   Companies/
-    삼성전자/
-      삼성전자.md
-      Research/
-      Memos/
-      News/
+    {region}/
+      삼성전자/
+        삼성전자.md
+        Daily/
+        Research/
+        Memos/
 
 사용법:
   python -m src.obsidian.company_manager --vault ./sample_vault
@@ -29,9 +27,39 @@ from src.obsidian.templates import company_note
 
 COMPANIES_CSV = Path(__file__).resolve().parents[2] / "companies.csv"
 COMPANIES_FOLDER = "Companies"
-SUBFOLDERS = ["Research", "Memos", "News"]
+SUBFOLDERS = ["Daily", "Research", "Memos"]
 
-OPTIONAL_FIELDS = ["exchange", "sector", "industry", "active", "keywords"]
+_REGION_MAP: dict[str, str] | None = None
+
+
+def _get_region_map() -> dict[str, str]:
+    global _REGION_MAP
+    if _REGION_MAP is None:
+        mapping: dict[str, str] = {}
+        with open(COMPANIES_CSV, encoding="utf-8", newline="") as f:
+            for row in csv.DictReader(f):
+                name = row.get("name", "").strip()
+                region = row.get("region", "").strip()
+                if name:
+                    mapping[name] = region
+        _REGION_MAP = mapping
+    return _REGION_MAP
+
+
+def get_region(name: str) -> str:
+    """companies.csv에서 기업의 region 코드를 반환한다."""
+    return _get_region_map().get(name, "")
+
+
+def company_dir(vault_path: Path, name: str) -> Path:
+    """
+    기업의 볼트 디렉터리 경로를 반환한다.
+    companies.csv에 region이 없으면 ValueError를 발생시킨다.
+    """
+    region = get_region(name)
+    if not region:
+        raise ValueError(f"Region not found for '{name}' — check companies.csv")
+    return vault_path / COMPANIES_FOLDER / region / name
 
 
 def load_companies(csv_path: Path = COMPANIES_CSV) -> list[dict]:
@@ -43,20 +71,17 @@ def load_companies(csv_path: Path = COMPANIES_CSV) -> list[dict]:
             ticker = row.get("ticker", "").strip()
             if not name:
                 continue
-            # PRIVATE 기업은 ticker 없어도 허용 (뉴스 수집은 가능)
             if not ticker and row.get("exchange", "").strip().upper() != "PRIVATE":
                 continue
 
             company = {"name": name, "ticker": ticker}
-
-            # 선택 필드 — 없거나 빈 값이면 기본값 사용
+            company["region"] = row.get("region", "").strip()
             company["exchange"] = row.get("exchange", "").strip()
             company["sector"] = row.get("sector", "").strip()
             company["industry"] = row.get("industry", "").strip()
             active_raw = row.get("active", "true").strip().lower()
             company["active"] = active_raw not in ("false", "0", "no", "n")
 
-            # keywords: 마지막 컬럼, 쉼표 구분 → 리스트
             kw_raw = row.get("keywords", "").strip()
             company["keywords"] = [k.strip() for k in kw_raw.split(",") if k.strip()]
 
@@ -68,10 +93,6 @@ def active_companies(companies: list[dict]) -> list[dict]:
     return [c for c in companies if c.get("active", True)]
 
 
-def company_dir(vault_path: Path, name: str) -> Path:
-    return vault_path / COMPANIES_FOLDER / name
-
-
 def sync_vault(vault_path: Path, dry_run: bool = False) -> list[str]:
     companies = load_companies()
     created = []
@@ -81,7 +102,11 @@ def sync_vault(vault_path: Path, dry_run: bool = False) -> list[str]:
             continue
 
         name = company["name"]
-        co_dir = company_dir(vault_path, name)
+        try:
+            co_dir = company_dir(vault_path, name)
+        except ValueError as e:
+            print(f"  [warn] {e} — 건너뜀")
+            continue
         note_path = co_dir / f"{name}.md"
 
         if not dry_run:
@@ -100,17 +125,21 @@ def sync_vault(vault_path: Path, dry_run: bool = False) -> list[str]:
 def print_status(vault_path: Path) -> None:
     companies = load_companies()
 
-    print(f"\n{'회사명':<14} {'티커':<8} {'섹터':<16} {'수집':<6} {'폴더':<6} {'프로필'}")
-    print("-" * 70)
+    print(f"\n{'회사명':<16} {'리전':<8} {'티커':<8} {'섹터':<16} {'수집':<6} {'폴더':<6} {'프로필'}")
+    print("-" * 76)
     for c in companies:
         name = c["name"]
+        region = c.get("region", "?")
         ticker = c["ticker"]
         sector = c["sector"] or "-"
         active = "활성" if c["active"] else "중지"
-        co_dir = company_dir(vault_path, name)
+        try:
+            co_dir = company_dir(vault_path, name)
+        except ValueError:
+            co_dir = vault_path / COMPANIES_FOLDER / "?" / name
         folder_status = "있음" if co_dir.exists() else "없음"
         note_status = "있음" if (co_dir / f"{name}.md").exists() else "없음"
-        print(f"{name:<14} {ticker:<8} {sector:<16} {active:<6} {folder_status:<6} {note_status}")
+        print(f"{name:<16} {region:<8} {ticker:<8} {sector:<16} {active:<6} {folder_status:<6} {note_status}")
     print()
 
 

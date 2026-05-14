@@ -21,6 +21,8 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+from src.obsidian.company_manager import company_dir as _vault_company_dir
+
 # naver_research에서 PDF 분석·저장 함수 재사용
 from src.research.naver_research import (
     analyze_pdf_bytes,
@@ -105,7 +107,7 @@ def register_one(
 
     # 이미 등록된 파일 확인 (같은 nid)
     from src.research.naver_research import _find_existing_nid
-    research_dir = vault_path / "Companies" / company_name / "Research"
+    research_dir = _vault_company_dir(vault_path, company_name) / "Research"
     existing = _find_existing_nid(research_dir, nid)
     if existing:
         print(f"  이미 등록됨: {existing.name}")
