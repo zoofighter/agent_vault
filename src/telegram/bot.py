@@ -35,12 +35,12 @@ def _vault() -> Path:
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     text = (
         "*AgentVault Bot 명령 목록*\n\n"
-        "/status — 오늘 Daily 노트 수집 현황\n"
-        "/inbox — Inbox 최근 알림 (기본 5개)\n"
-        "/inbox 10 — 최근 10개\n"
-        "/commander — Commander Agent 즉시 실행\n"
-        "/analyze 삼성전자 — 기업 즉시 분석\n"
-        "/blog 삼성전자 — 블로그 초안 생성\n"
+        "/status (s) — 오늘 Daily 노트 수집 현황\n"
+        "/inbox (i) [n] — Inbox 최근 알림 (기본 5개)\n"
+        "/commander (c) — Commander Agent 즉시 실행\n"
+        "/analyze (a) 삼성전자 — 기업 즉시 분석\n"
+        "/blog (b) 삼성전자 — 블로그 초안 생성\n"
+        "/help (h) — 이 목록\n"
     )
     await update.message.reply_text(text, parse_mode="Markdown")
 
@@ -185,13 +185,13 @@ async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 def run_bot(token: str) -> None:
     app = Application.builder().token(token).build()
-    app.add_handler(CommandHandler("help",      cmd_help))
-    app.add_handler(CommandHandler("start",     cmd_help))
-    app.add_handler(CommandHandler("status",    cmd_status))
-    app.add_handler(CommandHandler("inbox",     cmd_inbox))
-    app.add_handler(CommandHandler("commander", cmd_commander))
-    app.add_handler(CommandHandler("analyze",   cmd_analyze))
-    app.add_handler(CommandHandler("blog",      cmd_blog))
+    app.add_handler(CommandHandler(["help",      "h"],           cmd_help))
+    app.add_handler(CommandHandler("start",                      cmd_help))
+    app.add_handler(CommandHandler(["status",    "s"],           cmd_status))
+    app.add_handler(CommandHandler(["inbox",     "i"],           cmd_inbox))
+    app.add_handler(CommandHandler(["commander", "c"],           cmd_commander))
+    app.add_handler(CommandHandler(["analyze",   "a"],           cmd_analyze))
+    app.add_handler(CommandHandler(["blog",      "b"],           cmd_blog))
     app.add_handler(MessageHandler(filters.COMMAND, unknown))
     print("AgentVault Bot 시작됨 (Ctrl+C로 종료)")
     app.run_polling(drop_pending_updates=True)
