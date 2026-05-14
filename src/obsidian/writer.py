@@ -13,6 +13,15 @@ from src.obsidian.company_manager import company_dir as _company_dir
 DAILY_SUBFOLDER = "Daily"
 
 
+def _recent_daily_links(daily_dir: Path, current_stem: str, n: int = 3) -> list[str]:
+    """current_stem 이전 Daily 노트 wikilink 목록 (최신순)."""
+    notes = sorted(
+        (p for p in daily_dir.glob("*.md") if p.stem != current_stem),
+        reverse=True,
+    )
+    return [f"[[{p.stem}]]" for p in notes[:n]]
+
+
 def _source_label(source: str) -> str:
     return {
         "naver":         "Naver 뉴스",
@@ -100,6 +109,13 @@ tags:
     return header + synthesis_block + news_header + "\n".join(sections)
 
 
+def _build_footer(daily_dir: Path, date_str: str) -> str:
+    links = _recent_daily_links(daily_dir, date_str)
+    if not links:
+        return ""
+    return "\n---\n\n**이전 노트**: " + " · ".join(links) + "\n"
+
+
 def write_daily(
     company: str,
     analyzed: list[AnalyzedItem],
@@ -132,6 +148,8 @@ def write_daily(
     note_path = daily_dir / f"{date_str}.md"
 
     content = _build_daily_note(company, date_str, analyzed, collected_at, synthesis)
+    footer = _build_footer(daily_dir, date_str)
+    content += footer
 
     if dry_run:
         print(f"  [dry-run] {note_path.relative_to(vault)}")

@@ -91,6 +91,19 @@ def _scan_pdfs(scan_dir: Path, days: int = _SCAN_DAYS) -> list[Path]:
 
 # ── 등록 핵심 로직 ────────────────────────────────────────────────────────────
 
+def _archive_pdf(pdf_path: Path, report_date: str) -> Path | None:
+    """처리 완료된 PDF를 {부모폴더}/archive/{YYYY-MM}/ 로 이동"""
+    yearmonth = report_date[:7]  # "2026-05"
+    archive_dir = pdf_path.parent / "archive" / yearmonth
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    dest = archive_dir / pdf_path.name
+    # 동명 파일이 있으면 덮어쓰지 않고 suffix 붙임
+    if dest.exists():
+        dest = archive_dir / f"{pdf_path.stem}_dup{pdf_path.suffix}"
+    pdf_path.rename(dest)
+    return dest
+
+
 def register_one(
     vault_path: Path,
     pdf_path: Path,
@@ -99,6 +112,7 @@ def register_one(
     title: str | None = None,
     date: str | None = None,
     broker: str = "자체수집",
+    archive_after: bool = True,
 ) -> Path | None:
     ticker = companies.get(company_name, "")
     report_title = title or _clean_title(pdf_path.stem)
@@ -137,6 +151,11 @@ def register_one(
 
     saved = save_research_note(vault_path, company_name, report, analysis)
     print(f"  저장: {saved.relative_to(vault_path)}")
+
+    if archive_after and pdf_path.exists():
+        archived = _archive_pdf(pdf_path, report_date)
+        print(f"  아카이브: {archived.relative_to(pdf_path.parent.parent)}")
+
     return saved
 
 

@@ -1,6 +1,8 @@
-# 자동 생성 파일
+# 자동 생성 파일 (Daily + Archive)
 agent_vault/Companies/*/Daily/
 agent_vault/Companies/*/*/Daily/
+agent_vault/Companies/*/Archive/
+agent_vault/Companies/*/*/Archive/
 
 # 캐시 / 데이터
 data/chroma/
@@ -19,4 +21,5 @@ __pycache__/
 logs/*.log
 
 # 다운로드
-download/
+report_download/
+

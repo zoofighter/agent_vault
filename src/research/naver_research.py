@@ -268,7 +268,17 @@ def save_research_note(vault_path: Path, company: str, report: dict, analysis: s
     path       = _resolve_note_path(research_dir, date_str, safe_title)
 
     broker_line = f"> - **증권사**: {report['broker']}\n" if report.get("broker") else ""
+    broker_label = f" · {report['broker']}" if report.get("broker") else ""
     source = report.get("source", "네이버금융 리서치")
+
+    # Extract key sections for quick summary in Research note header
+    summary_line = ""
+    for line in analysis.splitlines():
+        line = line.strip()
+        if line and not line.startswith("#") and len(line) > 20:
+            summary_line = line[:120]
+            break
+
     content = (
         f"---\n"
         f"title: \"{report['title']}\"\n"
@@ -284,14 +294,29 @@ def save_research_note(vault_path: Path, company: str, report: dict, analysis: s
         f"---\n\n"
         f"# {report['title']}\n\n"
         f"> [!info] 리포트 정보\n"
-        f"> - **종목**: {company} ({report['ticker']})\n"
+        f"> - **종목**: [[{company}]] ({report['ticker']})\n"
         f"> - **날짜**: {report['date']}\n"
         f"{broker_line}"
-        f"> - **원문**: [PDF]({report['pdf_url']})\n\n"
+        f"> - **출처**: {source}\n"
+        f"> - **원문**: [PDF 보기]({report['pdf_url']})\n\n"
         f"---\n\n"
         f"{analysis}\n"
     )
     path.write_text(content, encoding="utf-8")
+
+    # Inbox 알림 (Research 노트 신규 저장 시)
+    try:
+        from src.obsidian.digest import append_record
+        title = f"리포트 저장 — {company} : {report['title'][:45]}"
+        body = (
+            f"**날짜**: {report['date']}{broker_label}\n"
+            f"**요약**: {summary_line}\n\n"
+            f"**파일**: [[{path.stem}]]"
+        )
+        append_record(vault_path, title, body, level="info")
+    except Exception:
+        pass
+
     return path
 
 

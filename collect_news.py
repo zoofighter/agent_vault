@@ -124,9 +124,15 @@ def main():
     written_paths = []
     ex_map = _exchange_map()
 
+    errors: list[str] = []        # (company, reason)
+    zero_news: list[str] = []     # 뉴스 0건 기업
+
     for name in names:
         items_for = [i for i in all_items if i.company == name]
         print(f"\n[{name}] {len(items_for)}건 분석 중...")
+
+        if not items_for:
+            zero_news.append(name)
 
         threshold = 0.75 if ex_map.get(name) == "KRX" else 0.95
         analyzed = analyze(items_for, company=name,
@@ -139,6 +145,8 @@ def main():
             analyzed=analyzed,
             chroma_path=CHROMA_PATH,
         )
+        if analyzed and synthesis_text is None:
+            errors.append(f"{name}: LLM 합성 실패")
 
         # Daily/ 단일 파일로 저장 (종합분석 + 뉴스목록)
         daily_path = write_daily(
@@ -151,6 +159,8 @@ def main():
         )
         if daily_path:
             written_paths.append(daily_path)
+        elif not args.dry_run:
+            errors.append(f"{name}: Daily 노트 저장 실패")
 
     # ── 결과 요약 ─────────────────────────────────────────────────────
     print(f"\n{'='*50}")
@@ -160,6 +170,31 @@ def main():
         print(f"완료: {len(written_paths)}개 파일 저장")
         for p in written_paths:
             print(f"  {p.relative_to(vault)}")
+
+    # ── Inbox 에러 리포트 ──────────────────────────────────────────────
+    if not args.dry_run and (errors or zero_news):
+        try:
+            from src.obsidian.digest import append_record
+            from datetime import datetime as _dt, timezone as _tz
+            date_label = _dt.now(_tz.utc).strftime("%Y-%m-%d")
+            body_lines = []
+            if errors:
+                body_lines.append("**오류 항목**:")
+                body_lines.extend(f"- {e}" for e in errors)
+            if zero_news:
+                body_lines.append("")
+                body_lines.append(f"**뉴스 0건 기업**: {', '.join(zero_news)}")
+            body_lines.append("")
+            body_lines.append(f"**정상 저장**: {len(written_paths)}/{len(names)}개")
+            alert_title = f"파이프라인 경고 — {date_label} ({len(errors)}건 오류)"
+            alert_body = "\n".join(body_lines)
+            alert_level = "error" if errors else "warning"
+            append_record(vault, alert_title, alert_body, level=alert_level)
+            from src.telegram.sender import send_alert
+            send_alert(alert_title, alert_body, level=alert_level)
+            print(f"  [digest+tg] 에러 리포트 기록 완료")
+        except Exception as e:
+            print(f"  [digest] 기록 실패: {e}")
 
 
 if __name__ == '__main__':
