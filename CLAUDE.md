@@ -48,6 +48,11 @@ Research Agent → 증권사 PDF 수집·요약
 | `src/content/` | Content Writer Agent — Daily → 블로그/유튜브 초안 | ✅ |
 | `run_commander.py` | Commander Agent CLI | ✅ |
 | `run_content.py` | Content Writer Agent CLI | ✅ |
+| `run_briefing.py` | Briefing Agent — 대화체 브리핑 → Telegram 전송 | ✅ |
+| `run_telegram_bot.py` | Telegram Bot — 양방향 명령 인터페이스 | ✅ |
+| `archive_daily.sh` | 30일 이상 Daily 노트 Archive/ 폴더로 이동 | ✅ |
+| `src/telegram/` | Telegram 단방향 전송 + Bot 핸들러 | ✅ |
+| `src/obsidian/digest.py` | Digest/{date}.md 기록 헬퍼 | ✅ |
 
 ## 기업 관리
 

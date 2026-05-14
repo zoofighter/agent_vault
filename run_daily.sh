@@ -45,7 +45,14 @@ PYTHONUNBUFFERED=1 "$PYTHON" -m src.research.naver_industry \
 INDUSTRY_EXIT=$?
 echo "--- [해외 리서치 완료] exit: $INDUSTRY_EXIT ---" >> "$LOG_FILE"
 
-echo "=== $(date '+%Y-%m-%d %H:%M:%S') 종료 (뉴스: $NEWS_EXIT / KRX리서치: $RESEARCH_EXIT / 해외리서치: $INDUSTRY_EXIT) ===" >> "$LOG_FILE"
+# Phase 4: Commander Agent (Daily 분석 → Telegram 액션 명령)
+echo "--- [Commander] $(date '+%H:%M:%S') ---" >> "$LOG_FILE"
+PYTHONUNBUFFERED=1 "$PYTHON" run_commander.py \
+    --vault "$VAULT" --date "$TODAY" --max 3 >> "$LOG_FILE" 2>&1
+COMMANDER_EXIT=$?
+echo "--- [Commander 완료] exit: $COMMANDER_EXIT ---" >> "$LOG_FILE"
+
+echo "=== $(date '+%Y-%m-%d %H:%M:%S') 종료 (뉴스: $NEWS_EXIT / KRX리서치: $RESEARCH_EXIT / 해외리서치: $INDUSTRY_EXIT / Commander: $COMMANDER_EXIT) ===" >> "$LOG_FILE"
 
 # 30일 이상 된 로그 삭제
 find "$LOG_DIR" -name "*.log" -mtime +30 -delete
