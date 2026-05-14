@@ -1,16 +1,23 @@
 import time
+import concurrent.futures
 from ddgs import DDGS
 from .base import BaseSource, NewsItem
 
 # DDG timelimit: 'd'=1일, 'w'=1주, 'm'=1달
 _TIMELIMIT = {1: 'd', 7: 'w', 30: 'm'}
+_REQUEST_TIMEOUT = 15   # DDGS HTTP 타임아웃 (초)
+_CALL_TIMEOUT   = 20   # 전체 호출 타임아웃 (초) — 라이브러리 행업 방어
 
 
 def _parse_date(raw: str | None) -> str | None:
-    """ISO timestamp → 'YYYY-MM-DD' 변환, 실패 시 None"""
     if not raw:
         return None
     return raw[:10] if len(raw) >= 10 else raw
+
+
+def _do_search(query: str, max_results: int, timelimit: str) -> list[dict]:
+    with DDGS(timeout=_REQUEST_TIMEOUT) as ddgs:
+        return list(ddgs.news(query, max_results=max_results, timelimit=timelimit))
 
 
 class DuckDuckGoSource(BaseSource):
@@ -25,18 +32,23 @@ class DuckDuckGoSource(BaseSource):
 
         for attempt in range(self.max_retries + 1):
             try:
-                with DDGS() as ddgs:
-                    for r in ddgs.news(query, max_results=self.max_results, timelimit=timelimit):
-                        items.append(NewsItem(
-                            title=r.get('title', ''),
-                            url=r.get('url', ''),
-                            snippet=r.get('body', ''),
-                            source='duckduckgo',
-                            company=company,
-                            query=query,
-                            published=_parse_date(r.get('date')),
-                        ))
-                break  # 성공
+                with concurrent.futures.ThreadPoolExecutor(max_workers=1) as ex:
+                    future = ex.submit(_do_search, query, self.max_results, timelimit)
+                    results = future.result(timeout=_CALL_TIMEOUT)
+                for r in results:
+                    items.append(NewsItem(
+                        title=r.get('title', ''),
+                        url=r.get('url', ''),
+                        snippet=r.get('body', ''),
+                        source='duckduckgo',
+                        company=company,
+                        query=query,
+                        published=_parse_date(r.get('date')),
+                    ))
+                break
+            except concurrent.futures.TimeoutError:
+                print(f"  [DDG] '{query}' 타임아웃 ({_CALL_TIMEOUT}s) — 스킵")
+                break
             except Exception as e:
                 if '403' in str(e) and attempt < self.max_retries:
                     wait = self.delay * (attempt + 2)

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Companies/Super Micro/Super Micro.md",
+                "file": "Companies/Google/Research/20250910_구글_분석.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Super Micro"
+              "title": "20250910_구글_분석"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Companies/Super Micro/Super Micro.md",
+                "file": "Companies/Google/Research/20250910_구글_분석.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Super Micro"
+              "title": "Backlinks for 20250910_구글_분석"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Companies/Super Micro/Super Micro.md",
+                "file": "Companies/Google/Research/20250910_구글_분석.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Super Micro"
+              "title": "Outgoing links from 20250910_구글_분석"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Companies/Super Micro/Super Micro.md",
+                "file": "Companies/Google/Research/20250910_구글_분석.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of Super Micro"
+              "title": "Outline of 20250910_구글_분석"
             }
           }
         ]
@@ -185,13 +185,41 @@
   },
   "active": "004766171a3396b0",
   "lastOpenFiles": [
-    "Companies/Alphabet/Curated/2026-05-13.md",
-    "Companies/Berkshire Hathaway/Curated/2026-05-13.md",
-    "Companies/Intel/Curated/2026-05-13.md",
-    "Companies/Intel/News/2026-05-13.md",
-    "Companies/Intel/Intel.md",
-    "Companies/삼성전자/News/2026-05-13.md",
-    "Companies/삼성전자/Memos/삼성전자_매수근거_20260501.md",
-    "Companies/삼성전자/삼성전자.md"
+    "Companies/Tokyo Electron/Curated/2026-05-14.md",
+    "Companies/Tokyo Electron/Curated",
+    "Companies/Tokyo Electron/News/2026-05-14.md",
+    "Companies/Kioxia/Curated/2026-05-14.md",
+    "Companies/Kioxia/Curated",
+    "Companies/Kioxia/News/2026-05-14.md",
+    "Companies/SoftBank/Curated/2026-05-14.md",
+    "Companies/SoftBank/Curated",
+    "Companies/SoftBank/News/2026-05-14.md",
+    "Companies/Nanya/Curated/2026-05-14.md",
+    "Companies/Nanya/Curated",
+    "Companies/Nanya/News/2026-05-14.md",
+    "Companies/MediaTek/Curated/2026-05-14.md",
+    "Companies/MediaTek/Curated",
+    "Companies/MediaTek/News/2026-05-14.md",
+    "Companies/Delta Electronics/Curated/2026-05-14.md",
+    "Companies/Delta Electronics/Curated",
+    "Companies/Delta Electronics/News/2026-05-14.md",
+    "Companies/Xiaomi/Curated/2026-05-14.md",
+    "Companies/Xiaomi/Curated",
+    "Companies/Xiaomi/News/2026-05-14.md",
+    "Companies/BYD/Curated/2026-05-14.md",
+    "Companies/BYD/Curated",
+    "Companies/BYD/News/2026-05-14.md",
+    "Companies/CATL/Curated/2026-05-14.md",
+    "Companies/CATL/Curated",
+    "Companies/CATL/News/2026-05-14.md",
+    "Companies/Alibaba/Curated/2026-05-14.md",
+    "Companies/Alibaba/Curated",
+    "Companies/Alibaba/News/2026-05-14.md",
+    "Companies/Tencent/Curated/2026-05-14.md",
+    "Companies/Tencent/News/2026-05-14.md",
+    "Companies/Tokyo Electron/Tokyo Electron.md",
+    "Companies/Kioxia/Kioxia.md",
+    "Companies/SoftBank/SoftBank.md",
+    "Companies/Nanya/Nanya.md"
   ]
 }
