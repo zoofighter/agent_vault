@@ -10,7 +10,7 @@ import json
 from pathlib import Path
 
 _STATE_FILE = "data/index_state.json"
-_SKIP_DIRS = {"News", "Curated", "Daily", "Archive", ".obsidian", "__pycache__"}
+_SKIP_DIRS = {"News", "Curated", "Daily", "Archive", "Digest", "Content", ".obsidian", "__pycache__"}
 
 
 def _md5(path: Path) -> str:
