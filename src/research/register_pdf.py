@@ -6,12 +6,12 @@
   2. 폴더 스캔:  --scan [--dir ~/Downloads]  (PDF 목록 보여주고 대화식 선택)
 
 사용:
-  python -m src.research.register_pdf --vault ./sample_vault \\
+  python -m src.research.register_pdf --vault ./agent_vault \\
       --pdf ~/Downloads/samsung_report.pdf --company 삼성전자
 
-  python -m src.research.register_pdf --vault ./sample_vault --scan
+  python -m src.research.register_pdf --vault ./agent_vault --scan
 
-  python -m src.research.register_pdf --vault ./sample_vault --scan --dir ~/Downloads
+  python -m src.research.register_pdf --vault ./agent_vault --scan --dir ~/Downloads
 """
 
 import argparse

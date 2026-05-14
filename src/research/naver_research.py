@@ -3,16 +3,16 @@
 
 사용:
   # 오늘 리포트
-  python -m src.research.naver_research --vault ./sample_vault --date today
+  python -m src.research.naver_research --vault ./agent_vault --date today
 
   # 특정 날짜
-  python -m src.research.naver_research --vault ./sample_vault --date 2026-05-13
+  python -m src.research.naver_research --vault ./agent_vault --date 2026-05-13
 
   # 날짜 범위
-  python -m src.research.naver_research --vault ./sample_vault --from 2026-05-01 --to 2026-05-13
+  python -m src.research.naver_research --vault ./agent_vault --from 2026-05-01 --to 2026-05-13
 
   # 특정 기업만
-  python -m src.research.naver_research --vault ./sample_vault --date today --company 삼성전자
+  python -m src.research.naver_research --vault ./agent_vault --date today --company 삼성전자
 """
 
 import argparse

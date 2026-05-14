@@ -18,9 +18,9 @@ URL: https://finance.naver.com/research/company_list.naver
 
 ```bash
 # 날짜 지정 실행
-python -m src.research.naver_research --vault ./sample_vault --date today
-python -m src.research.naver_research --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
-python -m src.research.naver_research --vault ./sample_vault --date today --company 삼성전자
+python -m src.research.naver_research --vault ./agent_vault --date today
+python -m src.research.naver_research --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
+python -m src.research.naver_research --vault ./agent_vault --date today --company 삼성전자
 ```
 
 ## 소스 2 — 미국 기업: industry_list 키워드 검색
@@ -32,9 +32,9 @@ URL: https://finance.naver.com/research/industry_list.naver
 
 ```bash
 # 날짜 지정 실행
-python -m src.research.naver_industry --vault ./sample_vault --date today
-python -m src.research.naver_industry --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
-python -m src.research.naver_industry --vault ./sample_vault --date today --company NVIDIA
+python -m src.research.naver_industry --vault ./agent_vault --date today
+python -m src.research.naver_industry --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
+python -m src.research.naver_industry --vault ./agent_vault --date today --company NVIDIA
 ```
 
 ### 검색 전략
@@ -55,11 +55,11 @@ URL: 로컬 파일 (Downloads 등)
 
 ```bash
 # 직접 지정
-python -m src.research.register_pdf --vault ./sample_vault \
+python -m src.research.register_pdf --vault ./agent_vault \
     --pdf ~/Downloads/report.pdf --company NVIDIA
 
 # 폴더 스캔 후 대화식 선택
-python -m src.research.register_pdf --vault ./sample_vault --scan
+python -m src.research.register_pdf --vault ./agent_vault --scan
 ```
 
 ## 파일 저장 규칙

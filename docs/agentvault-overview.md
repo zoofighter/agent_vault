@@ -1,6 +1,7 @@
 ---
-title: AgentVault — 시스템 개요
-type: system-doc
+title: AgentVault — 에이전트 구조 개요
+type: intro-doc
+audience: 외부 설명용
 created: 2026-05-14
 ---
 

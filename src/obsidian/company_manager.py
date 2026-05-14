@@ -13,9 +13,9 @@ CSV 컬럼: name, region, ticker, exchange, sector, industry, active, keywords
         Memos/
 
 사용법:
-  python -m src.obsidian.company_manager --vault ./sample_vault
-  python -m src.obsidian.company_manager --vault ./sample_vault --status
-  python -m src.obsidian.company_manager --vault ./sample_vault --dry-run
+  python -m src.obsidian.company_manager --vault ./agent_vault
+  python -m src.obsidian.company_manager --vault ./agent_vault --status
+  python -m src.obsidian.company_manager --vault ./agent_vault --dry-run
 """
 
 import argparse

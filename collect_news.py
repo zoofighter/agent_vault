@@ -5,7 +5,7 @@
 사용법:
     python collect_news.py
     python collect_news.py --companies "삼성전자,현대차" --days 3
-    python collect_news.py --vault ./sample_vault --dry-run
+    python collect_news.py --vault ./agent_vault --dry-run
 """
 
 import argparse
@@ -32,7 +32,7 @@ from src.llm.curator import synthesize
 from src.obsidian.writer import write_daily
 
 DEFAULT_COMPANIES = "삼성전자,Google,현대차,SK하이닉스"
-DEFAULT_VAULT = Path(__file__).parent / "sample_vault"
+DEFAULT_VAULT = Path(__file__).parent / "agent_vault"
 CHROMA_PATH = "data/chroma"
 COMPANIES_CSV = Path(__file__).parent / "companies.csv"
 

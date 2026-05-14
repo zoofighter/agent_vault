@@ -1,0 +1,22 @@
+# 자동 생성 파일
+agent_vault/Companies/*/Daily/
+agent_vault/Companies/*/*/Daily/
+
+# 캐시 / 데이터
+data/chroma/
+data/index_state.json
+data/yahoo_cache/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+
+# 환경 설정
+.env
+*.env
+
+# 로그
+logs/*.log
+
+# 다운로드
+download/

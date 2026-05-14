@@ -79,15 +79,15 @@ URL 형식: `https://news.google.com/rss/search?q={query}&hl={lang}-{country}&gl
 
 ```bash
 # 전체 기업 뉴스 수집
-/opt/anaconda3/bin/python collect_news.py --all --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --all --vault ./agent_vault
 
 # 특정 기업만
-/opt/anaconda3/bin/python collect_news.py --companies "CATL,BYD,Tencent" --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --companies "CATL,BYD,Tencent" --vault ./agent_vault
 
 # 신규 기업 그룹
 /opt/anaconda3/bin/python collect_news.py \
   --companies "Tencent,Alibaba,CATL,BYD,Xiaomi,Delta Electronics,MediaTek,Nanya,SoftBank,Kioxia,Tokyo Electron" \
-  --vault ./sample_vault
+  --vault ./agent_vault
 ```
 
 ## 네이버금융 리서치 리포트 (별도 모듈)
@@ -96,13 +96,13 @@ URL 형식: `https://news.google.com/rss/search?q={query}&hl={lang}-{country}&gl
 
 ```bash
 # 한국 기업 리서치 (KRX)
-python -m src.research.naver_research --vault ./sample_vault --date today
+python -m src.research.naver_research --vault ./agent_vault --date today
 
 # 해외 기업 리서치 (산업분석 리포트)
-python -m src.research.naver_industry --vault ./sample_vault --date today
+python -m src.research.naver_industry --vault ./agent_vault --date today
 
 # 해당 기간 전체 실행
-python -m src.research.naver_industry --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
+python -m src.research.naver_industry --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
 ```
 
 ### 리서치 필터 설정 (naver_industry.py)

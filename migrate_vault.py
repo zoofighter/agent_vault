@@ -9,8 +9,8 @@ Companies/{company}/ → Companies/{region}/{company}/
 (경로 변경으로 다음 실행 시 전체 재인덱스 필요).
 
 사용법:
-  python migrate_vault.py --vault ./sample_vault --dry-run
-  python migrate_vault.py --vault ./sample_vault
+  python migrate_vault.py --vault ./agent_vault --dry-run
+  python migrate_vault.py --vault ./agent_vault
 """
 
 import argparse

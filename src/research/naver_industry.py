@@ -7,9 +7,9 @@
   3. 기업 키워드 포함 확인된 것만 → LLM 요약 → 저장
 
 사용:
-  python -m src.research.naver_industry --vault ./sample_vault --date today
-  python -m src.research.naver_industry --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
-  python -m src.research.naver_industry --vault ./sample_vault --date today --company NVIDIA
+  python -m src.research.naver_industry --vault ./agent_vault --date today
+  python -m src.research.naver_industry --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
+  python -m src.research.naver_industry --vault ./agent_vault --date today --company NVIDIA
 """
 
 import argparse

@@ -4,7 +4,7 @@
 
 PROJECT_DIR="/Users/boon/Dropbox/03_code/a_0512_obs_news_update"
 PYTHON="/opt/anaconda3/bin/python"
-VAULT="$PROJECT_DIR/sample_vault"
+VAULT="$PROJECT_DIR/agent_vault"
 LOG_DIR="$PROJECT_DIR/logs"
 
 # 실행 순서 suffix: 오늘 로그가 없으면 a, a 있으면 b, 둘 다 있으면 c

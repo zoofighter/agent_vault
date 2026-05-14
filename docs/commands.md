@@ -46,7 +46,7 @@ tail -f logs/$(date +%Y-%m-%d).log
 `run_daily.sh`가 실행하는 내용:
 
 ```bash
-/opt/anaconda3/bin/python collect_news.py --all --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --all --vault ./agent_vault
 ```
 
 ---
@@ -57,31 +57,31 @@ tail -f logs/$(date +%Y-%m-%d).log
 
 ```bash
 # 전체 기업 수집 (companies.csv의 active=true 항목)
-PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sample_vault
+PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./agent_vault
 
 # 특정 기업만
 /opt/anaconda3/bin/python collect_news.py \
   --companies "삼성전자,NVIDIA,Apple" \
-  --vault ./sample_vault
+  --vault ./agent_vault
 
 # 신규 기업 그룹 (처음 추가한 11개 기업)
 /opt/anaconda3/bin/python collect_news.py \
   --companies "Tencent,Alibaba,CATL,BYD,Xiaomi,Delta Electronics,MediaTek,Nanya,SoftBank,Kioxia,Tokyo Electron" \
-  --vault ./sample_vault
+  --vault ./agent_vault
 
 # 수집 기간 변경 (기본 7일)
-/opt/anaconda3/bin/python collect_news.py --all --days 3 --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --all --days 3 --vault ./agent_vault
 
 # 볼트 재인덱싱 건너뜀 (빠른 재실행, 볼트 파일이 바뀌지 않았을 때)
-/opt/anaconda3/bin/python collect_news.py --all --skip-index --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --all --skip-index --vault ./agent_vault
 
 # 실제 저장 없이 미리보기
-/opt/anaconda3/bin/python collect_news.py --all --dry-run --vault ./sample_vault
+/opt/anaconda3/bin/python collect_news.py --all --dry-run --vault ./agent_vault
 ```
 
 출력 파일:
-- `sample_vault/Companies/{기업명}/News/YYYY-MM-DD.md` — 수집된 뉴스 목록
-- `sample_vault/Companies/{기업명}/Curated/YYYY-MM-DD.md` — LLM 테마 분석
+- `agent_vault/Companies/{기업명}/News/YYYY-MM-DD.md` — 수집된 뉴스 목록
+- `agent_vault/Companies/{기업명}/Curated/YYYY-MM-DD.md` — LLM 테마 분석
 
 ---
 
@@ -92,22 +92,22 @@ PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sam
 ```bash
 # 오늘 리포트
 /opt/anaconda3/bin/python -m src.research.naver_research \
-  --vault ./sample_vault --date today
+  --vault ./agent_vault --date today
 
 # 특정 날짜
 /opt/anaconda3/bin/python -m src.research.naver_research \
-  --vault ./sample_vault --date 2026-05-13
+  --vault ./agent_vault --date 2026-05-13
 
 # 날짜 범위
 /opt/anaconda3/bin/python -m src.research.naver_research \
-  --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
+  --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
 
 # 특정 기업만
 /opt/anaconda3/bin/python -m src.research.naver_research \
-  --vault ./sample_vault --date today --company 삼성전자
+  --vault ./agent_vault --date today --company 삼성전자
 ```
 
-출력 파일: `sample_vault/Companies/{기업명}/Research/YYYYMMDD_{제목}.md`
+출력 파일: `agent_vault/Companies/{기업명}/Research/YYYYMMDD_{제목}.md`
 
 ---
 
@@ -118,22 +118,22 @@ PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sam
 ```bash
 # 오늘 리포트
 /opt/anaconda3/bin/python -m src.research.naver_industry \
-  --vault ./sample_vault --date today
+  --vault ./agent_vault --date today
 
 # 날짜 범위
 /opt/anaconda3/bin/python -m src.research.naver_industry \
-  --vault ./sample_vault --from 2026-05-01 --to 2026-05-14
+  --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
 
 # 특정 기업만
 /opt/anaconda3/bin/python -m src.research.naver_industry \
-  --vault ./sample_vault --date today --company NVIDIA
+  --vault ./agent_vault --date today --company NVIDIA
 ```
 
 필터 설정 (`src/research/naver_industry.py`):
 - `_MIN_KW_COUNT = 3` — PDF 내 키워드 최소 출현 횟수
 - `_WHOLE_WORD_KEYWORDS` — 단어 경계 매칭 적용 대상: `ARM, META, AI, 애플`
 
-출력 파일: `sample_vault/Companies/{기업명}/Research/YYYYMMDD_{제목}.md`
+출력 파일: `agent_vault/Companies/{기업명}/Research/YYYYMMDD_{제목}.md`
 
 ---
 
@@ -144,17 +144,17 @@ PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sam
 ```bash
 # 파일 직접 지정
 /opt/anaconda3/bin/python -m src.research.register_pdf \
-  --vault ./sample_vault \
+  --vault ./agent_vault \
   --pdf ~/Downloads/samsung_report.pdf \
   --company 삼성전자
 
 # Downloads 폴더 스캔 (대화식 선택)
 /opt/anaconda3/bin/python -m src.research.register_pdf \
-  --vault ./sample_vault --scan
+  --vault ./agent_vault --scan
 
 # 특정 폴더 스캔
 /opt/anaconda3/bin/python -m src.research.register_pdf \
-  --vault ./sample_vault --scan --dir ~/Downloads
+  --vault ./agent_vault --scan --dir ~/Downloads
 ```
 
 ---
@@ -165,13 +165,13 @@ PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sam
 
 ```bash
 # 동기화 실행 (신규 기업 폴더/파일 자동 생성, 기존 파일 보호)
-/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./sample_vault
+/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./agent_vault
 
 # 현황 확인
-/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./sample_vault --status
+/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./agent_vault --status
 
 # 변경 없이 미리보기
-/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./sample_vault --dry-run
+/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./agent_vault --dry-run
 ```
 
 ---
@@ -184,12 +184,12 @@ PYTHONUNBUFFERED=1 /opt/anaconda3/bin/python collect_news.py --all --vault ./sam
 # 1. companies.csv 편집 (name, exchange, ticker, keywords 추가)
 
 # 2. 볼트 폴더 생성
-/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./sample_vault
+/opt/anaconda3/bin/python -m src.obsidian.company_manager --vault ./agent_vault
 
 # 3. 뉴스 수집
 /opt/anaconda3/bin/python collect_news.py \
   --companies "신규기업1,신규기업2" \
-  --vault ./sample_vault --skip-index
+  --vault ./agent_vault --skip-index
 ```
 
 ---
