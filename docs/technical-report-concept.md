@@ -155,3 +155,25 @@ if "GLP-1" in theme_surge:
 - [technical-report-requirements.md](technical-report-requirements.md) — 상세 요건정의서
 - [langgraph-knowledge-agent.md](langgraph-knowledge-agent.md) — LangGraph 설계
 - [proactive-telegram.md](proactive-telegram.md) — Telegram 전송 설계
+\
+
+
+
+
+섹터핵심 질문추천 소스 연동에너지 (신재생 & 그리드)데이터센터 전력 병목을 어떻게 해결하는가, SMR 및 ESS의 경제성BloombergNEF, IEA, Ember로보틱스Physical AI의 구현 수준, 액추에이터 및 센서 공급망, 휴머노이드 상용화arXiv (Robotics), IEEE Spectrum, IFR우주 & 방산저궤도 위성 통신(LEO) 경쟁, 위성 데이터 활용, 무인 무기 체계Euroconsult, Spacenews, Defense News양자 컴퓨팅Qubit 확장성 및 오류 수정 기술, 포스트 양자 암호(PQC) 이행 시점arXiv (Quantum Physics), QuEra, IonQ IR
+
+에너지/전력
+AI 전력 수요, 원전·가스·ESS·전력망 증설
+
+
+에너지·전력: AI 전력 수요, 원전·가스·ESS·전력망 증설
+반도체: AI 반도체 선단공정, 패키징, 레거시 공정 노후화
+바이오: 신약 임상 단계, 투자의학, CDMO/CMO 업황
+헬스케어: 의료기기 신기술, 디지털 헬스, 노령화와 보험·수가
+디스플레이: QD/OLED 기술 전환, MicroLED·폴더블 경쟁
+2차전지: 양극재/음극재/전해질 업황 및 기술 경쟁
+자동차: 전동화 전환, 자율주행(ADAS/FSD), SDV
+우주·방산: LEO 위성 통신, 우주 데이터·서비스, 무인 체계
+양자 컴퓨팅: qubit 경쟁, PQC 전환 사이클
+로보틱스: 휴머노이드 상용화, 액추에이터·센서 공급망
+

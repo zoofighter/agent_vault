@@ -184,3 +184,6 @@ LangGraph 그래프 내에 NewsScout 노드를 추가해서
 - [proactive-telegram.md](proactive-telegram.md) — 현재 Commander + Briefing 설계
 - [commander-telegram-flow.md](commander-telegram-flow.md) — Commander 메시지 흐름 상세
 - [system-overview.md](system-overview.md) — 전체 시스템 개요
+
+
+주식투자를 위한 테크니컬 보고서 (ai, 반도체, 바이오, 헬스케어, 디스플레이, 2차전지, 자동차)
