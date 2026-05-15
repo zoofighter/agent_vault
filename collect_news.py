@@ -47,6 +47,12 @@ def _exchange_map() -> dict[str, str]:
         return {r["name"]: r.get("exchange", "") for r in csv.DictReader(f)}
 
 
+def _keywords_map() -> dict[str, str]:
+    """name → keywords (companies.csv의 keywords 컬럼)"""
+    with open(COMPANIES_CSV, encoding="utf-8") as f:
+        return {r["name"]: r.get("keywords", "") for r in csv.DictReader(f)}
+
+
 def main():
     parser = argparse.ArgumentParser(description="Obsidian 뉴스 수집기")
     parser.add_argument('--companies', default=DEFAULT_COMPANIES)
@@ -126,6 +132,7 @@ def main():
 
     errors: list[str] = []        # (company, reason)
     zero_news: list[str] = []     # 뉴스 0건 기업
+    kw_map = _keywords_map()
 
     for name in names:
         items_for = [i for i in all_items if i.company == name]
@@ -134,9 +141,11 @@ def main():
         if not items_for:
             zero_news.append(name)
 
-        threshold = 0.75 if ex_map.get(name) == "KRX" else 0.95
+        # bge-m3 기준: KRX 0.55 / 비KRX 0.60 (nomic 시절 0.75/0.95에서 조정)
+        threshold = 0.55 if ex_map.get(name) == "KRX" else 0.60
         analyzed = analyze(items_for, company=name,
-                           sim_threshold=threshold, chroma_path=CHROMA_PATH)
+                           sim_threshold=threshold, chroma_path=CHROMA_PATH,
+                           company_keywords=kw_map.get(name, ""))
         print(f"  → 관련 뉴스 {len(analyzed)}건 선별")
 
         # LLM 종합 분석 (실패 시 None → 뉴스 목록만 저장)

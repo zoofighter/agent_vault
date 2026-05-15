@@ -91,6 +91,7 @@ def analyze(
     company: str,
     sim_threshold: float = _SIM_THRESHOLD,
     chroma_path: str = "data/chroma",
+    company_keywords: str = "",
 ) -> list[AnalyzedItem]:
     """
     뉴스 목록을 벡터 유사도로 필터링하고 LLM 근거를 생성한다.
@@ -124,7 +125,7 @@ def analyze(
             if any(p in lower for p in junk_patterns):
                 continue
 
-        query_text = f"{item.title} {item.snippet or ''}"
+        query_text = f"{item.title} {item.snippet or ''}".strip()
         similar = query_similar(query_text, n_results=_TOP_K,
                                 chroma_path=chroma_path, company_filter=company)
 
@@ -133,7 +134,14 @@ def analyze(
             continue
 
         best = similar[0]
-        if best["distance"] > sim_threshold:
+        # 키워드가 뉴스에 등장하면 임계값을 +0.07 확장 (간접 관련 뉴스 포용)
+        effective_threshold = sim_threshold
+        if company_keywords and best["distance"] > sim_threshold:
+            if any(kw.strip() and kw.strip() in query_text
+                   for kw in company_keywords.split(",")):
+                effective_threshold = sim_threshold + 0.07
+
+        if best["distance"] > effective_threshold:
             continue
 
         candidates.append((item, best["distance"], best["document"]))
