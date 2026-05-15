@@ -15,7 +15,7 @@ from src.scraper.fetcher import fetch_body
 from src.sources.base import NewsItem
 
 _LLM_MODEL = "gemma4:e2b"
-_SIM_THRESHOLD = 0.50  # ChromaDB cosine distance (낮을수록 유사, ≤0.50 통과)
+_SIM_THRESHOLD = 0.55  # ChromaDB cosine distance (낮을수록 유사, ≤0.55 통과) — bge-m3 기준
 _TOP_K = 3              # 유사 청크 조회 수
 _LLM_TIMEOUT = 30       # 개별 기사 LLM 호출 최대 대기 시간(초)
 _MAX_LLM_ITEMS = 25     # 회사당 LLM 호출 상한 (거리 오름차순 상위 N개)
