@@ -23,7 +23,20 @@ mkdir -p "$LOG_DIR"
 
 cd "$PROJECT_DIR" || exit 1
 
+START_TIME=$(date +%s)
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 시작 ===" >> "$LOG_FILE"
+
+# 배치 시작 알림
+PYTHONUNBUFFERED=1 "$PYTHON" -c "
+import os, sys
+sys.path.insert(0, '.')
+for line in open('.env').read().splitlines():
+    line=line.strip()
+    if line and not line.startswith('#') and '=' in line:
+        k,v=line.split('=',1); os.environ.setdefault(k.strip(),v.strip())
+from src.telegram.sender import send_alert
+send_alert('배치 시작 — $TODAY ($DATE_SUFFIX)', '뉴스 수집 · 리서치 · Commander 순으로 실행합니다.', level='info')
+" >> "$LOG_FILE" 2>&1
 
 # Phase 1: 뉴스 수집 (전 종목)
 echo "--- [뉴스 수집] $(date '+%H:%M:%S') ---" >> "$LOG_FILE"
@@ -52,7 +65,29 @@ PYTHONUNBUFFERED=1 "$PYTHON" run_commander.py \
 COMMANDER_EXIT=$?
 echo "--- [Commander 완료] exit: $COMMANDER_EXIT ---" >> "$LOG_FILE"
 
+ELAPSED=$(( $(date +%s) - START_TIME ))
 echo "=== $(date '+%Y-%m-%d %H:%M:%S') 종료 (뉴스: $NEWS_EXIT / KRX리서치: $RESEARCH_EXIT / 해외리서치: $INDUSTRY_EXIT / Commander: $COMMANDER_EXIT) ===" >> "$LOG_FILE"
+
+# 배치 종료 알림
+TOTAL_ERRORS=$(( NEWS_EXIT + RESEARCH_EXIT + INDUSTRY_EXIT + COMMANDER_EXIT ))
+PYTHONUNBUFFERED=1 "$PYTHON" -c "
+import os, sys
+sys.path.insert(0, '.')
+for line in open('.env').read().splitlines():
+    line=line.strip()
+    if line and not line.startswith('#') and '=' in line:
+        k,v=line.split('=',1); os.environ.setdefault(k.strip(),v.strip())
+from src.telegram.sender import send_alert
+errors = $TOTAL_ERRORS
+elapsed = $ELAPSED
+mins, secs = divmod(elapsed, 60)
+duration = f'{mins}분 {secs}초'
+exits = '뉴스 $NEWS_EXIT / KRX리서치 $RESEARCH_EXIT / 해외리서치 $INDUSTRY_EXIT / Commander $COMMANDER_EXIT'
+if errors == 0:
+    send_alert('배치 완료 — $TODAY ($DATE_SUFFIX)', f'소요: {duration}\n{exits}', level='success')
+else:
+    send_alert('배치 오류 — $TODAY ($DATE_SUFFIX)', f'소요: {duration}\n{exits}\n오류 {errors}건 — 로그 확인 필요', level='error')
+" >> "$LOG_FILE" 2>&1
 
 # 30일 이상 된 로그 삭제
 find "$LOG_DIR" -name "*.log" -mtime +30 -delete

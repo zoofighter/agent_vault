@@ -29,9 +29,17 @@ def send(text: str, parse_mode: str = "Markdown") -> bool:
             json={"chat_id": chat_id, "text": text, "parse_mode": parse_mode},
             timeout=10,
         )
-        return resp.status_code == 200
+        ok = resp.status_code == 200
     except Exception:
-        return False
+        ok = False
+
+    try:
+        from src.discord import sender as _discord
+        _discord.send(text, channel="GENERAL")
+    except Exception:
+        pass
+
+    return ok
 
 
 def send_commander(company: str, title: str, body: str, stars: str) -> bool:
@@ -39,11 +47,27 @@ def send_commander(company: str, title: str, body: str, stars: str) -> bool:
         f"*[{stars}] {company} — {title}*\n\n"
         f"{body}"
     )
-    return send(text)
+    ok = send(text)
+
+    try:
+        from src.discord import sender as _discord
+        _discord.send_commander(company, title, body, stars)
+    except Exception:
+        pass
+
+    return ok
 
 
 def send_alert(title: str, body: str, level: str = "warning") -> bool:
     icons = {"info": "ℹ️", "warning": "⚠️", "important": "🔔", "error": "🚨", "success": "✅"}
     icon = icons.get(level, "📌")
     text = f"{icon} *{title}*\n\n{body}"
-    return send(text)
+    ok = send(text)
+
+    try:
+        from src.discord import sender as _discord
+        _discord.send_alert(title, body, level)
+    except Exception:
+        pass
+
+    return ok

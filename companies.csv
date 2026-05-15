@@ -8,7 +8,6 @@ Apple,US,AAPL,NASDAQ,IT/소비자가전,팹리스,true,"아이폰,iPhone,맥북,
 Microsoft,US,MSFT,NASDAQ,소프트웨어/클라우드,플랫폼,true,"Azure,Copilot,OpenAI,오피스365,클라우드,AI"
 NVIDIA,US,NVDA,NASDAQ,AI반도체,팹리스,true,"Blackwell,GB300,H100,H200,CUDA,AI GPU,데이터센터"
 Alphabet,US,GOOGL,NASDAQ,IT/광고,플랫폼,true,"구글,Google,유튜브,Gemini,클라우드,광고,AI검색"
-Google,US,GOOGL,NASDAQ,IT/광고,플랫폼,true,"구글,Gemini,유튜브,GCP,Waymo,AI검색,광고"
 Amazon,US,AMZN,NASDAQ,이커머스/클라우드,플랫폼,true,"AWS,이커머스,물류,알렉사,광고,클라우드"
 Meta,US,META,NASDAQ,소셜미디어,플랫폼,true,"페이스북,인스타그램,왓츠앱,라마,AI,광고,메타버스"
 Tesla,US,TSLA,NASDAQ,전기차/에너지,완성차+에너지,true,"전기차,EV,FSD,자율주행,에너지저장,사이버트럭,일론머스크"
