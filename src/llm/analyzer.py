@@ -1,8 +1,12 @@
 """
 뉴스 관련성 분석
 
-1. 벡터 유사도 사전 필터 — ChromaDB에서 회사 관련 청크와 가까운 뉴스만 통과
-2. LLM 근거 생성 — 통과된 뉴스에 대해 "왜 관련 있는지" 한 문장 생성
+1. [옵션] 티커 직접 매칭  — companies.csv ticker와 뉴스 제목 교차 (LLM 없음)
+2. [옵션] 키워드 매칭     — companies.csv keywords와 뉴스 제목/스니펫 교차 (LLM 없음)
+3. 벡터 유사도 사전 필터 — ChromaDB에서 회사 관련 청크와 가까운 뉴스만 통과
+4. LLM 근거 생성        — 통과된 뉴스에 대해 "왜 관련 있는지" 한 문장 생성
+
+use_prefilter=True 시 1~2단계 먼저 실행 → 3~4단계 입력 기사 수 감소.
 """
 
 import threading
@@ -10,6 +14,7 @@ from dataclasses import dataclass
 
 import ollama
 
+from src.llm.company_index import TICKER_INDEX, KEYWORD_INDEX
 from src.obsidian.embedder import query_similar
 from src.scraper.fetcher import fetch_body
 from src.sources.base import NewsItem
@@ -86,27 +91,84 @@ def _build_prompt(company: str, context: str, title: str, snippet: str) -> str:
     )
 
 
+def _stage1_ticker_match(item: NewsItem, company: str) -> bool:
+    """뉴스 제목에 회사 ticker가 직접 등장하는지 확인."""
+    ticker = TICKER_INDEX.get(company, "")
+    if not ticker:
+        return False
+    text = f"{item.title} {item.snippet or ''}"
+    return ticker in text
+
+
+def _stage2_keyword_match(item: NewsItem, company: str) -> tuple[bool, str]:
+    """뉴스 제목/스니펫에 companies.csv keywords가 등장하는지 확인.
+    반환: (매칭 여부, 매칭된 키워드 목록 문자열)"""
+    keywords = KEYWORD_INDEX.get(company, [])
+    if not keywords:
+        return False, ""
+    text = f"{item.title} {item.snippet or ''}".lower()
+    matched = [kw for kw in keywords if kw.lower() in text]
+    return bool(matched), ", ".join(matched[:3])
+
+
 def analyze(
     items: list[NewsItem],
     company: str,
     sim_threshold: float = _SIM_THRESHOLD,
     chroma_path: str = "data/chroma",
     company_keywords: str = "",
+    use_prefilter: bool = True,
 ) -> list[AnalyzedItem]:
     """
-    뉴스 목록을 벡터 유사도로 필터링하고 LLM 근거를 생성한다.
+    뉴스 목록을 필터링하고 LLM 근거를 생성한다.
 
     Args:
         items: 단일 회사의 뉴스 목록
         company: 회사명 (ChromaDB 소스 필터용 힌트)
         sim_threshold: 이 거리 이하인 뉴스만 통과
+        use_prefilter: True 시 티커/키워드 사전 매칭 실행
+                       → 명확 관련 기사는 LLM 없이 템플릿 근거로 확정
+                       → 나머지만 벡터 필터 + LLM 처리
 
     Returns:
         관련 있는 뉴스 + 근거 목록 (거리 오름차순)
     """
     seen_urls: set[str] = set()
+    results: list[AnalyzedItem] = []
+    prefiltered_urls: set[str] = set()
 
-    # ── 1단계: 벡터 필터 (LLM 없음) ──────────────────────────────────────────
+    # ── [옵션] 사전 필터: 티커/키워드 매칭 ──────────────────────────────────
+    if use_prefilter:
+        for item in items:
+            if item.url in seen_urls:
+                continue
+            if _is_subsidiary_article(item.title, company):
+                continue
+
+            # Stage 1: 티커 직접 매칭
+            if _stage1_ticker_match(item, company):
+                ticker = TICKER_INDEX.get(company, company)
+                seen_urls.add(item.url)
+                prefiltered_urls.add(item.url)
+                results.append(AnalyzedItem(
+                    item=item,
+                    reason=f"{ticker} 직접 언급",
+                    distance=0.0,
+                ))
+                continue
+
+            # Stage 2: 키워드 매칭
+            matched, matched_kw = _stage2_keyword_match(item, company)
+            if matched:
+                seen_urls.add(item.url)
+                prefiltered_urls.add(item.url)
+                results.append(AnalyzedItem(
+                    item=item,
+                    reason=f"키워드 매칭: {matched_kw}",
+                    distance=0.1,
+                ))
+
+    # ── 벡터 필터 (LLM 없음) ─────────────────────────────────────────────────
     candidates: list[tuple[NewsItem, float, str]] = []  # (item, distance, context)
     fallback_items: list[NewsItem] = []
 
@@ -114,6 +176,9 @@ def analyze(
         if item.url in seen_urls:
             continue
         seen_urls.add(item.url)
+
+        if item.url in prefiltered_urls:
+            continue
 
         if _is_subsidiary_article(item.title, company):
             continue
@@ -146,11 +211,9 @@ def analyze(
 
         candidates.append((item, best["distance"], best["document"]))
 
-    # ── 2단계: 상위 N개에만 LLM 호출 ─────────────────────────────────────────
+    # ── LLM 호출: 상위 N개에만 ───────────────────────────────────────────────
     candidates.sort(key=lambda x: x[1])
     candidates = candidates[:_MAX_LLM_ITEMS]
-
-    results: list[AnalyzedItem] = []
 
     # ChromaDB 없을 때 fallback — fallback도 상한 적용
     for item in fallback_items[:max(0, _MAX_LLM_ITEMS - len(candidates))]:
