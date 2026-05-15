@@ -20,7 +20,7 @@ _CALLOUT_LEVELS = {
 
 
 def _today() -> str:
-    return datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return datetime.now().strftime("%Y-%m-%d")
 
 
 def _digest_path(vault_path: Path, date: str | None = None) -> Path:

@@ -224,7 +224,7 @@ def save_memo(vault: Path, company: str, content: str, date_str: str | None = No
         matches = list(vault.glob(f"Companies/*/{company}"))
         company_path = matches[0] if matches else vault / "Companies" / "KR" / company
 
-    date_str = date_str or datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    date_str = date_str or datetime.now().strftime("%Y-%m-%d")
     memo_dir = company_path / "Memos"
     memo_dir.mkdir(parents=True, exist_ok=True)
 

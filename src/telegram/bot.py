@@ -216,27 +216,29 @@ async def cmd_batch(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     lines.append("\n*브리핑 (07:30 / 18:xx)*")
     briefing_log = logs_dir / "briefing.log"
     if briefing_log.exists():
-        bl_lines = briefing_log.read_text(encoding="utf-8", errors="replace").splitlines()
-        # 오늘 날짜 포함 라인 찾기
-        today_lines = [l for l in bl_lines if today in l]
-        if today_lines:
-            lines.append(f"  오늘 {len(today_lines)}줄 기록")
-            lines.append(f"  마지막: `{today_lines[-1][:120]}`")
+        bl_text = briefing_log.read_text(encoding="utf-8", errors="replace")
+        # 형식: "=== Briefing Agent [YYYY-MM-DD] ==="
+        today_blocks = re.findall(
+            rf"=== Briefing Agent \[{re.escape(today)}\] ===.*?(?====|\Z)",
+            bl_text, re.DOTALL
+        )
+        if today_blocks:
+            last_block_lines = today_blocks[-1].strip().splitlines()
+            lines.append(f"  오늘 {len(today_blocks)}회 실행")
+            lines.append(f"  마지막: `{last_block_lines[-1][:100]}`")
         else:
-            lines.append("  오늘 기록 없음")
+            lines.append("  오늘 실행 없음")
     else:
         lines.append("  로그 파일 없음")
 
-    # Telegram 봇 로그
+    # Telegram 봇 로그 — 날짜 없는 포맷이므로 파일 수정 시각으로 표시
     lines.append("\n*Telegram 봇 (상시)*")
     bot_log = logs_dir / "telegram_bot.log"
     if bot_log.exists():
-        bt_lines = bot_log.read_text(encoding="utf-8", errors="replace").splitlines()
-        today_bt = [l for l in bt_lines if today in l]
-        if today_bt:
-            lines.append(f"  오늘 {len(today_bt)}줄 기록")
-        else:
-            lines.append("  오늘 기록 없음 (봇 재시작 전일 수 있음)")
+        import os
+        mtime = datetime.fromtimestamp(os.path.getmtime(bot_log)).strftime("%m-%d %H:%M")
+        total_lines = bot_log.read_text(encoding="utf-8", errors="replace").count("\n")
+        lines.append(f"  마지막 갱신: {mtime} / 누적 {total_lines:,}줄")
     else:
         lines.append("  로그 파일 없음")
 

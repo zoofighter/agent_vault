@@ -130,7 +130,7 @@ def write_daily(
     """
     vault = Path(vault_path)
     if date_str is None:
-        date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        date_str = datetime.now().strftime("%Y-%m-%d")
     date_str = date_str + date_suffix
     collected_at = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
