@@ -1,7 +1,7 @@
 """
 ChromaDB 증분 임베딩
 
-볼트 마크다운 파일을 nomic-embed-text(Ollama)로 임베딩하여 ChromaDB에 저장한다.
+볼트 마크다운 파일을 bge-m3(Ollama)로 임베딩하여 ChromaDB에 저장한다.
 변경된 파일만 재임베딩한다.
 """
 
@@ -13,7 +13,7 @@ import ollama
 
 _CHROMA_PATH = "data/chroma"
 _COLLECTION = "vault_docs"
-_EMBED_MODEL = "nomic-embed-text"
+_EMBED_MODEL = "bge-m3"
 _CHUNK_CHARS = 1200   # 한 청크 최대 문자 수
 _CHUNK_OVERLAP = 200
 

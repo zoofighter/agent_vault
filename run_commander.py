@@ -91,20 +91,38 @@ def main() -> None:
     print("\n[Phase 3.5] theme_surge → TechReport 자동 트리거...")
     _candidates = [r for r in results if r.score >= args.threshold][:args.max_commands]
     triggered: set[tuple[str, str]] = set()
+
+    def _themes_from_text(text: str) -> list[str]:
+        """cmd title/body에서 _THEME_SECTOR_MAP 키 검색 — key_themes 폴백용"""
+        return [t for t in _THEME_SECTOR_MAP if t in text]
+
+    def _already_reported(sector: str, theme: str) -> bool:
+        """오늘 날짜 TechReport 파일 존재 여부 확인 (크로스런 중복 방지)"""
+        import re as _re
+        safe = _re.sub(r"[^\w가-힣\-]", "_", theme)
+        return (vault / "Reports" / sector / f"{date_str}_{safe}.md").exists()
+
     for cmd, scan in zip(commands, _candidates):
         if cmd.command_type == "theme_surge":
-            for theme in scan.key_themes:
+            themes = scan.key_themes or _themes_from_text(cmd.title + " " + cmd.body)
+            for theme in themes:
                 sector = _THEME_SECTOR_MAP.get(theme)
-                if sector and (sector, theme) not in triggered:
-                    triggered.add((sector, theme))
-                    print(f"  theme_surge → TechReport: {sector}/{theme}")
-                    if not args.dry_run:
-                        subprocess.run([
-                            "python", "run_tech_report.py",
-                            "--sector", sector,
-                            "--topic",  theme,
-                            "--vault",  str(vault),
-                        ], cwd=str(Path(__file__).parent))
+                if not sector:
+                    continue
+                if (sector, theme) in triggered:
+                    continue
+                triggered.add((sector, theme))
+                if _already_reported(sector, theme):
+                    print(f"  이미 생성됨 — 건너뜀: {sector}/{theme}")
+                    continue
+                print(f"  theme_surge → TechReport: {sector}/{theme}")
+                if not args.dry_run:
+                    subprocess.run([
+                        "python", "run_tech_report.py",
+                        "--sector", sector,
+                        "--topic",  theme,
+                        "--vault",  str(vault),
+                    ], cwd=str(Path(__file__).parent))
     if not triggered:
         print("  theme_surge 없음")
 
