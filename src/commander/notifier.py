@@ -12,6 +12,7 @@ from pathlib import Path
 from src.commander.dispatcher import Command
 from src.commander.scanner import ScanResult
 from src.commander.watchlist_recommender import WatchlistCandidate
+from src.macro.analyzer import MacroSignal
 from src.obsidian.digest import append_record
 from src.telegram.sender import send_commander, send_alert, send
 
@@ -73,6 +74,23 @@ def push_theme_surges(
         append_record(vault_path, title, body, level="warning")
         send_alert(title, f"감지 기업: {', '.join(companies)}", level="warning")
         print(f"  [digest+tg] 테마 급등: {theme}")
+
+
+def push_macro_signals(signals: list[MacroSignal], vault_path: Path) -> None:
+    """매크로 신호 발동 시 Digest + Telegram 알림."""
+    if not signals:
+        return
+    _ALERT_EMOJI = {"critical": "🔴", "warning": "⚠️"}
+    for s in signals:
+        emoji = _ALERT_EMOJI.get(s.alert_level, "")
+        title = f"{emoji} 매크로 신호 — {s.indicator} ({s.signal_type})"
+        body = (
+            f"**현재값**: {s.value} ({s.threshold_desc})\n\n"
+            f"**액션 힌트**: {s.action_hint}"
+        )
+        append_record(vault_path, title, body, level=s.alert_level)
+        send_alert(title, s.action_hint, level=s.alert_level)
+        print(f"  [macro signal] {title}")
 
 
 def push_watchlist_recs(

@@ -7,6 +7,7 @@
 import os
 import re
 from dataclasses import dataclass
+from pathlib import Path
 
 from src.commander.scanner import ScanResult
 
@@ -37,9 +38,30 @@ class Command:
     command_type: str
 
 
-def _build_prompt(r: ScanResult) -> str:
+def _read_macro_context(vault_path: Path | None, date_str: str) -> str:
+    """Macro/Daily/{date}.md에서 요약 + 신호 텍스트 추출."""
+    if not vault_path:
+        return ""
+    macro_path = vault_path / "Macro" / "Daily" / f"{date_str}.md"
+    if not macro_path.exists():
+        return ""
+    text = macro_path.read_text(encoding="utf-8")
+    # 요약 섹션
+    import re
+    m = re.search(r"## 오늘의 매크로 요약\n\n(.+?)(?=\n##|\Z)", text, re.DOTALL)
+    summary = m.group(1).strip()[:300] if m else ""
+    # 신호 섹션
+    m2 = re.search(r"## 신호\n\n(.+?)(?=\n##|\Z)", text, re.DOTALL)
+    signals = m2.group(1).strip()[:200] if m2 else ""
+    if not summary:
+        return ""
+    return f"{summary}\n신호: {signals}" if signals and signals != "이상 신호 없음" else summary
+
+
+def _build_prompt(r: ScanResult, macro_context: str = "") -> str:
     titles_str = "\n".join(f"- {t}" for t in r.top_titles)
     themes_str = ", ".join(r.key_themes) if r.key_themes else "없음"
+    macro_block = f"\nMacro environment today:\n{macro_context}\n" if macro_context else ""
     return f"""You are AgentVault Commander, an investment monitoring AI.
 
 Company: {r.company}
@@ -47,7 +69,7 @@ Date: {r.date}
 News count today: {r.news_count}
 Importance score: {r.score:.2f}
 Key themes detected: {themes_str}
-
+{macro_block}
 Top news titles:
 {titles_str}
 
@@ -113,14 +135,22 @@ def generate_commands(
     results: list[ScanResult],
     max_commands: int = _MAX_COMMANDS,
     score_threshold: float = _SCORE_THRESHOLD,
+    vault_path: Path | None = None,
 ) -> list[Command]:
-    """상위 스코어 기업에 대해 Claude API로 액션 명령 생성."""
+    """상위 스코어 기업에 대해 Groq API로 액션 명령 생성."""
     candidates = [r for r in results if r.score >= score_threshold][:max_commands]
     commands: list[Command] = []
 
+    # 매크로 컨텍스트 1회 로드
+    macro_context = ""
+    if candidates:
+        macro_context = _read_macro_context(vault_path, candidates[0].date)
+        if macro_context:
+            print(f"  [commander] 매크로 컨텍스트 주입 ({len(macro_context)}자)")
+
     for r in candidates:
         print(f"  [commander] {r.company} (score={r.score:.2f}) — 명령 생성 중...")
-        prompt = _build_prompt(r)
+        prompt = _build_prompt(r, macro_context)
         raw = _call_groq(prompt)
         cmd = _parse_response(raw, r)
         commands.append(cmd)

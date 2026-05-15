@@ -30,6 +30,9 @@ from src.sources.base import NewsItem
 from src.llm.analyzer import analyze
 from src.llm.curator import synthesize
 from src.obsidian.writer import write_daily
+from src.macro.collector import collect_all as _collect_macro
+from src.macro.analyzer import detect_signals, build_summary
+from src.macro.writer import write_indicators, write_daily as write_macro_daily
 
 DEFAULT_COMPANIES = "삼성전자,Google,현대차,SK하이닉스"
 DEFAULT_VAULT = Path(__file__).parent / "agent_vault"
@@ -98,6 +101,22 @@ def main():
             print(f"[warn] ChromaDB 손상 감지 ({_e}) — 재초기화")
             import shutil
             shutil.rmtree(CHROMA_PATH, ignore_errors=True)
+
+    # ── Phase 0: 매크로 지표 수집 ─────────────────────────────────────
+    print("=== Phase 0: 매크로 지표 수집 ===")
+    try:
+        macro_items   = _collect_macro()
+        macro_signals = detect_signals(macro_items)
+        macro_summary = build_summary(macro_items, macro_signals)
+        write_indicators(macro_items, vault)
+        write_macro_daily(macro_items, macro_signals, macro_summary, vault, _today)
+        if macro_signals:
+            print(f"  신호 {len(macro_signals)}개 발동: {[s.signal_type for s in macro_signals]}")
+            from src.commander.notifier import push_macro_signals
+            push_macro_signals(macro_signals, vault)
+    except Exception as _me:
+        print(f"  [warn] 매크로 수집 실패 (파이프라인 계속): {_me}")
+        macro_signals = []
 
     # ── Phase A: 볼트 증분 인덱싱 ──────────────────────────────────────
     if not args.skip_index:

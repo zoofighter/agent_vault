@@ -30,6 +30,31 @@ _MODEL = "llama-3.3-70b-versatile"
 _GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 
 
+def _read_macro_snapshot(vault_path: Path, date_str: str) -> str:
+    """Macro/Daily/{date}.md에서 핵심 지표 한 줄 + 요약 반환."""
+    macro_path = vault_path / "Macro" / "Daily" / f"{date_str}.md"
+    if not macro_path.exists():
+        return ""
+    text = macro_path.read_text(encoding="utf-8")
+
+    # 요약 추출
+    m = re.search(r"## 오늘의 매크로 요약\n\n(.+?)(?=\n##|\Z)", text, re.DOTALL)
+    summary = m.group(1).strip() if m else ""
+
+    # 주요 지표에서 값 추출
+    def _val(name: str) -> str:
+        m2 = re.search(rf"\| {re.escape(name)} \| ([^\|]+)\|", text)
+        return m2.group(1).strip() if m2 else "?"
+
+    vix = _val("VIX")
+    sp  = _val("S&P500")
+    wti = _val("WTI 원유")
+    krw = _val("USD/KRW")
+
+    line = f"VIX {vix} | S&P500 {sp} | WTI {wti} | USD/KRW {krw}"
+    return f"{line}\n{summary[:200]}" if summary else line
+
+
 def _read_digest_blocks(vault_path: Path, date_str: str) -> list[str]:
     digest_path = vault_path / "Digest" / f"{date_str}.md"
     if not digest_path.exists():
@@ -138,17 +163,22 @@ def main() -> None:
     top = [(r.company, r.score, r.news_count) for r in results[:5]]
     print(f"  {len(results)}개 기업 / 상위: {', '.join(c for c, _, _ in top[:3])}")
 
-    # 2. Digest 블록 읽기
+    # 2. 매크로 스냅샷 읽기
+    macro_snapshot = _read_macro_snapshot(vault, date_str)
+    if macro_snapshot:
+        print(f"  매크로 스냅샷: {macro_snapshot[:60]}...")
+
+    # 3. Digest 블록 읽기
     blocks = _read_digest_blocks(vault, date_str)
     print(f"  Digest 블록: {len(blocks)}개")
 
-    # 3. 브리핑 생성
+    # 4. 브리핑 생성
     print("브리핑 생성 중...")
     prompt = _build_briefing_prompt(date_str, top, blocks)
     briefing = _call_groq(prompt)
     print(f"\n--- 생성된 브리핑 ---\n{briefing}\n---\n")
 
-    # 4. Digest에 기록
+    # 5. Digest에 기록
     append_record(
         vault,
         title=f"아침 브리핑 — {date_str}",
@@ -157,9 +187,10 @@ def main() -> None:
         date=date_str,
     )
 
-    # 5. Telegram 전송
+    # 6. Telegram 전송
     top_line = " / ".join(f"{c} {_stars(s)}" for c, s, _ in top[:3])
-    message = f"*AgentVault 브리핑 — {date_str}*\n\n{briefing}\n\n_{top_line}_"
+    macro_section = f"\n\n*매크로*\n{macro_snapshot}" if macro_snapshot else ""
+    message = f"*AgentVault 브리핑 — {date_str}*\n\n{briefing}{macro_section}\n\n_{top_line}_"
 
     if args.dry_run:
         print("[dry-run] Telegram 전송 건너뜀")

@@ -77,7 +77,7 @@ def main() -> None:
 
     # Phase 2: 명령 생성
     print(f"\n[Phase 2] 액션 명령 생성 (threshold={args.threshold}, max={args.max_commands})...")
-    commands = generate_commands(results, args.max_commands, args.threshold)
+    commands = generate_commands(results, args.max_commands, args.threshold, vault_path=vault)
 
     # Phase 3: Inbox 기록
     print("\n[Phase 3] Inbox.md 기록...")
