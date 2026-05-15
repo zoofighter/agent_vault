@@ -312,8 +312,8 @@
     "md5": "94517ef64fc0492d37071a77b28107c0"
   },
   "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/Docu/반도체/반도체_TechDoc.md": {
-    "mtime": "1778771189.1311963",
-    "md5": "701fb4ca46825138b61c7e6f47301359"
+    "mtime": "1778798163.367734",
+    "md5": "d1451fbc81c332e2a182be49647aca61"
   },
   "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/Docu/자동차/자동차_TechDoc.md": {
     "mtime": "1778771526.5157948",
@@ -350,5 +350,81 @@
   "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/Docu/헬스케어/헬스케어_TechDoc.md": {
     "mtime": "1778771591.7440295",
     "md5": "1e9e876070da5b58506a803d1e8bf696"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/Companies/CN/Huawei/Huawei.md": {
+    "mtime": "1778801384.2873158",
+    "md5": "fafac5372e7eb83131c9e8c7af95b7b8"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/playlists/AI-개발.md": {
+    "mtime": "1778824262.461846",
+    "md5": "5638f06304fe4d59c6269467ac16fe05"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/playlists/투자-시황.md": {
+    "mtime": "1778824262.4552372",
+    "md5": "fee1d251ce307ab34d6f6d77b60e68f1"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/playlists/거시경제.md": {
+    "mtime": "1778824262.4502819",
+    "md5": "d2691dedfdce9cf876c1c890d73f6af8"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/playlists/글로벌-주식.md": {
+    "mtime": "1778824262.4503932",
+    "md5": "3613e70b22364071a42252a43a2b87ce"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/recommendations/2026-05-15_주간추천.md": {
+    "mtime": "1778822892.502357",
+    "md5": "15dcd50d205665e14fc651b6939c7e51"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/videos/2026-05-15_fireship_A single PR just hijacked the.md": {
+    "mtime": "1778821921.866431",
+    "md5": "5f692211e3731369c9af7ee4560f5b3d"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/videos/2026-05-15_삼프로TV_클래리티 법안 통과, 다음 관문의 핵심 열쇠 '윤리 조.md": {
+    "mtime": "1778825788.5565577",
+    "md5": "58e5858f884fc1e248094833c9513a1b"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/channels/삼프로TV.md": {
+    "mtime": "1778821769.7870336",
+    "md5": "3f2a115275a060cec2fe84c55197b041"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/sample_vault/youtube_hub/channels/fireship.md": {
+    "mtime": "1778821888.8418756",
+    "md5": "00d02d8f1cbd224cf4cf22aa647a9722"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/playlists/AI-개발.md": {
+    "mtime": "1778824262.461846",
+    "md5": "5638f06304fe4d59c6269467ac16fe05"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/playlists/투자-시황.md": {
+    "mtime": "1778824262.4552372",
+    "md5": "fee1d251ce307ab34d6f6d77b60e68f1"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/playlists/거시경제.md": {
+    "mtime": "1778824262.4502819",
+    "md5": "d2691dedfdce9cf876c1c890d73f6af8"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/playlists/글로벌-주식.md": {
+    "mtime": "1778824262.4503932",
+    "md5": "3613e70b22364071a42252a43a2b87ce"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/recommendations/2026-05-15_주간추천.md": {
+    "mtime": "1778822892.502357",
+    "md5": "15dcd50d205665e14fc651b6939c7e51"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/videos/2026-05-15_fireship_A single PR just hijacked the.md": {
+    "mtime": "1778821921.866431",
+    "md5": "5f692211e3731369c9af7ee4560f5b3d"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/videos/2026-05-15_삼프로TV_클래리티 법안 통과, 다음 관문의 핵심 열쇠 '윤리 조.md": {
+    "mtime": "1778825788.5565577",
+    "md5": "58e5858f884fc1e248094833c9513a1b"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/channels/삼프로TV.md": {
+    "mtime": "1778821769.7870336",
+    "md5": "3f2a115275a060cec2fe84c55197b041"
+  },
+  "/Users/boon/Dropbox/03_code/a_0512_obs_news_update/agent_vault/youtube_hub/channels/fireship.md": {
+    "mtime": "1778821888.8418756",
+    "md5": "00d02d8f1cbd224cf4cf22aa647a9722"
   }
 }
