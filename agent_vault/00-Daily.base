@@ -1,0 +1,95 @@
+filters:
+  and:
+    - file.ext == "md"
+    - file.hasTag("daily")
+    - type == "daily-brief"
+formulas:
+  days_ago: (now() - file.mtime).days.round(0)
+  date_only: if(collected, date(collected).format("YYYY-MM-DD"), "")
+  is_today: if(collected, date(collected).format("YYYY-MM-DD") == today().format("YYYY-MM-DD"), false)
+  is_yesterday: if(collected, date(collected).format("YYYY-MM-DD") == (today() - "1d").format("YYYY-MM-DD"), false)
+properties:
+  file.name:
+    displayName: File
+  company:
+    displayName: Company
+  news_count:
+    displayName: News Count
+  formula.date_only:
+    displayName: Date
+  formula.days_ago:
+    displayName: Days Ago
+views:
+  - type: table
+    name: Today
+    filters:
+      and:
+        - formula.is_today == true
+    order:
+      - file.name
+      - company
+      - news_count
+      - formula.date_only
+    sort:
+      - property: company
+        direction: ASC
+    summaries:
+      news_count: Sum
+  - type: table
+    name: Yesterday
+    filters:
+      and:
+        - formula.is_yesterday == true
+    order:
+      - file.name
+      - company
+      - news_count
+      - formula.date_only
+    sort:
+      - property: company
+        direction: ASC
+    summaries:
+      news_count: Sum
+  - type: table
+    name: Latest First
+    order:
+      - file.name
+      - formula.date_only
+      - company
+      - news_count
+      - formula.days_ago
+    sort:
+      - property: collected
+        direction: DESC
+    limit: 100
+    summaries:
+      news_count: Sum
+  - type: table
+    name: By Company
+    groupBy:
+      property: company
+      direction: ASC
+    order:
+      - file.name
+      - company
+      - formula.date_only
+      - news_count
+    sort:
+      - property: collected
+        direction: DESC
+  - type: table
+    name: By Date (Latest First)
+    groupBy:
+      property: formula.date_only
+      direction: DESC
+    order:
+      - file.name
+      - formula.date_only
+      - company
+      - news_count
+    sort:
+      - property: collected
+        direction: DESC
+    limit: 100
+    summaries:
+      news_count: Sum

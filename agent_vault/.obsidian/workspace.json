@@ -4,21 +4,31 @@
     "type": "split",
     "children": [
       {
-        "id": "5ffae0b258da1459",
+        "id": "fc8f93252b3563e3",
         "type": "tabs",
         "children": [
           {
-            "id": "004766171a3396b0",
+            "id": "3c97f8f72f8624c4",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Companies/US/Alphabet/Alphabet.md",
+                "file": "AgentVault.md",
                 "mode": "source",
-                "source": false
+                "source": false,
+                "backlinks": true,
+                "backlinkOpts": {
+                  "collapseAll": false,
+                  "extraContext": false,
+                  "sortOrder": "alphabetical",
+                  "showSearch": false,
+                  "searchQuery": "",
+                  "backlinkCollapsed": false,
+                  "unlinkedCollapsed": true
+                }
               },
               "icon": "lucide-file",
-              "title": "Alphabet"
+              "title": "AgentVault"
             }
           }
         ]
@@ -94,7 +104,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Companies/US/Alphabet/Alphabet.md",
+                "file": "AgentVault.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +114,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Alphabet"
+              "title": "Backlinks for AgentVault"
             }
           },
           {
@@ -164,12 +174,23 @@
               "icon": "lucide-list",
               "title": "Outline of 20260206_알파벳 (매수)"
             }
+          },
+          {
+            "id": "628c802f5ddc7c7e",
+            "type": "leaf",
+            "state": {
+              "type": "claudian-view",
+              "state": {},
+              "icon": "bot",
+              "title": "Claudian"
+            }
           }
-        ]
+        ],
+        "currentTab": 5
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 732.5
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -179,14 +200,27 @@
       "daily-notes:Open today's daily note": false,
       "templates:Insert template": false,
       "command-palette:Open command palette": false,
-      "bases:Create new base": false
+      "bases:Create new base": false,
+      "obsidian42-brat:BRAT": false,
+      "realclaudian:Open Claudian": false
     }
   },
-  "active": "1dc8edc84e0e7cd4",
+  "active": "3c97f8f72f8624c4",
   "lastOpenFiles": [
+    "Companies/US/Alphabet/Daily/2026-05-16a.md",
+    "00-Daily.base",
+    "00-Research.base",
+    "00-Companies.base",
+    "2026-05-14.md",
+    "Untitled.base",
+    "Companies/Private/Anthropic/Research/20260417_AI Bi-weekly #81.md",
+    "Companies/Private/Anthropic/Daily/2026-05-16a.md",
+    "Companies/JP/Kioxia/Daily/2026-05-16a.md",
+    "Companies/JP/Kioxia/Daily/2026-05-15b.md",
+    "Companies/KR/삼성전자/Daily/2026-05-16a.md",
+    "Companies/US/Alphabet/Alphabet.md",
     "Digest/2026-05-16.md",
     "Companies/JP/Tokyo Electron/Daily/2026-05-16a.md",
-    "Companies/JP/Kioxia/Daily/2026-05-16a.md",
     "Companies/JP/SoftBank/Daily/2026-05-16a.md",
     "Companies/TW/Nanya/Daily/2026-05-16a.md",
     "Companies/TW/MediaTek/Daily/2026-05-16a.md",
@@ -201,24 +235,12 @@
     "Companies/Private/SpaceX/Daily/2026-05-16a.md",
     "Companies/US/Alphabet/Research/20260515_카운터포인터_ HBM 수요, 24년 대비 28년까지 35배 증가.md",
     "Companies/US/Alphabet/Research/20250910_구글_분석.md",
-    "Companies/Private/Anthropic/Daily/2026-05-16a.md",
     "Companies/Private/OpenAI/Daily/2026-05-16a.md",
-    "Companies/US/Super Micro/Daily/2026-05-16a.md",
-    "Companies/US/Google/Google.md",
-    "Companies/US/Qualcomm/Daily/2026-05-16a.md",
-    "Companies/US/AMD/Daily/2026-05-15b.md",
-    "Companies/US/ASML/Daily/2026-05-16a.md",
-    "Companies/US/ARM/Daily/2026-05-16a.md",
-    "Companies/US/Intel/Daily/2026-05-16a.md",
     "Macro/Memos",
     "Macro/Indicators",
     "Macro/Daily",
     "Macro",
     "youtube_hub/playlists.yaml",
-    "youtube_hub/archive",
-    "Companies/CN/Huawei/Research",
-    "Companies/CN/Huawei/Memos",
-    "Companies/CN/Huawei/Daily",
-    "Companies/CN/Huawei"
+    "youtube_hub/archive"
   ]
 }

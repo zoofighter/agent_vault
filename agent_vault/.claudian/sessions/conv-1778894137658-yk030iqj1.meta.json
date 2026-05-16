@@ -1,0 +1,24 @@
+{
+  "id": "conv-1778894137658-yk030iqj1",
+  "providerId": "claude",
+  "title": "입력이 불완전해 보입니다. 대화 제목을 만들기 위해 무엇을 작업하고 싶으신지 알려주세...",
+  "titleGenerationStatus": "success",
+  "createdAt": 1778894137660,
+  "updatedAt": 1778899571911,
+  "lastResponseAt": 1778899571911,
+  "sessionId": "22737d55-ef38-4c5e-885e-194c1bb2efcf",
+  "providerState": {
+    "providerSessionId": "22737d55-ef38-4c5e-885e-194c1bb2efcf"
+  },
+  "currentNote": "Companies/Private/Anthropic/Research/20260417_AI Bi-weekly #81.md",
+  "usage": {
+    "model": "opus",
+    "inputTokens": 1,
+    "cacheCreationInputTokens": 10985,
+    "cacheReadInputTokens": 122409,
+    "contextWindow": 200000,
+    "contextTokens": 133395,
+    "percentage": 67,
+    "contextWindowIsAuthoritative": true
+  }
+}
