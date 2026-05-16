@@ -4,8 +4,17 @@
 
 PROJECT_DIR="/Users/boon/Dropbox/03_code/a_0512_obs_news_update"
 PYTHON="/opt/anaconda3/bin/python"
-VAULT="$PROJECT_DIR/agent_vault"
+VAULT="/Users/boon/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 LOG_DIR="$PROJECT_DIR/logs"
+
+# 중복 실행 방지
+LOCK_FILE="/tmp/agentvault_daily.lock"
+if [ -f "$LOCK_FILE" ]; then
+    echo "$(date '+%Y-%m-%d %H:%M:%S') 이미 배치 실행 중 (lock 존재) — 종료" >> "$LOG_DIR/launchagent.log"
+    exit 1
+fi
+trap "rm -f '$LOCK_FILE'" EXIT
+touch "$LOCK_FILE"
 
 # 실행 순서 suffix: 오늘 로그가 없으면 a, a 있으면 b, 둘 다 있으면 c
 TODAY=$(date +%Y-%m-%d)

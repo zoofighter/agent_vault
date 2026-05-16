@@ -7,7 +7,7 @@
 #   ./archive_daily.sh --dry-run    # 시뮬레이션만
 
 PROJECT_DIR="/Users/boon/Dropbox/03_code/a_0512_obs_news_update"
-VAULT="$PROJECT_DIR/agent_vault"
+VAULT="/Users/boon/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 LOG_DIR="$PROJECT_DIR/logs"
 DRY_RUN="${1:-}"
 

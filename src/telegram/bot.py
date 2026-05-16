@@ -26,7 +26,7 @@ from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandl
 # ── 경로 기준 ─────────────────────────────────────────────────────────────────
 
 PROJECT = Path(__file__).resolve().parents[2]
-DEFAULT_VAULT = PROJECT / "agent_vault"
+DEFAULT_VAULT = Path("/Users/boon/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault")
 
 
 def _vault() -> Path:

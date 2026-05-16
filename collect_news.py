@@ -35,7 +35,7 @@ from src.macro.analyzer import detect_signals, build_summary
 from src.macro.writer import write_indicators, write_daily as write_macro_daily
 
 DEFAULT_COMPANIES = "삼성전자,Google,현대차,SK하이닉스"
-DEFAULT_VAULT = Path(__file__).parent / "agent_vault"
+DEFAULT_VAULT = Path("/Users/boon/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault")
 CHROMA_PATH = "data/chroma"
 COMPANIES_CSV = Path(__file__).parent / "companies.csv"
 
@@ -74,11 +74,13 @@ def main():
     names = _all_active_companies() if args.all else [n.strip() for n in args.companies.split(',') if n.strip()]
     vault = Path(args.vault)
 
+    from datetime import datetime as _dt, timezone as _tz, timedelta as _td
+    _today = _dt.now(_tz(_td(hours=9))).strftime("%Y-%m-%d")  # KST
+
     if not args.date_suffix:
-        from datetime import datetime as _dt, timezone as _tz
-        _today = _dt.now(_tz.utc).strftime("%Y-%m-%d")
         _sample = names[0] if names else None
         args.date_suffix = "a"
+
         if _sample:
             for _s in ["a", "b", "c", "d"]:
                 try:
@@ -140,9 +142,23 @@ def main():
 
     all_items: list[NewsItem] = collect(names, days=args.days, naver_finance_items=nf_items_raw)
 
+    _total_news = 0
     for name in names:
         cnt = sum(1 for i in all_items if i.company == name)
+        _total_news += cnt
         print(f"  {name}: {cnt}건")
+
+    # Phase B 완료 알림
+    if not args.dry_run:
+        try:
+            from src.telegram.sender import send as _tg_send
+            _tg_send(
+                f"[Phase B] {_today}{args.date_suffix} 수집 완료\n"
+                f"{len(names)}개사 / 총 {_total_news}건\n"
+                f"Phase C 분석 시작..."
+            )
+        except Exception:
+            pass
 
     # ── Phase C: 벡터 유사도 필터 + LLM 분석 + Daily 저장 ──────────────
     print(f"\n=== Phase C: 관련성 분석 ===")
@@ -152,8 +168,10 @@ def main():
     errors: list[str] = []        # (company, reason)
     zero_news: list[str] = []     # 뉴스 0건 기업
     kw_map = _keywords_map()
+    _total = len(names)
+    _MILESTONES = {25, 50, 75}
 
-    for name in names:
+    for _idx, name in enumerate(names, 1):
         items_for = [i for i in all_items if i.company == name]
         print(f"\n[{name}] {len(items_for)}건 분석 중...")
 
@@ -189,6 +207,20 @@ def main():
             written_paths.append(daily_path)
         elif not args.dry_run:
             errors.append(f"{name}: Daily 노트 저장 실패")
+
+        # 25% / 50% / 75% 구간 통과 시 Telegram 진행률 전송
+        if not args.dry_run:
+            _pct = (_idx * 100) // _total
+            _prev_pct = ((_idx - 1) * 100) // _total
+            if any(_prev_pct < m <= _pct for m in _MILESTONES):
+                try:
+                    from src.telegram.sender import send as _tg_send
+                    _tg_send(
+                        f"[진행] {_today}{args.date_suffix} — "
+                        f"{_idx}/{_total} ({_pct}%) {name} 완료"
+                    )
+                except Exception:
+                    pass
 
     # ── 결과 요약 ─────────────────────────────────────────────────────
     print(f"\n{'='*50}")
