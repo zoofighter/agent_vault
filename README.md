@@ -102,7 +102,7 @@ cat companies.csv | head -5
 ### 3. 볼트 폴더 구조 생성
 
 ```bash
-python -m src.obsidian.company_manager --vault ./agent_vault
+python -m src.obsidian.company_manager --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 ```
 
 ### 4. 볼트 초기 임베딩
@@ -110,7 +110,7 @@ python -m src.obsidian.company_manager --vault ./agent_vault
 뉴스 수집 첫 실행 시 자동으로 임베딩된다. 수동으로 먼저 실행하려면:
 
 ```bash
-python collect_news.py --all --vault ./agent_vault --skip-news
+python collect_news.py --all --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --skip-news
 ```
 
 ---
@@ -126,19 +126,19 @@ python collect_news.py --all --vault ./agent_vault --skip-news
 
 ```bash
 # 전체 기업 수집 (companies.csv active=true 항목)
-python collect_news.py --all --vault ./agent_vault
+python collect_news.py --all --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 특정 기업만
-python collect_news.py --companies "삼성전자,NVIDIA,Apple" --vault ./agent_vault
+python collect_news.py --companies "삼성전자,NVIDIA,Apple" --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 수집 기간 변경 (기본 7일)
-python collect_news.py --all --days 3 --vault ./agent_vault
+python collect_news.py --all --days 3 --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 볼트 재인덱싱 생략 (볼트 파일이 바뀌지 않았을 때 — 빠른 재실행)
-python collect_news.py --all --skip-index --vault ./agent_vault
+python collect_news.py --all --skip-index --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 실제 저장 없이 미리보기
-python collect_news.py --all --dry-run --vault ./agent_vault
+python collect_news.py --all --dry-run --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 ```
 
 출력 위치:
@@ -152,16 +152,16 @@ python collect_news.py --all --dry-run --vault ./agent_vault
 
 ```bash
 # 오늘 리포트
-python -m src.research.naver_research --vault ./agent_vault --date today
+python -m src.research.naver_research --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date today
 
 # 특정 날짜
-python -m src.research.naver_research --vault ./agent_vault --date 2026-05-13
+python -m src.research.naver_research --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date 2026-05-13
 
 # 날짜 범위
-python -m src.research.naver_research --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
+python -m src.research.naver_research --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --from 2026-05-01 --to 2026-05-14
 
 # 특정 기업만
-python -m src.research.naver_research --vault ./agent_vault --date today --company 삼성전자
+python -m src.research.naver_research --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date today --company 삼성전자
 ```
 
 출력 위치: `agent_vault/Companies/{기업명}/Research/YYYYMMDD_{제목}.md`
@@ -174,13 +174,13 @@ python -m src.research.naver_research --vault ./agent_vault --date today --compa
 
 ```bash
 # 오늘 리포트
-python -m src.research.naver_industry --vault ./agent_vault --date today
+python -m src.research.naver_industry --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date today
 
 # 날짜 범위
-python -m src.research.naver_industry --vault ./agent_vault --from 2026-05-01 --to 2026-05-14
+python -m src.research.naver_industry --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --from 2026-05-01 --to 2026-05-14
 
 # 특정 기업만
-python -m src.research.naver_industry --vault ./agent_vault --date today --company NVIDIA
+python -m src.research.naver_industry --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date today --company NVIDIA
 ```
 
 필터 임계값 (`src/research/naver_industry.py`):
@@ -195,13 +195,13 @@ python -m src.research.naver_industry --vault ./agent_vault --date today --compa
 ```bash
 # 파일 직접 지정
 python -m src.research.register_pdf \
-  --vault ./agent_vault --pdf ~/Downloads/samsung_report.pdf --company 삼성전자
+  --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --pdf ~/Downloads/samsung_report.pdf --company 삼성전자
 
 # Downloads 폴더 스캔 후 대화식 선택
-python -m src.research.register_pdf --vault ./agent_vault --scan
+python -m src.research.register_pdf --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --scan
 
 # 특정 폴더 스캔
-python -m src.research.register_pdf --vault ./agent_vault --scan --dir ~/Downloads
+python -m src.research.register_pdf --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --scan --dir ~/Downloads
 ```
 
 ---
@@ -212,16 +212,16 @@ Daily 노트를 분석해 Inbox.md에 액션 명령을 작성하고 신규 편�
 
 ```bash
 # 오늘 날짜 기준 실행
-python run_commander.py --vault ./agent_vault
+python run_commander.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 특정 날짜
-python run_commander.py --vault ./agent_vault --date 2026-05-14
+python run_commander.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date 2026-05-14
 
 # LLM 없이 휴리스틱만
-python run_commander.py --vault ./agent_vault --no-llm
+python run_commander.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --no-llm
 
 # 분석 대상 기업 수 제한
-python run_commander.py --vault ./agent_vault --max 5
+python run_commander.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --max 5
 ```
 
 ---
@@ -231,13 +231,13 @@ python run_commander.py --vault ./agent_vault --max 5
 Digest를 요약해 대화체 브리핑을 생성하고 Telegram으로 전송.
 
 ```bash
-python run_briefing.py --vault ./agent_vault
+python run_briefing.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 특정 날짜
-python run_briefing.py --vault ./agent_vault --date 2026-05-14
+python run_briefing.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date 2026-05-14
 
 # 실제 전송 없이 미리보기
-python run_briefing.py --vault ./agent_vault --dry-run
+python run_briefing.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --dry-run
 ```
 
 ---
@@ -248,22 +248,22 @@ Daily 노트를 블로그 포스트 또는 유튜브 스크립트 초안으로 �
 
 ```bash
 # 블로그 + 유튜브 둘 다
-python run_content.py --vault ./agent_vault
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 블로그만
-python run_content.py --vault ./agent_vault --mode blog
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --mode blog
 
 # 유튜브만
-python run_content.py --vault ./agent_vault --mode youtube
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --mode youtube
 
 # 특정 기업
-python run_content.py --vault ./agent_vault --company 삼성전자
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --company 삼성전자
 
 # 특정 날짜
-python run_content.py --vault ./agent_vault --date 2026-05-14
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --date 2026-05-14
 
 # 미리보기
-python run_content.py --vault ./agent_vault --dry-run
+python run_content.py --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --dry-run
 ```
 
 ---
@@ -286,13 +286,13 @@ python run_telegram_bot.py
 
 ```bash
 # 동기화 실행 (신규 기업 폴더·파일 생성, 기존 파일 보호)
-python -m src.obsidian.company_manager --vault ./agent_vault
+python -m src.obsidian.company_manager --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 현황 확인
-python -m src.obsidian.company_manager --vault ./agent_vault --status
+python -m src.obsidian.company_manager --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --status
 
 # 변경 없이 미리보기
-python -m src.obsidian.company_manager --vault ./agent_vault --dry-run
+python -m src.obsidian.company_manager --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault" --dry-run
 ```
 
 ---
@@ -338,10 +338,10 @@ launchctl start com.boon.obs-news-update
 #    name,region,ticker,exchange,sector,industry,active,keywords
 
 # 2. 볼트 폴더 생성
-python -m src.obsidian.company_manager --vault ./agent_vault
+python -m src.obsidian.company_manager --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 
 # 3. 첫 뉴스 수집
-python collect_news.py --companies "신규기업명" --vault ./agent_vault
+python collect_news.py --companies "신규기업명" --vault "$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/agent_vault"
 ```
 
 `active: false`로 설정하면 뉴스 수집에서 제외되지만 볼트 파일은 유지된다.
